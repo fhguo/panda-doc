@@ -1,5 +1,5 @@
 # 构建 VitePress 站点并将其部署到 GitHub Pages 的示例工作流程
-#
+# 自动化部署
 name: Deploy VitePress site to Pages
 
 on:
