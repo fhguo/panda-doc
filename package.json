@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "type": "module",
+  "devDependencies": {
+    "element-plus": "^2.4.3",
+    "less": "^4.2.0",
+    "vitepress": "^1.0.0-beta.1"
+  }
+}

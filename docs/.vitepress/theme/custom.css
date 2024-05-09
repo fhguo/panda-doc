@@ -1,0 +1,33 @@
+/* scroll bar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 12px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--vp-c-gray-1);
+  border-radius: 20px;
+}
+/* .vitepress/theme/custom.css */
+/* 修改默认颜色 */
+:root {
+  --vp-c-brand-1: #359c60;
+  --vp-c-brand-2: #57da9f;
+  --vp-sidebar-bg-color: #f9f9f9;
+  --vp-tip-1: #F9F9F9;
+  --vp-tip-text-1: #242424;
+  --vp-tip-text-2: #565A64;
+  --vp-tip-border-1: #5AB882;
+  --vp-button-brand-bg: #359c60;
+  --vp-button-brand-hover-bg: #1ccf67;
+}
+/* 更改dark类名下变量的取值 */
+.dark {
+  --vp-c-brand-1: #359c60;
+  --vp-c-brand-2: #57da9f;
+  --vp-sidebar-bg-color: #161618;
+  --vp-tip-1: #242424;
+  --vp-tip-text-1: #f8f8f8;
+  --vp-tip-text-2: #989FAF;
+  --vp-tip-border-1: #5AB882;
+  --vp-button-brand-bg: #5AB882;
+}
