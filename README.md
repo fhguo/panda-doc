@@ -1,7 +1,8 @@
 # pandaDoc
 
 #### 介绍
-欢迎来到pandaDoc—专为前端开发者打造的知识宝库与成长平台！无论你是编程世界的新手小白，还是寻求突破的进阶开发者，这里都是你理想的学习与交流空间。
+欢迎来到[pandaDoc](https://fhguo.github.io/panda-doc/)—专为前端开发者打造的知识宝库与成长平台！无论你是编程世界的新手小白，还是寻求突破的进阶开发者，这里都是你理想的学习与交流空间。
+- 访问地址：https://fhguo.github.io/panda-doc/
 - 首页
   ![首页](./img/home.png)
 
@@ -35,10 +36,12 @@
    ```bash
    npm run build
    ```
+   
+   如果需要部署到服务器上，务必修改`consifg.js`文件中的`base`相对路径地址
 
 #### 使用说明
 
-1.  config文件配置项目，参照[vitepress配置](https://vitepress.dev/zh/reference/site-config)
+1.  config文件配置项目，参照 [vitepress配置](https://vitepress.dev/zh/reference/site-config)
 2.  在theme文件夹自定义主题
 3.  public文件夹存放静态资源
 
