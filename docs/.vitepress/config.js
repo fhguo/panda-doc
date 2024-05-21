@@ -18,7 +18,7 @@ export default defineConfig({
     },
     footer: {
       // message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2024-2025 你若盛开'
+      copyright: 'Copyright © 2024-2025 Panda工作室'
     },
     // algolia: { // algolia 搜索服务 与 内置 search 可二选一
     //   appId: 'LPTNA0E8HM',
@@ -41,6 +41,7 @@ export default defineConfig({
             text: '项目实战',
             items: [
               { text: '博欣试剂管理系统', link: '/project/ggzx/index1' },
+              { text: '优医问诊APP', link: 'https://fhguo.github.io/yywz-doc/' },
               // { text: 'Section B Item B', link: '...' }
             ]
           }
