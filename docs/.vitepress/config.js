@@ -67,6 +67,7 @@ export default defineConfig({
             { text: 'Vue3', link: '/note/vue3' },
             { text: '小程序及数据可视化', link: '/note/miniApp' },
             { text: 'Angularjs', link: '/note/Angularjs' },
+            { text: 'Electron', link: '/note/electron' },
             { text: 'test', link: '/note/test' },
           ]
         }
