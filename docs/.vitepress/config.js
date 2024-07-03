@@ -20,14 +20,14 @@ export default defineConfig({
       // message: 'Released under the MIT License.',
       copyright: 'Copyright © 2024-2025 Panda工作室'
     },
-    // algolia: { // algolia 搜索服务 与 内置 search 可二选一
-    //   appId: 'LPTNA0E8HM',
-    //   apiKey: '8f1b68dfab6b0320adef728a1c3a77cc',
-    //   indexName: 'themusecatcher_front-end'
-    // },
-    search: {
-      provider: 'local', // 可以开启本地搜索
+    algolia: { // algolia 搜索服务 与 内置 search 可二选一
+      appId: 'HNXM9QS2NZ',
+      apiKey: 'd5a27725079c01b493d3ee2766469c6c',
+      indexName: 'fhguoio'
     },
+    // search: {
+    //   provider: 'local', // 可以开启本地搜索
+    // },
     nav: [
       { text: '首页', link: '/' },
       { text: '技术', link: '/note/html&css' },
