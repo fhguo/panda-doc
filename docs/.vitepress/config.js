@@ -7,7 +7,7 @@ export default defineConfig({
   head: [['link', { rel: 'icon', href: '/panda-doc/favicon.ico' }]], 
   base: '/panda-doc/', // 使用相对路径，线上部署非根路径时需要修改
   lastUpdated: true,
-  cleanUrls: true,
+  cleanUrls: false, // 当设置为 true 时，VitePress 将从 URL 中删除 .html 后缀
   ignoreDeadLinks: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
