@@ -24,13 +24,72 @@ let todos = ref([
 
 ### 1、什么是HTML
 
-​	HTML是一种标记语言，用于创建网页结构和内容，通过标签和元素描述页面信息，实现在Web浏览器中的呈现。
+HTML（HyperText Markup Language，超文本标记语言）是一种用于创建和结构化网页内容的标准标记语言。它是构建网页的基础，定义了网页的基本结构和内容。HTML使用标签（tags）来标记文本和其他元素，以告诉浏览器如何显示这些内容。
+
+#### HTML的基本概念
+
+1. **元素（Element）**：
+   - 由开始标签和结束标签包裹的内容构成。
+   - 例如：`<p>This is a paragraph.</p>`。
+
+2. **标签（Tag）**：
+   - 用于标记HTML元素的名称，通常成对出现，包括开始标签和结束标签。
+   - 例如：`<h1>`, `</h1>`。
+
+3. **属性（Attribute）**：
+   - 提供关于HTML元素的附加信息，通常在开始标签中指定。
+   - 例如：`<a href="https://www.example.com">Link</a>`中的`href`属性。
+
+4. **嵌套（Nesting）**：
+   - HTML元素可以包含其他HTML元素，形成嵌套结构。
+   - 例如：
+     ```html
+     <div>
+       <p>This is a paragraph inside a div.</p>
+     </div>
+     ```
+
+#### HTML的基本结构
+
+一个典型的HTML文档包含以下基本结构：
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Page Title</title>
+</head>
+<body>
+  <h1>This is a heading</h1>
+  <p>This is a paragraph.</p>
+  <a href="https://www.example.com">This is a link</a>
+</body>
+</html>
+```
+
+**解释**：
+
+1. `<!DOCTYPE html>`：声明文档类型，告知浏览器这是一个HTML5文档。
+2. `<html>`：HTML文档的根元素。
+3. `<head>`：包含元数据（metadata），如文档的标题（title）、字符集（charset）等。
+4. `<title>`：定义文档的标题，显示在浏览器的标题栏或标签页上。
+5. `<body>`：包含文档的主要内容，如标题、段落、链接、图像等。
+
+#### 常见的HTML标签
+
+- **标题标签**：`<h1>`到`<h6>`，表示不同级别的标题。
+- **段落标签**：`<p>`，表示段落。
+- **链接标签**：`<a>`，表示超链接。
+- **图像标签**：`<img>`，表示图像。
+- **列表标签**：`<ul>`（无序列表）、`<ol>`（有序列表）、`<li>`（列表项）。
+
+HTML是网页开发的核心之一，与CSS（层叠样式表）和JavaScript一起构成了前端开发的三大基础技术。通过学习和掌握HTML，开发者可以创建结构良好、语义清晰的网页内容。
 
 ### 2、HTML的语义化
 
 ​	HTML语义化是指用合理的HTML标记以及其特有的属性去格式化文档内容。（例如标题用 h1-h6、段落用 p 标签，合理得给图片添加alt属性等）
- 
-### 3、常用的浏览器及内核
+
+### 3、浏览器及内核
 浏览器的内核决定了它们如何渲染和呈现网页内容，以下是常用的浏览器、使用的内核以及每个内核的简要描述：
 
 
@@ -44,150 +103,7 @@ let todos = ref([
 | Opera            | Blink (Presto)      | 原版Opera使用Presto内核，现代版使用Blink。 |
 
 
-### 4、HTML标签
-
-HTML（Hypertext Markup Language）是用于构建网页结构的标记语言。以下是一些常用的 HTML 标签，以及它们的作用：
-
-1. **`<!DOCTYPE>` 声明**：定义文档类型和版本。
-
-   ```html
-   <!DOCTYPE html>
-   ```
-
-2. **`<html>` 标签**：定义 HTML 文档的根元素。
-
-   ```html
-   <html>
-       <!-- 内容 -->
-   </html>
-   ```
-
-3. **`<head>` 标签**：包含文档的元信息，如标题、字符集等。
-
-   ```html
-   <head>
-       <title>我的网页</title>
-       <meta charset="UTF-8">
-   </head>
-   ```
-
-4. **`<meta>` 标签**：定义文档的元信息，如字符集、作者、关键词等。
-
-   ```html
-   <meta charset="UTF-8">
-   <meta name="author" content="John Doe">
-   ```
-
-5. **`<title>` 标签**：定义网页的标题，显示在浏览器标签页上。
-
-   ```html
-   <title>我的网页</title>
-   ```
-
-6. **`<link>` 标签**：用于链接外部资源，如样式表。
-
-   ```html
-   <link rel="stylesheet" href="styles.css">
-   ```
-
-7. **`<script>` 标签**：用于引入 JavaScript 代码或链接外部 JavaScript 文件。
-
-   ```html
-   <script src="script.js"></script>
-   ```
-
-8. **`<style>` 标签**：包含内部样式表。
-
-   ```html
-   <style>
-       /* CSS 样式 */
-   </style>
-   ```
-
-9. **`<body>` 标签**：包含网页的主要内容。
-
-   ```html
-   <body>
-       <!-- 网页内容 -->
-   </body>
-   ```
-
-10. **`<h1>`, `<h2>`, `<h3>`, ... `<h6>` 标签**：定义标题，级别从大到小。
-
-    ```html
-    <h1>主标题</h1>
-    <h2>副标题</h2>
-    ```
-
-11. **`<p>` 标签**：定义段落。
-
-    ```html
-    <p>这是一个段落。</p>
-    ```
-
-12. **`<a>` 标签**：创建超链接。
-
-    ```html
-    <a href="https://www.example.com">访问示例网站</a>
-    ```
-
-13. **`<ul>` 和 `<ol>` 标签**：定义无序列表和有序列表，分别使用 `<li>` 标签定义列表项。
-
-    ```html
-    <ul>
-        <li>项目1</li>
-        <li>项目2</li>
-    </ul>
-
-    <ol>
-        <li>项目1</li>
-        <li>项目2</li>
-    </ol>
-    ```
-
-14. **`<img>` 标签**：嵌入图像。
-
-    ```html
-    <img src="image.jpg" alt="图片描述">
-    ```
-
-15. **`<div>` 标签**：定义文档中的一个区块，用于组织内容和应用样式。
-
-    ```html
-    <div>
-        <!-- 内容 -->
-    </div>
-    ```
-
-16. **`<span>` 标签**：定义文档中的一个内联区块，用于应用样式或操作文本。
-
-    ```html
-    <span>这是一段内联文本。</span>
-    ```
-
-17. **`<form>` 标签**：创建表单，包含输入元素和提交按钮。
-
-    ```html
-    <form action="/submit" method="post">
-        <!-- 输入元素 -->
-        <input type="text" name="username">
-        <input type="password" name="password">
-        <!-- 提交按钮 -->
-        <input type="submit" value="提交">
-    </form>
-    ```
-
-18. **`<input>` 标签**：定义表单中的输入元素，如文本框、单选按钮、复选框等。
-
-    ```html
-    <input type="text" name="username">
-    <input type="radio" name="gender" value="male"> 男性
-    <input type="checkbox" name="subscribe" value="yes"> 订阅
-    ```
-
-这些是一些常用的 HTML 标签，它们用于构建网页结构、定义内容和样式、创建表单以及实现各种功能。根据您的需求和网页的结构，您可以使用这些标签来创建丰富的网页。
-
-### 5、table表格
+### 5、表格标签
 
 HTML 中的 `<table>` 元素用于创建表格，它是一种常用的方式来展示数据和信息。以下是关于 `<table>` 表格的基本用法的总结：
 
@@ -283,87 +199,150 @@ HTML 中的 `<table>` 元素用于创建表格，它是一种常用的方式来�
 
 
 表格是一个灵活且功能丰富的 HTML 元素，它可以用于各种数据展示需求。以上总结了基本的表格创建和样式化方法，但表格还有更多高级的特性和选项，可以根据具体需求进一步定制。
+
+### 6、表单标签
+
+常用的表单标签主要包括以下几种：
+
+1. **`<form>`**：定义一个HTML表单，用于收集用户输入。
+   ```html
+   <form action="/submit" method="post">
+       <!-- 表单内容 -->
+   </form>
+   ```
+
+2. **`<input>`**：用于输入字段，根据`type`属性的不同，可以创建不同类型的输入控件。
+   ```html
+   <input type="text" name="username">
+   <input type="password" name="password">
+   <input type="email" name="email">
+   <input type="checkbox" name="subscribe">
+   <input type="radio" name="gender" value="male">
+   <input type="radio" name="gender" value="female">
+   <input type="submit" value="Submit">
+   ```
+
+3. **`<label>`**：用于描述表单控件的标签，提升可用性和无障碍性。
+   ```html
+   <label for="username">Username:</label>
+   <input type="text" id="username" name="username">
+   ```
+
+4. **`<textarea>`**：多行文本输入控件。
+   ```html
+   <textarea name="message" rows="4" cols="50"></textarea>
+   ```
+
+5. **`<select>`**：下拉列表，`<option>`用于定义列表中的选项。
+   ```html
+   <select name="country">
+       <option value="us">United States</option>
+       <option value="ca">Canada</option>
+       <option value="uk">United Kingdom</option>
+   </select>
+   ```
+
+6. **`<button>`**：按钮，可以是提交按钮、重置按钮或普通按钮。
+   ```html
+   <button type="submit">Submit</button>
+   <button type="reset">Reset</button>
+   <button type="button" onclick="alert('Hello')">Click Me</button>
+   ```
+
+
 ## 二、CSS
 
 ### 1、css选择器
 
-CSS（Cascading Style Sheets）中有许多不同类型的选择器，用于选择要应用样式的 HTML 元素。以下是一些常用的 CSS 选择器：
+CSS（层叠样式表）选择器用于选择 HTML 元素并应用样式。常用的 CSS 选择器有多种，以下是一些基本和常用的选择器类型：
 
-1. **元素选择器（Element Selector）**：选择特定的 HTML 元素类型。
+#### 基本选择器
 
-   ```css
-   p {
-       color: blue;
-   }
-   ```
+1. **元素选择器**：
+   - 选择所有指定类型的元素。
+   - 例如：`p { color: blue; }` 会选择所有 `<p>` 元素。
 
-2. **类选择器（Class Selector）**：选择具有指定类名的元素。
+2. **类选择器**：
+   - 选择所有具有指定类的元素。
+   - 使用方法：在类名之前加一个点 `.`。
+   - 例如：`.className { color: green; }` 会选择所有 `class="className"` 的元素。
 
-   ```css
-   .highlight {
-       background-color: yellow;
-   }
-   ```
+3. **ID选择器**：
+   - 选择具有特定 ID 的元素。
+   - 使用方法：在 ID 名之前加一个井号 `#`。
+   - 例如：`#idName { color: red; }` 会选择 ID 为 `idName` 的元素。
 
-3. **ID 选择器（ID Selector）**：选择具有指定 ID 的元素。
+4. **通配符选择器**：
+   - 选择所有元素。
+   - 使用方法：`*`。
+   - 例如：`* { margin: 0; padding: 0; }` 会选择所有元素并移除默认的外边距和内边距。
 
-   ```css
-   #header {
-       font-size: 24px;
-   }
-   ```
+#### 组合选择器
 
-4. **通用选择器（Universal Selector）**：选择所有 HTML 元素。
+1. **后代选择器**：
+   - 选择某个元素内部的所有指定子元素。
+   - 使用方法：`ancestor descendant`。
+   - 例如：`div p { color: blue; }` 会选择所有在 `<div>` 内部的 `<p>` 元素。
 
-   ```css
-   * {
-       margin: 0;
-       padding: 0;
-   }
-   ```
+2. **子选择器**：
+   - 选择某个元素的直接子元素。
+   - 使用方法：`parent > child`。
+   - 例如：`ul > li { color: red; }` 会选择所有 `<ul>` 的直接子元素 `<li>`。
 
+3. **相邻兄弟选择器**：
+   - 选择紧接在另一个元素之后的兄弟元素。
+   - 使用方法：`previous + next`。
+   - 例如：`h1 + p { margin-top: 0; }` 会选择紧接在 `<h1>` 之后的第一个 `<p>` 元素。
 
-5. **后代选择器（Descendant Selector）**：选择嵌套在其他元素内部的元素。
+4. **通用兄弟选择器**：
+   - 选择所有在另一个元素之后的兄弟元素。
+   - 使用方法：`previous ~ siblings`。
+   - 例如：`h1 ~ p { color: green; }` 会选择所有在 `<h1>` 之后的兄弟 `<p>` 元素。
 
-   - 选择 `<ul>` 元素内部的所有 `<li>` 元素：
+#### 属性选择器
 
+1. **存在属性选择器**：
+   - 选择包含某个属性的元素。
+   - 使用方法：`[attribute]`。
+   - 例如：`[title] { color: blue; }` 会选择所有包含 `title` 属性的元素。
+
+2. **属性值选择器**：
+   - 选择属性等于特定值的元素。
+   - 使用方法：`[attribute=value]`。
+   - 例如：`[type="text"] { color: green; }` 会选择所有 `type` 属性等于 `text` 的元素。
+
+3. **属性值包含选择器**：
+   - 选择属性值中包含特定子串的元素。
+   - 使用方法：`[attribute*=value]`。
+   - 例如：`[title*="hello"] { color: red; }` 会选择所有 `title` 属性中包含 `hello` 子串的元素。
+
+#### 伪类选择器
+
+1. **链接伪类**：
+   - `:link` 选择所有未访问的链接。
+   - `:visited` 选择所有已访问的链接。
+
+2. **动态伪类**：
+   - `:hover` 选择鼠标指针悬停的元素。
+   - `:active` 选择被用户激活的元素。
+   - `:focus` 选择获得焦点的元素。
+
+3. **结构伪类**：
+   - `:first-child` 选择父元素的第一个子元素。
+   - `:last-child` 选择父元素的最后一个子元素。
+   - `:nth-child(n)` 选择父元素的第 n 个子元素。
+
+#### 伪元素选择器
+
+1. **`::before` 和 `::after`**：
+   - 在元素的内容前后插入内容。
+   - 例如：
      ```css
-     ul li {
-         list-style-type: square;
-     }
+     p::before { content: "Prefix: "; }
+     p::after { content: " Suffix"; }
      ```
 
-6. **子元素选择器（Child Selector）**：选择某个元素的直接子元素。
-
-   - 选择 `<ul>` 元素中的直接子元素 `<li>`：
-
-     ```css
-     ul > li {
-         font-weight: bold;
-     }
-     ```
-
-7. **伪类选择器（Pseudo-class Selector）**：选择元素的特殊状态或位置。
-
-   - 选择链接的鼠标悬停状态：
-
-     ```css
-     a:hover {
-         color: red;
-     }
-     ```
-
-   - 选择第一个子元素：
-
-     ```css
-     li:first-child {
-         font-weight: bold;
-     }
-     ```
-
-
-这些是一些常用的 CSS 选择器，它们允许您有针对性地选择和应用样式到 HTML 元素。通过组合和嵌套这些选择器，可以实现复杂的样式设计，使网页看起来更吸引人且具有良好的用户体验。
-
+掌握这些选择器可以帮助你更高效地选择和样式化网页中的元素，提高开发效率和代码的可维护性。
 ### 2、css的显示模式
 
 CSS中的显示模式（display mode）控制了元素在页面上的布局方式和行为。常见的CSS显示模式包括以下几种：
@@ -429,138 +408,305 @@ CSS中的显示模式（display mode）控制了元素在页面上的布局方�
 
 ### 3、css的三大特性
 
-CSS（层叠样式表）有三大特性，也被称为"CSS的三大特性"，它们是：
+CSS（层叠样式表）有三个主要特性，这些特性共同作用，使得 CSS 在网页样式设计中具有强大的灵活性和控制能力：
 
-1. **层叠性（Cascading）**：这是CSS的首要特性之一，它允许多个样式规则同时应用于一个元素，并按照一定的优先级顺序决定最终应用哪些样式。通常，样式规则按照以下优先级进行层叠：
+#### **层叠性**
 
-    - 内联样式（在HTML元素内部使用`style`属性的样式）具有最高优先级。
-    - ID选择器（如`#header`）具有比类选择器（如`.highlight`）更高的优先级。
-    - 通用选择器和元素选择器（如`*`和`p`）具有较低的优先级。
-    - 样式表中后定义的规则具有较高的优先级。
+CSS 的层叠性是指当多个样式规则应用于同一个元素时，这些规则会按照优先级进行层叠（即叠加）和组合。浏览器会根据以下优先级规则决定最终应用的样式：
 
-    示例：
-    ```html
-    <style>
-        p {
-            color: red; /* 样式规则1 */
-        }
-    </style>
-    <p style="color: blue;">这是一个段落</p> <!-- 内联样式优先应用，文字颜色为蓝色 -->
-    ```
+- **优先级顺序**：
+  - 内联样式（inline styles）：直接在 HTML 元素中使用 `style` 属性定义的样式，优先级最高。
+  - 内部样式表（internal style sheets）：在 HTML 文档的 `<style>` 标签中定义的样式。
+  - 外部样式表（external style sheets）：通过 `<link>` 标签引入的外部 CSS 文件定义的样式。
+  - 浏览器默认样式：浏览器自带的默认样式，优先级最低。
 
-2. **继承性（Inheritance）**：继承性指的是某个HTML元素上定义的样式属性是否会传递给其子元素。不是所有的样式属性都可以继承，但一些常见的属性如颜色、字体等可以继承给子元素。
+- **重要性（Specificity）**：
+  - 优先级顺序：ID选择器 > 类选择器、伪类选择器 > 元素选择器、伪元素选择器。
+  - 例如：`#id > .class > tag`。
 
-    示例：
-    ```css
-    body {
-        font-family: Arial, sans-serif;
-    }
+- **重要声明（!important）**：
+  - 使用 `!important` 可以强制某个样式规则的优先级最高。
+  - 例如：`color: red !important;`。
 
-    p {
-        color: blue; /* 子元素继承父元素的字体属性 */
-    }
-    ```
+#### **继承性**
 
-    ```html
-    <body>
-        <p>这是一个段落</p> <!-- 文字颜色为蓝色，继承自父元素的字体属性 -->
-    </body>
-    ```
+继承性指的是某些 CSS 属性会从父元素继承到子元素。继承的属性通常是与文本和字体相关的属性，如 `color`、`font-family`、`font-size` 等。
 
-3. **优先级（Specificity）**：当多个样式规则应用于同一个元素时，优先级决定哪些规则将被最终应用。优先级通常由选择器的种类、数量和权重来决定。通常，以下规则适用于计算选择器的优先级：
+- **可继承的属性**：
+  - 例如：`color`, `font-family`, `line-height`, `text-align` 等。
 
-    - 内联样式的优先级最高，因为它们直接附加在HTML元素上。
-    - ID选择器的优先级高于类选择器和元素选择器。
-    - 多个选择器组合在一起时，其权重相加。
+- **不可继承的属性**：
+  - 例如：`margin`, `padding`, `border`, `background` 等。
 
-    示例：
-    ```html
-    <style>
-        p {
-            color: red; /* 权重为：0,0,0,1 */
-        }
+- **强制继承**：
+  - 可以使用 `inherit` 关键字强制子元素继承父元素的某个属性。
+  - 例如：`color: inherit;`。
 
-        #special-paragraph {
-            color: blue; /* 权重为：0,0,1,0 */
-        }
-    </style>
-    <p id="special-paragraph">这是一个特殊段落</p> <!-- 文字颜色为蓝色，因为ID选择器具有较高的权重 -->
-    ```
+#### **层叠顺序/优先级**
 
-这些是CSS的三大特性，它们一起决定了样式规则如何应用于HTML元素，并允许您创建复杂的页面样式。
+层叠顺序决定了当同一个元素有多个冲突的 CSS 声明时，哪一个声明将被应用。CSS 的层叠顺序遵循以下原则：
 
-### 4、overflow的用法
+- **来源**：
+  - 内联样式 > 内部样式 > 外部样式 > 浏览器默认样式。
 
-`overflow` 是 CSS 属性，用于控制元素内容溢出时的处理方式。它可以应用于容器元素，如 `<div>`、`<span>`、`<p>` 等，以及一些其他元素，用于处理内容溢出的情况。以下是 `overflow` 的用法和不同取值的含义：
+- **权重**：
+  - ID 选择器 > 类选择器 > 标签选择器。
+  - 例如：`#id {}` > `.class {}` > `tag {}`。
 
-1. **`overflow: visible;`**（默认值）：
-   - 当内容溢出容器时，内容将呈现在容器之外，不会被修剪，可能会覆盖其他内容。
+- **位置**：
+  - 后定义的样式会覆盖先定义的样式。
+
+- **重要性**：
+  - 带有 `!important` 声明的样式具有最高优先级，甚至可以覆盖内联样式。
+  - 例如：`color: red !important;` 会覆盖所有其他 `color` 声明。
+
+**总结**
+
+CSS 的三大特性——层叠性、继承性和层叠顺序/优先级，使得开发者可以灵活地控制网页样式，并且通过合理的样式组织和优先级控制，确保网页在不同环境和需求下都能呈现出一致且美观的样式。
+
+### 4、外观样式
+CSS常用的外观样式包括颜色、背景、字体、文本、边框和阴影等方面的样式设置。下面是一些常用的外观样式及其示例：
+
+#### 1. 颜色 (Color)
+
+**文本颜色**
+```css
+.element {
+    color: #333; /* 使用十六进制颜色值 */
+    color: rgb(51, 51, 51); /* 使用RGB颜色值 */
+    color: rgba(51, 51, 51, 0.8); /* 使用RGBA颜色值，带透明度 */
+}
+```
+
+**背景颜色**
+```css
+.element {
+    background-color: #f0f0f0; /* 使用十六进制颜色值 */
+    background-color: rgb(240, 240, 240); /* 使用RGB颜色值 */
+    background-color: rgba(240, 240, 240, 0.8); /* 使用RGBA颜色值，带透明度 */
+}
+```
+
+#### 2. 背景 (Background)
+
+**背景图片**
+```css
+.element {
+    background-image: url('image.jpg'); /* 设置背景图片 */
+    background-repeat: no-repeat; /* 背景图片不重复 */
+    background-size: cover; /* 背景图片按比例缩放，覆盖整个容器 */
+    background-position: center; /* 背景图片居中 */
+}
+```
+
+**渐变背景**
+```css
+.element {
+    background: linear-gradient(to right, #ff7e5f, #feb47b); /* 线性渐变 */
+    background: radial-gradient(circle, #ff7e5f, #feb47b); /* 放射性渐变 */
+}
+```
+
+#### 3. 字体 (Font)
+
+**字体系列**
+```css
+.element {
+    font-family: 'Arial', sans-serif; /* 设置字体系列 */
+}
+```
+
+**字体大小**
+```css
+.element {
+    font-size: 16px; /* 设置字体大小 */
+    font-size: 1em; /* 设置相对字体大小 */
+}
+```
+
+**字体样式和粗细**
+```css
+.element {
+    font-style: italic; /* 设置斜体 */
+    font-weight: bold; /* 设置粗体 */
+}
+```
+
+#### 4. 文本 (Text)
+
+**文本对齐**
+```css
+.element {
+    text-align: center; /* 文本居中对齐 */
+    text-align: right; /* 文本右对齐 */
+}
+```
+
+**文本装饰**
+```css
+.element {
+    text-decoration: underline; /* 设置下划线 */
+    text-decoration: line-through; /* 设置删除线 */
+    text-decoration: none; /* 去除装饰 */
+}
+```
+
+**文本阴影**
+```css
+.element {
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* 设置文本阴影 */
+}
+```
+
+#### 5. 边框 (Border)
+
+**边框样式**
+```css
+.element {
+    border: 1px solid #333; /* 设置边框宽度、样式和颜色 */
+    border-top: 2px dashed #555; /* 设置顶部边框 */
+    border-radius: 8px; /* 设置圆角边框 */
+}
+```
+
+#### 6. 阴影 (Box Shadow)
+```css
+.element {
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); /* 设置元素阴影 */
+}
+```
+
+#### 7. 透明度 (Opacity)
+```css
+.element {
+    opacity: 0.8; /* 设置元素透明度 */
+}
+```
+
+### 5、盒模型
+
+CSS盒模型（Box Model）是网页设计和布局的基础概念之一，它描述了元素占据的空间及其组成部分。盒模型包括内容、内边距（padding）、边框（border）和外边距（margin）四个主要部分。
+
+**盒模型的组成**
+
+1. **内容 (Content)**：
+   - 这是元素的实际内容区域，如文本、图像等。可以使用 `width` 和 `height` 属性来设置其大小。
+
+2. **内边距 (Padding)**：
+   - 内边距是内容与边框之间的空白区域。内边距可以在四个方向上单独设置：`padding-top`、`padding-right`、`padding-bottom`、`padding-left`。
+   - 示例：
+     ```css
+     .box {
+         padding: 10px; /* 四个方向的内边距都设置为10px */
+     }
+     ```
+
+3. **边框 (Border)**：
+   - 边框是包围内容和内边距的线条。可以设置边框的宽度、样式和颜色。边框可以在四个方向上单独设置：`border-top`、`border-right`、`border-bottom`、`border-left`。
+   - 示例：
+     ```css
+     .box {
+         border: 1px solid black; /* 四个方向的边框宽度为1px，实线，黑色 */
+     }
+     ```
+
+4. **外边距 (Margin)**：
+   - 外边距是元素与其他元素之间的空白区域。外边距可以在四个方向上单独设置：`margin-top`、`margin-right`、`margin-bottom`、`margin-left`。
+   - 示例：
+     ```css
+     .box {
+         margin: 20px; /* 四个方向的外边距都设置为20px */
+     }
+     ```
+
+**标准盒模型与替代盒/怪异盒模型**
+
+1. **标准盒模型 (Standard Box Model)**：
+   在标准盒模型中，`width` 和 `height` 属性仅指内容区域的宽度和高度，不包括内边距、边框和外边距。
 
    ```css
-   .container {
-       overflow: visible;
+   .box {
+       width: 200px;
+       height: 100px;
+       padding: 10px;
+       border: 1px solid black;
+       margin: 20px;
    }
    ```
 
-2. **`overflow: hidden;`**：
-   - 当内容溢出容器时，超出的部分将被隐藏，不可见。
-   - 常用于创建遮罩效果，确保只显示容器内的内容。
+2. **替代盒/怪异盒模型 (Alternate Box Model) (box-sizing: border-box)**：
+   在替代盒模型中，`width` 和 `height` 属性包括内容、内边距和边框的总和。即，元素的总宽度和高度不会超过设置的 `width` 和 `height` 值。
 
    ```css
-   .container {
-       overflow: hidden;
+   .box {
+       box-sizing: border-box;
+       width: 200px;
+       height: 100px;
+       padding: 10px;
+       border: 1px solid black;
+       margin: 20px;
    }
    ```
+    
 
-3. **`overflow: scroll;`**：
-   - 如果内容溢出容器，会显示滚动条以便用户滚动查看。
-   - 适用于当内容太大以适应容器大小时，允许用户滚动查看全部内容。
+### 6、css定位
 
-   ```css
-   .container {
-       overflow: scroll;
-   }
-   ```
+CSS 定位用于在网页上准确定位元素。常见的 CSS 定位方法包括静态定位、相对定位、绝对定位和固定定位。每种定位方式都有其独特的用途和特性。
 
-4. **`overflow: auto;`**：
-   - 只有在内容实际溢出时才会显示滚动条，否则将保持正常显示。
-   - 类似于 `scroll`，但只在需要滚动时显示滚动条，不需要时保持正常显示。
+- **静态定位 (Static Positioning)**
+这是默认的定位方式，元素按照文档的正常流进行排列，不需要特别指定。
+```css
+.element {
+    position: static;
+}
+```
 
-   ```css
-   .container {
-       overflow: auto;
-   }
-   ```
+- **相对定位 (Relative Positioning)**
+相对定位的元素相对于其正常位置进行偏移。即使元素被移动，它仍然占据原来的空间。
+```css
+.element {
+    position: relative;
+    top: 10px;  /* 元素向下移动10px */
+    left: 20px; /* 元素向右移动20px */
+}
+```
 
-5. **`overflow: inherit;`**：
-   - 继承父元素的 `overflow` 属性值。
-   - 子元素将采用与父元素相同的溢出行为。
+- **绝对定位 (Absolute Positioning)**
+绝对定位的元素相对于最近的已定位（非 static）的祖先元素进行定位。如果没有这样的祖先元素，则相对于文档根元素 (html) 进行定位。绝对定位的元素不再占据原来的空间。
+```css
+.container {
+    position: relative;
+}
 
-   ```css
-   .child {
-       overflow: inherit;
-   }
-   ```
+.element {
+    position: absolute;
+    top: 50px;  /* 元素相对于其已定位祖先容器向下移动50px */
+    left: 100px; /* 元素相对于其已定位祖先容器向右移动100px */
+}
+```
 
-6. **`overflow: initial;`**：
-   - 设置属性为默认值，通常默认值是 `visible`。
-   - 用于重置 `overflow` 属性为默认值。
+- **固定定位 (Fixed Positioning)**
+固定定位的元素相对于浏览器窗口进行定位，即使页面滚动，元素的位置也不会改变。
+```css
+.element {
+    position: fixed;
+    top: 0;    /* 元素固定在浏览器窗口的顶部 */
+    right: 0;  /* 元素固定在浏览器窗口的右侧 */
+}
+```
 
-   ```css
-   .container {
-       overflow: initial;
-   }
-   ```
+- **粘性定位 (Sticky Positioning)**
+粘性定位结合了相对定位和固定定位的特性。元素在滚动到特定位置时变为固定定位。
+```css
+.element {
+    position: sticky;
+    top: 10px; /* 元素在距离顶部10px的位置变为固定 */
+}
+```
+通过这些定位方式，您可以灵活地在页面上定位元素，创建复杂且美观的布局。
 
-`overflow` 属性通常用于处理以下情况：
 
-- 滚动容器：允许用户滚动查看容器内溢出的内容。
-- 遮罩效果：隐藏多余的内容，确保只显示容器内的内容。
-- 防止内容溢出其他元素：通过设置 `hidden` 属性来确保内容不会溢出到其他元素上面。
-
-根据设计需求，选择合适的 `overflow` 属性取值和其他 CSS 样式来实现所需的效果。
-
-### 5、浮动
+### 7、浮动和清除浮动
 
 浮动（float）是CSS中的一种布局属性，它通常用于将元素从正常文档流中移动到其父元素的左侧或右侧，并允许文本和其他内容环绕它。浮动通常用于创建多列布局、图像浮动以及网页中的一些特定布局需求。以下是如何设置浮动的基本方法:
 
@@ -613,566 +759,485 @@ CSS（层叠样式表）有三大特性，也被称为"CSS的三大特性"，它
 
 这些方法中的选择取决于您的具体需求和项目约定。清除浮动是前端开发中一个常见的问题，因为它确保了页面布局的一致性和可靠性。
 
-### 6、BFC
+### 8、Flex布局
+Flexbox（Flexible Box Layout，弹性盒子布局）是一种用于布局的一维模型，可以更方便地控制元素的对齐、方向和顺序。Flexbox 主要用于一维布局，即在一个方向（行或列）上排列元素。它解决了很多传统布局方法（如浮动和定位）难以解决的问题，尤其是在需要动态调整或响应式布局时。
 
-BFC（块级格式化上下文，Block Formatting Context）是CSS中的一个关键概念，它是一种用于控制和规范元素布局和渲染的机制。BFC 定义了一套规则，用于决定块级元素如何放置其子元素以及与其他元素的关系。
+#### 基本概念
 
-以下是 BFC 的一些关键特点和作用：
-
-1. **元素的包含块**：BFC 决定了块级元素的包含块，这是元素布局的基础。元素的包含块通常是最近的块级祖先元素，但在某些情况下，可以通过一些属性（如`float`、`position`、`overflow`）来创建新的包含块。
-
-2. **垂直方向的布局**：在 BFC 中，垂直方向上的布局规则会影响元素如何堆叠和定位。例如，在同一个 BFC 中，两个相邻元素的 margin 可能会合并，从而影响它们之间的垂直间距。
-
-3. **防止浮动元素溢出**：BFC 可以阻止浮动元素溢出其包含块，从而避免了一些常见的布局问题。这通常是通过在 BFC 中包含浮动元素或使用`overflow`属性来实现的。
-
-4. **自适应高度**：BFC 可以让父元素自适应其子元素的高度，即使子元素浮动也可以。这对于创建等高列布局等情况非常有用。
-
-5. **分隔上下文**：每个 BFC 是相互隔离的，它们的内部元素不会影响到外部 BFC 中的元素，从而避免了一些布局冲突问题。
-
-6. **清除浮动**：BFC 可以用来清除浮动，从而避免父元素因浮动元素而塌陷。
-
-要创建一个新的 BFC，可以使用以下方法之一：
-
-- 设置元素的`float`属性为`left`或`right`。
-- 设置元素的`position`属性为`absolute`或`fixed`。
-- 设置元素的`display`属性为`inline-block`、`table-cell`、`table-caption`。
-- 在父元素上设置`overflow`属性为非`visible`值，例如`auto`或`hidden`。
-- 创建一个新的块级容器，如使用`display: block;` 或包含`<div>`元素。
-
-BFC 是 CSS 布局中的一个重要概念，它在解决一些复杂布局和浮动问题时非常有用。了解 BFC 如何工作以及如何创建它们可以帮助您更好地掌握 CSS 布局。
-
-### 7、元素的显示和隐藏
-
-以下是CSS中控制元素显示和隐藏的几种方法，以表格的形式呈现：
-
-| 方法                 | 说明                                                         |
-|----------------------|--------------------------------------------------------------|
-| `display: none;`     | 完全隐藏元素，不占据任何空间，无法通过用户或脚本交互显示。  |
-| `visibility: hidden;` | 隐藏元素，但仍然占据空间，可以通过用户或脚本交互显示。    |
-| `opacity: 0;`        | 隐藏元素，但仍然占据空间，通过透明度设置来控制元素的可见性。 |
-
-这些方法用于不同的场景和需求，您可以根据具体情况选择最适合的方法来控制元素的显示和隐藏。
-
-### 8、Flexbox布局
-
-Flexbox（Flexible Box布局）是CSS3引入的一种用于创建灵活的、自适应的布局模型的工具。它使得元素在容器中自动对齐和调整大小，无需复杂的浮动或定位。Flexbox适用于一维布局，即一行或一列中的元素排列。
-
-以下是Flexbox布局的一些关键概念和示例：
-
-1. **容器和项目**：
-   - **容器（Container）**：包含要布局的一组元素的父元素，通过设置`display: flex;`将其定义为Flex容器。
-   - **项目（Item）**：容器内的子元素，它们将根据Flexbox规则进行排列和分布。
-
-2. **主轴和交叉轴**：
-   - **主轴（Main Axis）**：Flex容器的主要方向，决定项目的排列方向（水平或垂直）。
-   - **交叉轴（Cross Axis）**：与主轴垂直的方向，用于调整项目在主轴上的位置。
-
-3. **属性**：
-   - **`display: flex;`**：将一个元素设置为Flex容器。
-   - **`flex-direction`**：指定主轴的方向，可以是`row`（水平，默认）、`column`（垂直）、`row-reverse`或`column-reverse`。
-   - **`justify-content`**：控制项目在主轴上的对齐方式，例如`flex-start`、`flex-end`、`center`、`space-between`等。
-   - **`align-items`**：控制项目在交叉轴上的对齐方式，例如`flex-start`、`flex-end`、`center`、`baseline`等。
-   - **`flex`**：定义项目的伸缩比例，可用于自动调整项目的大小。
-
-示例代码：
+**Flex 容器（Flex Container）**
+定义了一个 flex 容器，通过设置 `display: flex` 或 `display: inline-flex` 来创建。
 
 ```css
 .container {
-  display: flex;
-  flex-direction: row; /* 主轴方向：水平 */
-  justify-content: space-between; /* 主轴对齐方式：项目之间平均分布 */
-  align-items: center; /* 交叉轴对齐方式：垂直居中 */
-}
-
-.item {
-  flex: 1; /* 项目的伸缩比例，均匀占据可用空间 */
-  /* 其他样式规则 */
+    display: flex;
 }
 ```
 
-HTML结构：
-
-```html
-<div class="container">
-  <div class="item">项目1</div>
-  <div class="item">项目2</div>
-  <div class="item">项目3</div>
-</div>
-```
-
-在这个示例中，Flex容器`.container`包含了三个Flex项目`.item`。通过设置`display: flex;`和一些Flex属性，项目被水平排列在容器内，它们之间均匀分布，并在交叉轴上垂直居中。
-
-Flexbox布局使得创建响应式布局更加容易，特别适用于需要灵活排列和对齐元素的情况，例如导航菜单、网格布局和卡片式布局等。
-
-
-
-### 9、过渡和阴影
-
-CSS3中的过渡（Transitions）和阴影（Box Shadow）是用于创建元素动画效果和添加元素阴影效果的强大工具。
-
-#### 过渡（Transitions）
-
-过渡允许您在元素的状态变化时，使属性渐变地过渡到新值，而不是突然变化。这使得页面看起来更平滑和用户友好。
-
-**如何使用过渡：**
-
-1. 选择要添加过渡效果的元素。
-
-```css
-.element {
-  /* 其他样式规则 */
-  transition: property duration timing-function delay;
-}
-```
-
-- `property`：指定要过渡的CSS属性，例如`color`、`background-color`、`opacity`等。
-- `duration`：指定过渡的持续时间，通常以秒（s）为单位。
-- `timing-function`：指定过渡的时间函数，控制过渡的速度曲线，常见的有`ease`、`linear`、`ease-in`、`ease-out`等。
-- `delay`：指定在过渡开始前要延迟的时间，以秒为单位。
-
-2. 定义元素状态的改变。
-
-```css
-.element:hover {
-  property: new-value;
-}
-```
-
-- 在上述示例中，当鼠标悬停在`.element`上时，`property`属性将从其初始值渐变到新值。
-
-**示例：**
-
-```css
-.button {
-  padding: 10px 20px;
-  background-color: #3498db;
-  color: #fff;
-  transition: background-color 0.3s ease;
-}
-
-.button:hover {
-  background-color: #2980b9;
-}
-```
-
-在这个示例中，当鼠标悬停在按钮上时，按钮的背景颜色将平滑地从蓝色渐变到深蓝色。
-
-#### 阴影（Box Shadow）
-
-阴影效果允许您向元素添加立体感，使元素看起来浮在其他元素之上。
-
-**如何使用阴影：**
-
-```css
-.element {
-  box-shadow: h-shadow v-shadow blur spread color inset;
-}
-```
-
-- `h-shadow`：水平阴影的位置，可以为正数（右侧阴影）或负数（左侧阴影）。
-- `v-shadow`：垂直阴影的位置，可以为正数（下方阴影）或负数（上方阴影）。
-- `blur`：模糊半径，值越大，阴影越模糊。
-- `spread`：阴影的尺寸，正数会使阴影变大，负数会使阴影变小。
-- `color`：阴影的颜色。
-- `inset`：可选，如果存在则表示阴影是内部阴影。
-
-**示例：**
-
-```css
-.card {
-  width: 200px;
-  height: 150px;
-  background-color: #ffffff;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-}
-```
-
-在这个示例中，`.card`元素具有一个轻微的阴影，使它看起来浮在页面上。阴影的颜色为黑色，模糊半径为5px，水平和垂直位置分别为2px。您可以调整这些值以获得不同的阴影效果。
-
-## 三、HTML5&CSS3
-
-### 1、H5新特性
-
-HTML5是HTML（Hypertext Markup Language）的第五个版本，引入了许多新特性和改进，以提供更丰富的Web体验。以下是一些HTML5的新特性：
-
-1. 语义元素：HTML5引入了一些新的语义元素，如`<header>`、`<nav>`、`<article>`、`<section>`等，以更清晰地定义文档结构，提高可读性和可维护性。
-
-2. 音频和视频支持：HTML5提供了`<audio>`和`<video>`元素，使得嵌入音频和视频变得更容易。它还支持多种音频和视频格式，而不需要第三方插件，如Flash。
-
-3. 本地存储：HTML5引入了本地存储API，包括Web Storage（`localStorage`和`sessionStorage`）和IndexedDB，允许在客户端存储数据，以提高离线应用程序的性能和可用性。
-
-4. 新表单元素：HTML5引入了一些新的表单元素，如`<input>`的`type`属性的增强，`<datalist>`、`<keygen>`（已弃用）等，使得表单设计更加灵活和功能丰富。
-
-5. Canvas绘图：HTML5的`<canvas>`元素允许开发者使用JavaScript在网页上绘制图形和动画，这为创建交互式游戏和数据可视化提供了强大的工具。
-
-
-请注意，HTML5是一个持续发展的标准，因此可能会有其他新特性和改进，取决于具体的浏览器和实现。确保查看浏览器文档和规范以获取最新信息。
-
-### 2、CSS3新特性
-
-CSS3引入了许多新特性，让开发者能够创建更丰富和交互性更强的网页设计。以下是一些常用的CSS3新特性，它们在项目中经常被使用：
-
-1. **圆角（border-radius）**：使用`border-radius`属性可以创建圆角边框，使元素的边角变得圆滑。这在按钮、卡片和容器等元素的设计中经常使用。
-
-```css
-.button {
-  border-radius: 10px;
-}
-```
-
-2. **渐变（gradient）**：CSS3允许创建渐变背景，这对于创建复杂的背景效果非常有用。可以使用线性渐变和径向渐变。
-
-```css
-.background {
-  background: linear-gradient(to right, #ffcc00, #ff3300);
-}
-```
-
-3. **过渡（transition）**：通过`transition`属性，可以在元素状态变化时实现平滑的过渡效果，例如在悬停时改变颜色、大小或透明度等。
-
-```css
-.button {
-  transition: background-color 0.3s ease;
-}
-
-.button:hover {
-  background-color: #ff6600;
-}
-```
-
-4. **动画（animation）**：使用`@keyframes`和`animation`属性，可以创建复杂的动画效果，例如旋转、淡入淡出和平移等。
-
-```css
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.spinner {
-  animation: rotate 2s linear infinite;
-}
-```
-
-5. **阴影（box-shadow）**：`box-shadow`属性用于为元素添加投影效果，使元素看起来更立体。这在卡片和按钮的设计中很常见。
-
-```css
-.card {
-  box-shadow: 5px 5px 10px #888888;
-}
-```
-
-6. **多列布局（multicolumn）**：通过`column-count`和`column-width`等属性，可以轻松地创建多列布局，适用于文章和文本内容的排版。
-
-```css
-.column-layout {
-  column-count: 3;
-  column-gap: 20px;
-}
-```
-
-7. **响应式设计（media queries）**：CSS3允许使用媒体查询来根据不同设备和屏幕大小应用不同的样式，从而实现响应式设计。
-
-```css
-@media screen and (max-width: 768px) {
-  /* 在小屏幕上应用的样式 */
-  .menu {
-    display: none;
-  }
-}
-```
-
-这些是CSS3中常见的一些新特性，它们在项目中经常用于创建现代和交互性强的网页设计。请注意，CSS3还有许多其他有用的特性，具体的使用取决于项目的需求和设计目标。
-
-### 3、CSS3选择器
-
-CSS3 引入了一些新的选择器，使选择元素的方式更加灵活和强大。以下是一些常见的新增选择器：
-
-1. **属性选择器（Attribute Selectors）**：属性选择器允许你选择带有特定属性的元素，可以根据属性值的存在、相等、以某字符串开头或以某字符串结尾等条件来选择元素。
-
-```css
-/* 选择所有带有title属性的元素 */
-[title] {
-  /* 样式 */
-}
-
-/* 选择所有class属性以"btn-"开头的元素 */
-[class^="btn-"] {
-  /* 样式 */
-}
-```
-
-2. **子元素选择器（:first-child, :last-child, :nth-child()等）**：这些选择器允许你选择元素的第一个、最后一个或特定位置的子元素。
-
-```css
-/* 选择每个ul下的第一个li元素 */
-ul > li:first-child {
-  /* 样式 */
-}
-```
-
-3. **伪类选择器（Pseudo-classes）**：伪类选择器用于选择元素的特殊状态，例如悬停状态、访问状态等。
-
-```css
-/* 选择所有链接的悬停状态 */
-a:hover {
-  /* 样式 */
-}
-```
-
-4. **伪元素选择器（Pseudo-elements）**：伪元素选择器用于选择元素的特殊部分。
-
-```css
-/* 这两个伪元素用于在元素的内容前面和后面生成虚拟元素 */
-a::before {
-  content: ">> ";
-}
-
-p::after {
-  content: " (continued)";
-}
-```
-
-5. **通用选择器（Universal Selector）**：通用选择器允许你选择所有元素，不管它们是什么类型。
-
-```css
-/* 选择所有元素 */
-* {
-  /* 样式 */
-}
-```
-
-这些新增的选择器使得CSS更加强大和灵活，可以更精确地选择和样式化文档中的元素。它们在项目中经常用于调整样式以满足特定需求。
-## 四、移动Web开发
-
-### 1、移动端的适配方案一
-
-​在开发移动端Web应用时，适配不同的屏幕尺寸和设备是非常重要的，以确保用户体验一致性和可访问性。以下是一些用于适配不同屏幕的常见策略和示例代码：
-
-1. 使用响应式布局（Responsive Layout）：
-   响应式布局是一种根据屏幕尺寸和分辨率自动调整页面布局的方法。您可以使用CSS媒体查询来实现响应式布局。以下是一个简单的示例：
+**Flex 项目（Flex Items）**
+Flex 容器中的直接子元素就是 flex 项目，一个Flex容器可以有多个Flex项目。
+
+#### Flex 容器属性
+
+1. **`flex-direction`**：设置主轴的方向（即项目的排列方向）。
+   - `row`：默认值，水平从左到右排列。
+   - `row-reverse`：水平从右到左排列。
+   - `column`：垂直从上到下排列。
+   - `column-reverse`：垂直从下到上排列。
+
+   ```css
+   .container {
+       flex-direction: row; /* 默认值 */
+   }
+   ```
+
+2. **`justify-content`**：定义项目在主轴上的对齐方式。
+   - `flex-start`：默认值，项目从主轴的起点排列。
+   - `flex-end`：项目从主轴的终点排列。
+   - `center`：项目在主轴上居中排列。
+   - `space-between`：项目之间的间隔相等，两端没有间隔。
+   - `space-around`：项目之间的间隔相等，两端有半个间隔的空间。
+   - `space-evenly`：项目之间的间隔相等，包括两端的空间。
+
+   ```css
+   .container {
+       justify-content: center;
+   }
+   ```
+
+3. **`align-items`**：定义项目在交叉轴（与主轴垂直）上的对齐方式。
+   - `stretch`：默认值，项目在交叉轴上拉伸以填满容器。
+   - `flex-start`：项目在交叉轴的起点对齐。
+   - `flex-end`：项目在交叉轴的终点对齐。
+   - `center`：项目在交叉轴上居中对齐。
+   - `baseline`：项目的第一行文字的基线对齐。
+
+   ```css
+   .container {
+       align-items: center;
+   }
+   ```
+
+4. **`flex-wrap`**：定义是否允许项目换行。
+   - `nowrap`：默认值，所有项目在一行排列。
+   - `wrap`：项目在必要时换行。
+   - `wrap-reverse`：项目在必要时换行，反向排列。
+
+   ```css
+   .container {
+       flex-wrap: wrap;
+   }
+   ```
+
+5. **`align-content`**：定义多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
+   - `flex-start`：多根轴线在交叉轴的起点对齐。
+   - `flex-end`：多根轴线在交叉轴的终点对齐。
+   - `center`：多根轴线在交叉轴上居中对齐。
+   - `space-between`：多根轴线之间的间隔相等。
+   - `space-around`：多根轴线之间的间隔相等，两端有半个间隔的空间。
+   - `stretch`：默认值，多根轴线拉伸以填满容器。
+
+   ```css
+   .container {
+       align-content: space-around;
+   }
+   ```
+
+#### Flex 项目属性
+
+1. **`order`**：定义项目的排列顺序，数值越小，排列越靠前，默认为 0。
+   ```css
+   .item {
+       order: 1;
+   }
+   ```
+
+2. **`flex-grow`**：定义项目的放大比例，默认为 0，即如果存在剩余空间，也不放大。
+   ```css
+   .item {
+       flex-grow: 1;
+   }
+   ```
+
+3. **`flex-shrink`**：定义项目的缩小比例，默认为 1，即如果空间不足，该项目将缩小。
+   ```css
+   .item {
+       flex-shrink: 0;
+   }
+   ```
+
+4. **`flex-basis`**：定义项目在主轴上的初始大小，可以是具体的长度值（如 `20%`、`200px`）或 `auto`，默认为 `auto`。
+   ```css
+   .item {
+       flex-basis: 100px;
+   }
+   ```
+
+5. **`flex`**：是 `flex-grow`、`flex-shrink` 和 `flex-basis` 的简写，默认值为 `0 1 auto`。
+   ```css
+   .item {
+       flex: 1; /* 等价于 flex: 1 1 0% */
+   }
+   ```
+
+6. **`align-self`**：允许单个项目有与其他项目不一样的对齐方式，覆盖 `align-items` 属性。
+   - `auto`：默认值，继承父容器的 `align-items` 属性。
+   - `flex-start`：项目在交叉轴的起点对齐。
+   - `flex-end`：项目在交叉轴的终点对齐。
+   - `center`：项目在交叉轴上居中对齐。
+   - `baseline`：项目的第一行文字的基线对齐。
+   - `stretch`：项目在交叉轴上拉伸以填满容器。
+
+   ```css
+   .item {
+       align-self: flex-end;
+   }
+   ```
+
+**示例代码**
 
 ```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* 默认样式 */
-        .box {
-            width: 100%;
-            padding: 20px;
-            text-align: center;
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            height: 200px;
+            background-color: lightgray;
         }
-        
-        /* 在小屏幕上改变样式 */
+
+        .item {
+            background-color: lightcoral;
+            padding: 20px;
+            margin: 10px;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="item">Item 1</div>
+        <div class="item">Item 2</div>
+        <div class="item">Item 3</div>
+    </div>
+</body>
+</html>
+```
+
+这个示例展示了一个简单的Flexbox布局，其中三个项目在容器内水平排列并在空间中均匀分布，同时在交叉轴上居中对齐。通过灵活运用Flexbox，可以轻松实现各种复杂布局。
+
+## 三、HTML5&CSS3
+
+### 1、HTML5
+
+HTML5是HTML（超文本标记语言）的第五个版本，是一种用于构建和展示网页内容的标准。HTML5不仅简化了网页开发，还增加了许多新的功能和元素，提供了更强大的多媒体支持、更好的语义结构和更广泛的设备兼容性。HTML5的主要新增功能和改进包括：
+
+#### 新的结构性元素
+HTML5引入了一些新的语义元素，以更好地描述页面的结构：
+
+1. **`<header>`**：定义文档或节的头部内容，通常包含导航链接和标题。
+2. **`<nav>`**：定义导航链接的部分。
+3. **`<article>`**：定义独立的内容部分，例如博客文章或新闻条目。
+4. **`<section>`**：定义文档中的节，用于分割内容。
+5. **`<aside>`**：定义附属内容，通常作为侧栏或说明内容。
+6. **`<footer>`**：定义文档或节的底部内容，通常包含版权信息、联系信息等。
+7. **`<main>`**：定义文档的主要内容。
+8. **`<figure>`** 和 **`<figcaption>`**：定义带有标题的图像或图表。
+
+#### 新的表单控件
+HTML5增强了表单的功能，引入了更多的输入类型和属性：
+
+1. **新的输入类型**：
+   - `email`：用于输入电子邮件地址。
+   - `url`：用于输入URL地址。
+   - `date`：用于输入日期。
+   - `time`：用于输入时间。
+   - `datetime-local`：用于输入日期和时间（不含时区）。
+   - `number`：用于输入数字。
+   - `range`：用于输入范围值，通常表现为滑动条。
+   - `tel`：用于输入电话号码。
+   - `color`：用于输入颜色。
+
+2. **新的表单属性**：
+   - `placeholder`：用于显示输入字段的占位符文本。
+   - `required`：标识必填字段。
+   - `pattern`：用于定义输入模式（正则表达式）。
+   - `autofocus`：页面加载时自动聚焦到该字段。
+   - `form`：用于关联输入字段与表单。
+
+#### 多媒体元素
+HTML5提供了对多媒体内容的原生支持，不需要依赖外部插件：
+
+1. **`<audio>`**：用于嵌入音频内容。
+   ```html
+   <audio controls>
+       <source src="audio.mp3" type="audio/mpeg">
+       Your browser does not support the audio element.
+   </audio>
+   ```
+
+2. **`<video>`**：用于嵌入视频内容。
+   ```html
+   <video width="320" height="240" controls>
+       <source src="movie.mp4" type="video/mp4">
+       Your browser does not support the video element.
+   </video>
+   ```
+
+#### 图形和动画
+HTML5引入了新的图形和动画元素，增强了网页的动态效果：
+
+1. **`<canvas>`**：用于绘制2D图形，通过JavaScript进行控制。
+   ```html
+   <canvas id="myCanvas" width="200" height="100"></canvas>
+   <script>
+       var canvas = document.getElementById('myCanvas');
+       var ctx = canvas.getContext('2d');
+       ctx.fillStyle = '#FF0000';
+       ctx.fillRect(0, 0, 150, 75);
+   </script>
+   ```
+
+2. **`<svg>`**：用于定义矢量图形，支持XML语法。
+   ```html
+   <svg width="100" height="100">
+       <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+   </svg>
+   ```
+
+#### 本地存储
+HTML5引入了新的客户端存储机制，允许在用户浏览器中存储数据：
+
+1. **`localStorage`**：用于存储持久数据，直到用户主动删除。
+   ```javascript
+   localStorage.setItem('key', 'value');
+   var data = localStorage.getItem('key');
+   ```
+
+2. **`sessionStorage`**：用于存储临时数据，浏览器会话结束时删除。
+   ```javascript
+   sessionStorage.setItem('key', 'value');
+   var data = sessionStorage.getItem('key');
+   ```
+
+#### Geolocation API
+HTML5提供了地理定位功能，可以获取用户的地理位置。
+```javascript
+navigator.geolocation.getCurrentPosition(function(position) {
+    console.log('Latitude: ' + position.coords.latitude);
+    console.log('Longitude: ' + position.coords.longitude);
+});
+```
+
+#### 拖放API（Drag and Drop）
+HTML5增强了对拖放操作的支持，允许用户在页面中拖动和放置元素。
+```html
+<div id="drag1" draggable="true" ondragstart="drag(event)">Drag me</div>
+<script>
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+</script>
+```
+
+#### 其他新增功能
+1. **Web Workers**：用于在后台线程运行JavaScript代码，避免阻塞用户界面。
+2. **Web Sockets**：提供了全双工通信的协议，可以实现实时通信。
+3. **离线应用缓存**：允许网页在没有网络连接时也能运行。
+
+HTML5不仅增强了网页的表现能力，还改善了开发者的工作流程和用户的体验。如果您有更多关于HTML5或其他前端开发的问题，请随时提问！
+
+### 2、CSS3
+
+CSS3 是 CSS（层叠样式表）的第三个主要版本，它带来了许多新特性和增强功能，使开发者能够创建更复杂和现代的网页设计。与前两个版本相比，CSS3 提供了更多的控制和灵活性，特别是在动画、布局、视觉效果和响应式设计方面。以下是 CSS3 的一些主要新增功能：
+
+#### 新增选择器
+CSS3 引入了许多新的选择器，使选择和操作 DOM 元素更加方便：
+- **属性选择器**：例如 `[attribute^="value"]`、`[attribute$="value"]`、`[attribute*="value"]` 等。
+- **伪类选择器**：如 `:nth-child(n)`、`:nth-of-type(n)`、`:last-child`、`:only-child` 等。
+- **伪元素选择器**：如 `::before`、`::after` 等。
+
+#### 新的颜色
+CSS3 支持更多的颜色表示方法：
+- **RGBA**：例如 `rgba(255, 0, 0, 0.5)` 表示 50% 透明的红色。
+- **HSLA**：例如 `hsla(120, 100%, 50%, 0.3)` 表示 30% 透明的绿色。
+
+#### 盒子模型和布局
+1. **盒阴影（Box Shadow）**
+   ```css
+   box-shadow: 10px 10px 5px #888888;
+   ```
+
+2. **边框图片（Border Image）**
+   ```css
+   border-image: url(border.png) 30 30 round;
+   ```
+
+3. **盒子大小（Box Sizing）**
+   ```css
+   box-sizing: border-box;
+   ```
+
+4. **弹性盒子（Flexbox）**
+   Flexbox 提供了一种更高效的方式来布局、对齐和分布空间，尤其在处理不同大小的项目时。
+   ```css
+   .container {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+   }
+   ```
+
+5. **网格布局（Grid Layout）**
+   Grid 提供了一个二维的布局系统，适用于更加复杂的网页布局。
+   ```css
+   .container {
+       display: grid;
+       grid-template-columns: 1fr 1fr 1fr;
+   }
+   ```
+
+#### 动画和过渡
+1. **过渡（Transitions）**
+   ```css
+   .box {
+       transition: all 0.3s ease-in-out;
+   }
+   ```
+
+2. **动画（Animations）**
+   ```css
+   @keyframes example {
+       from {background-color: red;}
+       to {background-color: yellow;}
+   }
+   
+   .box {
+       animation: example 5s infinite;
+   }
+   ```
+
+#### 背景和边框
+1. **多背景图片**
+   ```css
+   background-image: url(bg1.png), url(bg2.png);
+   ```
+
+2. **圆角边框（Border Radius）**
+   ```css
+   border-radius: 10px;
+   ```
+
+3. **渐变背景（Gradients）**
+   ```css
+   background: linear-gradient(to right, red, yellow);
+   ```
+
+#### 字体和文本
+1. **自定义字体（@font-face）**
+   ```css
+   @font-face {
+       font-family: 'MyFont';
+       src: url('myfont.woff2') format('woff2');
+   }
+   
+   .text {
+       font-family: 'MyFont', sans-serif;
+   }
+   ```
+
+2. **文本阴影（Text Shadow）**
+   ```css
+   text-shadow: 2px 2px 5px #888888;
+   ```
+
+#### 多列布局（Multi-column Layout）
+CSS3 提供了多列布局功能，可以轻松创建报纸或杂志风格的布局：
+```css
+.columns {
+    column-count: 3;
+    column-gap: 20px;
+}
+```
+
+#### 媒体查询（Media Queries）
+媒体查询使响应式设计成为可能，根据不同的设备和视口大小应用不同的样式：
+```css
+@media screen and (max-width: 600px) {
+    .container {
+        flex-direction: column;
+    }
+}
+```
+
+#### 新的单位
+CSS3 引入了新的单位，例如 `rem` 和 `vw`，以便更灵活地定义尺寸：
+- **rem**：相对于根元素字体大小的单位。
+- **vw**：相对于视口宽度的百分比。
+
+**示例代码**
+
+以下是一个综合运用 CSS3 新特性的示例：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @font-face {
+            font-family: 'MyFont';
+            src: url('myfont.woff2') format('woff2');
+        }
+
+        body {
+            font-family: 'MyFont', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+        }
+
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .box:hover {
+            transform: scale(1.1);
+        }
+
+        .text {
+            text-shadow: 2px 2px 5px #888888;
+            margin: 20px;
+        }
+
         @media screen and (max-width: 600px) {
-            .box {
-                width: 50%;
+            body {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-
-<div class="box">
-    <p>This is a responsive box.</p>
-</div>
-
+    <div class="box">
+        <p class="text">Hello, CSS3!</p>
+    </div>
 </body>
 </html>
 ```
 
-上述代码中，`.box` 的宽度在小屏幕上会减半，以适应较小的屏幕。
-
-2. 使用弹性布局（Flexbox）和网格布局（Grid）：
-   弹性布局和网格布局是现代CSS布局模型，它们可以帮助您更灵活地管理页面中的元素位置和大小。以下是一个简单的示例：
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        
-        .box {
-            flex: 1;
-            min-width: 200px;
-            margin: 10px;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="box">Box 1</div>
-    <div class="box">Box 2</div>
-    <div class="box">Box 3</div>
-</div>
-
-</body>
-</html>
-```
-
-上述代码中，`.box` 元素会根据屏幕尺寸自动调整大小和排列方式。
-
-3. 使用相对单位和百分比：
-   在移动端开发中，使用相对单位（例如em、rem、%）而不是固定像素可以帮助页面元素更好地适应不同屏幕。例如：
-
-```css
-font-size: 1.2em; /* 使用em相对单位来设置字体大小 */
-width: 50%; /* 使用百分比来设置宽度 */
-```
-
-4. 图片适配：
-   使用`max-width: 100%;` 样式来确保图像在小屏幕上不会溢出其容器。这样可以防止图像在小屏幕上变得过大。
-
-```css
-img {
-    max-width: 100%;
-    height: auto;
-}
-```
-
-这些是一些常见的移动端屏幕适配策略和示例代码。要实现更复杂的适配和用户体验，您可能还需要考虑JavaScript和移动端特定的功能，如触摸事件处理。总之，响应式设计和相对单位是开发移动端Web应用的关键要素之一。
-
-### 2、移动端的适配方案二
-
-一、使用 [lib-flexible](https://github.com/amfe/lib-flexible) 动态设置 rem基准值（html 标签的字体大小）
-
-1、安装
-
-```shell
-# yarn add amfe-flexible
-npm i amfe-flexible
-```
-
-2、然后在 `main.js` 中加载执行该模块
-
-```javascript
-import 'amfe-flexible'
-```
-
-最后测试：在浏览器中切换不同的手机设备尺寸，观察 html 标签 `font-size` 的变化。
-
-二、使用 [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem) 将 `px` 转为 `rem`
-
-1、安装
-
-```shell
-# yarn add -D postcss-pxtorem
-# -D 是 --save-dev 的简写
-npm install postcss-pxtorem -D
- npm i postcss-pxtorem@5.1.1 -D(指定版本安装)
-```
-
-2、然后在**项目根目录**中创建 `.postcssrc.js` 文件
-
-```javascript
-module.exports = {
-  plugins: {
-    'autoprefixer': {
-      browsers: ['Android >= 4.0', 'iOS >= 8']
-    },
-    'postcss-pxtorem': {
-      rootValue: 37.5, // 假设设计稿宽度为375px
-      propList: ['*']
-    }
-  }
-}
-```
-
-3、配置完毕，重新启动服务
-
-### 3、Less
-
-Less是一种CSS预处理器，它扩展了普通CSS的功能，使得样式表的编写更加高效和可维护。Less提供了许多有用的功能，包括变量、嵌套、混合（Mixin）、函数等，以帮助开发者更轻松地管理和组织样式代码。以下是Less的基础语法和概念：
-
-1. **变量**：在Less中，你可以使用变量来存储和复用颜色、字体、尺寸等值。变量以`@`符号开头。
-
-   ```less
-   @primary-color: #3498db;
-   @font-size: 16px;
-   
-   body {
-     color: @primary-color;
-     font-size: @font-size;
-   }
-   ```
-
-2. **嵌套**：Less允许你嵌套CSS规则，以更清晰地表示样式层次。
-
-   ```less
-   nav {
-     ul {
-       list-style: none;
-     }
-     
-     li {
-       display: inline-block;
-       margin-right: 10px;
-       
-       &:last-child {
-         margin-right: 0;
-       }
-     }
-   }
-   ```
-
-3. **混合（Mixin）**：混合是一种将一组CSS属性集合起来以便复用的方式。
-
-   ```less
-   .rounded-corners {
-     border-radius: 5px;
-   }
-   
-   button {
-     .rounded-corners();
-     background-color: #3498db;
-     color: #fff;
-   }
-   ```
-
-4. **函数**：Less支持自定义函数，你可以编写自己的函数来处理样式值。
-
-   ```less
-   @base-font-size: 16px;
-   
-   .calculate-line-height(@size) {
-     line-height: @size * 1.5;
-   }
-   
-   p {
-     font-size: @base-font-size;
-     .calculate-line-height(@base-font-size);
-   }
-   ```
-
-5. **导入**：你可以使用`@import`指令导入其他Less文件，以便将样式模块化和组织。
-
-   ```less
-   @import 'variables.less';
-   @import 'layout.less';
-   ```
-
-6. **运算**：Less支持数学运算，你可以在样式中执行加法、减法、乘法和除法等操作。
-
-   ```less
-   @width: 100px;
-   @padding: 10px;
-   
-   .box {
-     width: @width + 2 * @padding;
-   }
-   ```
-
-
-这些是Less的基础语法和概念，它们使样式表更加灵活、可维护，并有助于减少样式代码的重复。要使用Less，你需要将Less文件编译为普通的CSS文件，然后将其应用到你的网页上。通常可以使用Less编译工具或构建工具（如Webpack、Gulp）来完成这个过程。
+这个示例展示了使用 CSS3 的字体、自定义字体、渐变背景、盒阴影、圆角、过渡、文本阴影和媒体查询等特性。如果您有更多关于 CSS3 或其他前端开发的问题，请随时提问！
 

@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-## 四、Vue 问题
+## 一、Vue 问题
 
-### 4.1 Vue 组件封装和复用
+### 1.1 Vue 组件封装和复用
 
 - 子传父
 
@@ -47,11 +47,11 @@ outline: deep
 
 - Vue3 组件通信参见 [文档链接](/note/vue3#组合式api-父子通信)
 
-### 4.2 Vue-i18n 实现国际化
+### 1.2 Vue-i18n 实现国际化
 
 - Vue-i18n 实现国际化详见 [文档链接](/dev/I18n.md)
 
-### 4.3 Vue 项目文件上传
+### 1.3 Vue 项目文件上传
 
 - 普通上传(见[elementUI 文档](https://element.eleme.io/#/zh-CN/component/upload))
 
@@ -124,7 +124,7 @@ outline: deep
 
   需要注意的是，我们使用`FormData`对象来创建一个包含文件的表单，以便将文件上传到服务器。此外，需要在服务器端进行文件上传处理，以便将上传的文件保存到服务器上的某个位置。
 
-### 4.4 单个 HTML 页面使用 vue
+### 1.4 单个 HTML 页面使用 vue
 
 在单个 HTML 页面中使用 Vue.js、Element UI 和 Axios，你需要按照以下步骤进行设置。在这里，我将提供一个简单的例子，涵盖了 Vue 实例、Element UI 组件以及 Axios 的基本用法。
 
@@ -210,7 +210,7 @@ outline: deep
 
 请注意，这只是一个简单的例子，你可能需要根据你的具体需求进行修改。此外，你还可以将 Vue、Element UI 和 Axios 下载到本地并引入，以避免依赖于 CDN。
 
-### 4.5 点击父组件的按钮 子组件的列表会被刷新
+### 1.5 点击父组件的按钮 子组件的列表会被刷新
 
 要在 Vue 项目中实现点击父组件按钮时刷新子组件列表，你可以通过以下步骤来实现：
 
@@ -295,9 +295,9 @@ export default {
 
 这样，当你点击父组件中的按钮时，子组件的列表就会被刷新。
 
-## 五、Git 问题
+## 二、Git 问题
 
-### 5.1 常用的复杂命令
+### 2.1 常用的复杂命令
 
 - 更换远程仓库地址
 
@@ -341,7 +341,7 @@ export default {
   git merge --abort
   ```
 
-### 5.2 有未保存的修改 想要切换到其他分支
+### 2.2 有未保存的修改 想要切换到其他分支
 
 > 当本地某个分支有未保存的修改 同时不想保存修改 想要直接切换到其他分支进行相关操作
 
@@ -364,11 +364,76 @@ export default {
   git stash pop
   ```
 
-### 5.3 识别文件名大小写
+### 2.3 识别文件名大小写
 
 git 默认是不区分文件名大小写的。这意味着如果你修改了文件名的大小写，git 会认为文件没有变化，从而导致本地和远程仓库不一致，甚至出现运行错误。
- - 配置不忽略大小写
 
- ```bash
+- 配置不忽略大小写
+
+```bash
 git config core.ignorecase false
- ```
+```
+
+## 三、HTTP 问题
+
+### 3.1 Content-Type 的使用
+
+在 HTTP 请求中，`Content-Type` 头部字段用于指示请求体中的数据类型。以下是 HTTP 请求中最常用的 `Content-Type` 类型及其含义：
+
+1. **`application/json`**
+
+   - **描述**：JSON（JavaScript Object Notation）格式的数据。
+   - **用途**：适用于大多数 API 调用和数据交换场景。
+
+2. **`application/x-www-form-urlencoded`**
+
+   - **描述**：URL 编码过的表单数据。
+   - **用途**：通常用于提交表单时，将键值对转换为查询字符串形式。
+
+3. **`multipart/form-data`**
+
+   - **描述**：多部分数据，用于文件上传和包含多个部分的数据传输。
+   - **用途**：当表单包含文件字段时使用。
+
+4. **`text/plain`**
+
+   - **描述**：纯文本数据。
+   - **用途**：用于发送简单的文本数据。
+
+5. **`application/xml`**
+
+   - **描述**：XML 格式的数据。
+   - **用途**：虽然不如 JSON 流行，但在某些系统中仍然被使用。
+
+6. **`application/octet-stream`**
+   - **描述**：二进制数据。
+   - **用途**：当数据类型未知或不确定时使用。
+
+这些是最常见的 `Content-Type` 值，在前端开发中处理 HTTP 请求时经常用到。了解这些类型对于正确构造请求和确保数据被正确解析非常重要。
+
+- axios 使用示例
+
+```js
+// 引入axios模块
+import axios from "axios";
+
+// 定义要发送的数据
+const data = {
+  name: "John Doe",
+  age: 30,
+};
+
+// 发送POST请求
+axios
+  .post("https://api.example.com/users", data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+  .then((response) => {
+    console.log("Success:", response.data);
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });
+```

@@ -57,6 +57,7 @@ export default defineConfig({
           collapsed: true,
           items: [
             { text: 'HTML&CSS', link: '/note/html&css' },
+            { text: '移动Web', link: '/note/h5' },
             { text: 'JS基础', link: '/note/js-base' },
             { text: 'JS进阶', link: '/note/js-high' },
             { text: 'Nodejs&Git', link: '/note/node' },
@@ -77,9 +78,10 @@ export default defineConfig({
           text: '开发',
           collapsed: true,
           items: [
-            { text: 'HTML&CSS&JS', link: '/dev/dev1' },
-            { text: '框架&工具', link: '/dev/dev2' },
-            { text: '综合&其它', link: '/dev/dev3' },
+            { text: 'HTML/CSS/JS', link: '/dev/dev1' },
+            { text: 'Vue/Git/HTTP', link: '/dev/dev2' },
+            { text: '项目问题一', link: '/dev/dev3' },
+            { text: '项目问题二', link: '/dev/dev4' },
           ]
         }
       ],

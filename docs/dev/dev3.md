@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-## 六、综合问题
+## 一、项目问题一
 
-### 6.1 展开收起效果的实现
+### 1.1 展开收起效果的实现
 
 ```html
 // 封装成一个组件 在:content中接收内容
@@ -63,7 +63,7 @@ export default {
 </style>
 ```
 
-### 6.2 文件下载问题
+### 1.2 文件下载问题
 
 你可以使用以下方法来下载PDF文件：
 
@@ -78,7 +78,7 @@ export default {
 
 - 使用`window.open()`：仅支持普通文件下载，不支持文件流下载。Word、Excel会直接下载，图片、PDF则会跳转到预览页（需用户手动下载）。
 
-### 6.3 文件上传问题
+### 1.3 文件上传问题
 
 - 使用`el-upload`组件上传单个文件
 
@@ -218,7 +218,7 @@ export default {
 在这个示例中，`http-request` 属性被设置为指向 `customHttpRequest` 方法。在 `customHttpRequest` 方法中，使用 `axios` 发送了一个 POST 请求来处理文件上传。您可以根据自己的需求自定义上传的逻辑。
 
 
-### 6.4 如何对数据进行判空
+### 1.4 如何对数据进行判空
 
 > 在JS中，你可以使用不同的方法对后端返回的数组、对象或字符串进行判空。
 
@@ -289,7 +289,7 @@ if (isEmpty(backendData)) {
 
 以上方法中，你可以根据你的需要选择适合的方法进行判空操作。请注意，对于一些特殊情况，你可能需要根据具体业务需求进行自定义判空逻辑。
 
-### 6.6 el-form滚动到校验失败的位置
+### 1.6 el-form滚动到校验失败的位置
 
 在 Element UI 的 `el-form` 表单中，可以通过一些属性和方法来实现在校验失败时将页面滚动到校验失败的表单项位置。下面是实现这一功能的步骤：
 
@@ -371,7 +371,7 @@ export default {
 
 通过这些步骤，你可以实现在 Element UI 的 `el-form` 表单中，在校验失败时将页面滚动到校验失败的表单项位置。请根据你的实际需求进行适当的调整。
 
-### 6.7 实时校验清单
+### 1.7 实时校验清单
 
 使用vue+elementUI开发一个实时校验表单 表单右侧悬浮一个表单校验清单 实时展示所有的校验错误清单 当某个表单项失焦报错后 校验清单需要实时更新整个表单校验错误信息 点击提交时也是需要更新错误信息
 
@@ -470,7 +470,7 @@ export default {
 
 
 
-### 6.8 nodejs版本问题
+### 1.8 nodejs版本问题
 
 - **使用不同版本node的原因**
 
@@ -491,7 +491,7 @@ export default {
   nvm use [version] [arch] ：使用指定版本node。
   ```
 
-### 6.9 导出excel表
+### 1.9 导出excel表
 
 在Vue.js中，你可以通过Axios库发送HTTP请求与后端进行通信。要通过后端接口导出Excel文件，你可以按照以下步骤进行操作：
 
@@ -574,7 +574,7 @@ export default {
    此外，根据你的后端实现，可能需要传递额外的参数，例如筛选条件或日期范围。
 
 
-### 6.10 el-table表格合并
+### 1.10 el-table表格合并
 
 在Element UI中的el-table组件中，要实现合并具有相同数据的列并保证数据不错位，你可以使用`span-method`属性。`span-method`属性允许你指定一个方法来确定每个单元格是否应该合并以及合并的行数和列数。以下是一个简单的例子：
 
@@ -644,156 +644,8 @@ export default {
 
 你可以根据实际情况调整合并规则。这个方法允许你自定义合并的条件，确保数据不错位。
 
-### 6.11 el-table表格编辑弹窗改变其中一项，表格数据实时变动问题
 
-在 Vue 中，当我们将一个对象赋值给另一个对象时，默认是浅拷贝，而不是深拷贝。浅拷贝只会复制对象的引用，而不会复制对象的内容。
-
-在 el-table 表格编辑弹窗中，我们将当前行的数据绑定到表单上时，默认是浅拷贝。因此，在表单中修改数据时，会影响原始数据，从而导致表格数据也随之变化。
-
-为了解决这个问题，我们需要使用深拷贝，而不是浅拷贝。深拷贝会复制对象的内容，而不是只是引用。
-
-```js{27,29}
-// 编辑表格数据方法
-edit (row) {
-  this.dialogVisible = true
-  // 方法一:
-  this.form = JSON.parse(JSON.stringify(row))
-  // 方法二:只适合扁平数据
-  this.form = {...row}
-}
-```
-
-### 6.12 用Vue实现可拖拽调节的分割布局
-
-实现一个可调整大小的布局，其中包含两个面板：左侧面板和右侧面板。用户可以通过拖拽分隔条来调整左侧面板的宽度，右侧面板会相应地填充空间。
-
-```vue
-<template>
-    <div class="resizable-layout">
-      <!-- 左侧面板 -->
-      <div
-        class="left-pane"
-        :style="{ width: leftWidth + 'px' }"
-        ref="leftPane"
-      >
-        <!-- Left Pane Content -->
-        Left Pane
-      </div>
-      <!-- 分割条 -->
-      <div
-        class="separator"
-        @mousedown="startResize"
-      ></div>
-      <!-- 右侧面板 -->
-      <div class="right-pane">
-        <!-- Right Pane Content -->
-        Right Pane
-      </div>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        isDragging: false, // 标记是否正在拖拽
-        startX: 0, // 记录拖拽开始时的鼠标水平坐标
-        startWidth: 0, // 记录拖拽开始时的左侧面板宽度
-        leftWidth: 200, // 左侧面板的初始宽度
-      };
-    },
-    methods: {
-      // 开始拖拽
-      startResize(event) {
-        this.isDragging = true; // 设置拖拽状态为true
-        this.startX = event.clientX; // 记录拖拽开始时的鼠标水平坐标
-        this.startWidth = this.$refs.leftPane.clientWidth; // 记录拖拽开始时的左侧面板宽度
-        // 监听文档上的mousemove事件和mouseup事件
-        document.addEventListener('mousemove', this.resizing);
-        document.addEventListener('mouseup', this.stopResize);
-      },
-      // 拖拽过程中调整左侧面板宽度
-      resizing(event) {
-        if (this.isDragging) { // 如果正在拖拽
-          const deltaX = event.clientX - this.startX; // 计算鼠标移动的水平距离
-          let newWidth = this.startWidth + deltaX; // 根据鼠标移动距离计算新的宽度
-          // 确保新宽度在100px和600px之间
-          newWidth = Math.min(Math.max(newWidth, 100), 600);
-          this.leftWidth = newWidth; // 更新左侧面板的宽度
-        }
-      },
-      // 停止拖拽
-      stopResize() {
-        this.isDragging = false; // 设置拖拽状态为false
-        // 移除文档上的mousemove事件和mouseup事件监听器
-        document.removeEventListener('mousemove', this.resizing);
-        document.removeEventListener('mouseup', this.stopResize);
-      },
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .resizable-layout {
-    display: flex;
-    width: 100%;
-    height: 300px;
-  }
-  
-  .left-pane {
-    background-color: lightblue;
-    height: 100%;
-    overflow: auto;
-  }
-  
-  .right-pane {
-    flex: 1;
-    background-color: lightgreen;
-    height: 100%;
-    overflow: auto;
-  }
-  
-  .separator {
-    width: 6px;
-    cursor: col-resize;
-    background-color: #eee;
-  }
-  </style>
-  
-```
-
-### 6.13 el-tree组件点击节点获取所有的父节点
-
-> 基础布局，添加 @node-click=“handleNodeClick”
-
-```js
-<el-tree :data="data" @node-click="handleNodeClick"></el-tree>
-```
-
-```js
-handleNodeClick(node) {
-  // 最终的数据
-  this.breadList = []
-  //  获取点击当节点的dom的信息
-  let selectNode = this.$refs.tree.getNode(node)
-  // 调用递归函数
-  this.platform(selectNode)
-},
-// 递归函数
-platform(node) {
-  if (!node.parent) {
-    return
-  }
-  this.breadList.unshift(node.data)
-  //调用递归
-  this.platform(node.parent)
-},
-
-```
-
-## 七、其他问题
-
-### 7.1 资源链接集合
+## 二、资源链接集合
 
 - W3C教程 [链接](https://www.w3schools.com/html/default.asp)
 
