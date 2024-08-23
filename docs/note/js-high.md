@@ -1,1336 +1,1143 @@
 ---
 outline: deep
 ---
-# JS进阶
 
-## 一、ES6基础
+# JS 进阶
 
-> ES6（ECMAScript 2015）引入了许多新的语法和功能，以改进和扩展JavaScript语言。
-### 1、let与const
+::: tip 提示
+学习 JavaScript ES6 新增的属性和方法,以及高级函数和正则表达式。
+:::
 
-`let` 和 `const` 是用于声明变量的关键字，它们有一些不同之处，主要在于变量的可重新赋值性和作用域。下面是它们的使用示例：
+## 一、声明和表达式
 
-**1. 使用 `let` 声明变量：**
+### 1、let 和 const
 
-```javascript
-let name = "John";
-name = "Doe"; // 可以重新赋值
-console.log(name); // 输出 "Doe"
-```
+`let` 和 `const` 是在 JavaScript ES6（ECMAScript 2015）中引入的用于声明变量的关键字。它们相对于之前的 `var` 关键字，提供了更好的块级作用域控制和常量声明。以下是它们的具体含义和使用方法：
 
-在这个示例中，我们首先使用 `let` 声明了一个名为 `name` 的变量，然后在稍后的代码中重新赋值了它。
+**`let`**
 
-**2. 使用 `const` 声明常量：**
+- **块级作用域（Block Scope）**：使用 `let` 声明的变量只在其所在的块（用 `{}` 包裹的代码块）内部有效。这意味着它不会泄露到块外部，避免了变量冲突和意外的变量重定义。
+- **重新赋值**：使用 `let` 声明的变量可以被重新赋值。
 
 ```javascript
-const pi = 3.14159;
-console.log(pi);
-```
-
-在这个示例中，我们使用 `const` 声明了一个常量 `pi`，一旦赋值，就不能再重新赋值。常量的值在整个作用域内保持不变。
-
-**3. 块级作用域：**
-
-`let` 和 `const` 声明的变量具有块级作用域，这意味着它们只在声明它们的代码块（通常是由 `{}` 包裹的部分）内可见。例如：
-
-```javascript
+let x = 10;
 if (true) {
-  let blockVar = "I am inside a block";
-  const blockConst = "I am also inside a block";
+  let x = 20; // 这是一个新的变量，仅在此块内有效
+  console.log(x); // 输出 20
 }
-
-console.log(blockVar); // 报错，blockVar 在这里不可见
-console.log(blockConst); // 报错，blockConst 在这里不可见
+console.log(x); // 输出 10
 ```
 
-在这个示例中，`blockVar` 和 `blockConst` 只在 `if` 语句块内可见，在外部访问会导致错误。
+**`const`**
 
-总之，`let` 用于声明可重新赋值的变量，而 `const` 用于声明常量，它们都具有块级作用域，应根据需求选择使用。如果你需要在后续的代码中更改变量的值，可以使用 `let`，如果变量的值不应该被改变，可以使用 `const`。
-
-### 2、模板字符串的使用
-
-ES6 模板字符串是一种特殊的字符串，允许你插入表达式和变量值，并跨多行构建字符串，提供了更方便和可读性更好的字符串拼接方式。模板字符串使用反引号 \` \` 包裹字符串内容，并在`${}`内插入表达式或变量。下面是使用 ES6 模板字符串的示例：
-
-**基本使用示例：**
+- **块级作用域（Block Scope）**：`const` 和 `let` 一样，也是块级作用域。
+- **常量声明**：使用 `const` 声明的变量必须在声明时赋值，且之后不能再被重新赋值。如果尝试重新赋值，会抛出错误。
+- **引用类型的可变性**：虽然 `const` 声明的变量不能重新赋值，但如果它是一个引用类型（如对象或数组），则可以修改其内部属性。
 
 ```javascript
-const name = "Alice";
-const age = 30;
+const y = 30;
+y = 40; // 这里会抛出 TypeError: Assignment to constant variable
 
-// 使用模板字符串构建字符串
-const greeting = `Hello, my name is ${name} and I am ${age} years old.`;
-
-console.log(greeting);
-// 输出: Hello, my name is Alice and I am 30 years old.
+const obj = { name: "Alice" };
+obj.name = "Bob"; // 允许，因为我们修改的是对象的属性，而不是对象的引用
+console.log(obj.name); // 输出 "Bob"
 ```
 
-在这个示例中，我们使用模板字符串创建了一个包含变量 `${name}` 和 `${age}` 的字符串。这两个变量会在字符串中被替换为它们的值。
+**总结**
 
-**多行字符串示例：**
+- 使用 `let` 时，变量可以在块级作用域内重新赋值。
+- 使用 `const` 时，变量不能重新赋值，适用于常量或不希望重新赋值的变量。
+- `let` 和 `const` 都提供了更好的作用域控制，避免了传统 `var` 带来的变量提升和作用域问题。
 
-```javascript
-const multiLineString = `
-  This is a
-  multi-line
-  string.
-`;
+### 2、解构赋值
 
-console.log(multiLineString);
-// 输出:
-// This is a
-// multi-line
-// string.
-```
-
-模板字符串允许你创建多行字符串，而不需要使用 `\n` 来手动插入换行符。
-
-**嵌套模板字符串示例：**
-
-```javascript
-const city = "New York";
-const weather = "sunny";
-
-const message = `
-  Welcome to ${city}!
-  The weather is ${weather === 'sunny' ? 'nice' : 'unknown'} today.
-`;
-
-console.log(message);
-// 输出:
-// Welcome to New York!
-// The weather is nice today.
-```
-
-在这个示例中，我们嵌套了一个模板字符串 `${weather === 'sunny' ? 'nice' : 'unknown'}` 在主模板字符串中，根据 `weather` 变量的值动态选择显示 "nice" 或 "unknown"。
-
-ES6 模板字符串使得字符串构建更加方便和可读，特别是当你需要包含变量、表达式或者多行文本时。这在前端开发中用于构建动态文本和HTML模板非常有用。
-
-### 3、新增的字符串方法
-
-ES6（ECMAScript 2015）引入了一些常用的字符串方法，这些方法可以更轻松地处理字符串操作。以下是一些常用的 ES6 字符串方法及示例：
-
-1. **`String.prototype.includes(searchString[, position])`**：
-   - 用于检查一个字符串是否包含指定的子字符串。
-   - 示例：
-
-   ```javascript
-   const str = 'Hello, world!';
-   console.log(str.includes('world')); // true
-   ```
-
-2. **`String.prototype.startsWith(searchString[, position])`**：
-   - 用于检查一个字符串是否以指定的字符串开头。
-   - 示例：
-
-   ```javascript
-   const str = 'Hello, world!';
-   console.log(str.startsWith('Hello')); // true
-   ```
-
-3. **`String.prototype.endsWith(searchString[, length])`**：
-   - 用于检查一个字符串是否以指定的字符串结尾。
-   - 示例：
-
-   ```javascript
-   const str = 'Hello, world!';
-   console.log(str.endsWith('world!')); // true
-   ```
-
-4. **`String.prototype.repeat(count)`**：
-   - 用于重复一个字符串指定次数，并返回一个新的字符串。
-   - 示例：
-
-   ```javascript
-   const str = 'abc';
-   console.log(str.repeat(3)); // 'abcabcabc'
-   ```
-
-5. **`String.prototype.trimStart()` 和 `String.prototype.trimEnd()`**：
-   - `trimStart` 用于移除字符串开头的空格字符，`trimEnd` 用于移除字符串末尾的空格字符。
-   - 示例：
-
-   ```javascript
-   const str = '   Hello, world!   ';
-   console.log(str.trimStart()); // 'Hello, world!   '
-   ```
-
-6. **`String.prototype.trim()`**：
-   - 用于移除字符串开头和末尾的空格字符。
-   - 示例：
-
-   ```javascript
-   const str = '   Hello, world!   ';
-   console.log(str.trim()); // 'Hello, world!'
-   ```
-
-7. **`String.prototype.padStart(targetLength, [padString])`** 和 **`String.prototype.padEnd(targetLength, [padString])`**：
-   - `padStart` 用于在字符串前面填充字符，`padEnd` 用于在字符串后面填充字符，以达到指定长度。
-   - 示例：
-
-   ```javascript
-   const str = '5';
-   console.log(str.padStart(2, '0')); // '05'
-   ```
-
-
-这些 ES6 字符串方法能够提高字符串处理的便捷性和可读性，让你更轻松地执行字符串操作。根据你的需求，选择合适的方法来处理字符串数据。
-
-### 4、新增的数组方法
-
-ES6（ECMAScript 2015）引入了一些新的数组方法，以便更轻松地处理数组操作。以下是一些常用的 ES6 数组方法及其示例：
-
-1. **`Array.from(arrayLike[, mapFn[, thisArg]])`**：
-   - 用于将类似数组或可迭代对象转换为真正的数组。
-   - 示例：
-
-   ```javascript
-   const arrayLike = { 0: 'a', 1: 'b', length: 2 };
-   const arr = Array.from(arrayLike);
-   console.log(arr); // ['a', 'b']
-   ```
-
-2. **`Array.of(...items)`**：
-   - 用于创建一个包含指定项目的新数组。
-   - 示例：
-
-   ```javascript
-   const arr = Array.of(1, 2, 3);
-   console.log(arr); // [1, 2, 3]
-   ```
-
-3. **`Array.prototype.find(callback[, thisArg])`**：
-   - 用于查找满足条件的第一个数组元素，返回第一个符合条件的元素。
-   - 示例：
-
-   ```javascript
-   const numbers = [1, 2, 3, 4, 5];
-   const even = numbers.find((number) => number % 2 === 0);
-   console.log(even); // 2
-   ```
-
-4. **`Array.prototype.findIndex(callback[, thisArg])`**：
-   - 用于查找满足条件的第一个数组元素的索引，返回第一个符合条件的元素的索引。
-   - 示例：
-
-   ```javascript
-   const numbers = [1, 2, 3, 4, 5];
-   const evenIndex = numbers.findIndex((number) => number % 2 === 0);
-   console.log(evenIndex); // 1
-   ```
-
-5. **`Array.prototype.includes(element[, fromIndex])`**：
-   - 用于检查数组是否包含指定元素。
-   - 示例：
-
-   ```javascript
-   const fruits = ['apple', 'banana', 'cherry'];
-   console.log(fruits.includes('banana')); // true
-   ```
-
-6. **`Array.prototype.fill(value[, start[, end]])`**：
-   - 用于用指定的值填充数组的元素。
-   - 示例：
-
-   ```javascript
-   const numbers = [1, 2, 3, 4, 5];
-   numbers.fill(0, 1, 3);
-   console.log(numbers); // [1, 0, 0, 4, 5]
-   ```
-
-7. **`Array.prototype.flat([depth])`** 和 **`Array.prototype.flatMap(callback)`**：
-   - `flat` 用于将嵌套数组展平，`flatMap` 用于同时映射和展平数组。
-   - 示例：
-
-   ```javascript
-   const nestedArray = [1, [2, [3, 4]]];
-   const flatArray = nestedArray.flat(2);
-   console.log(flatArray); // [1, 2, 3, 4]
-
-   const numbers = [1, 2, 3];
-   const doubledArray = numbers.flatMap((number) => [number * 2]);
-   console.log(doubledArray); // [2, 4, 6]
-   ```
-
-这些 ES6 数组方法提供了更多的灵活性和可读性，可以使数组操作更加方便。根据你的需求，选择合适的方法来处理数组数据。
-
-### 5、对象新特性和方法
-
-ES6（ECMAScript 2015）引入了一些新的特性和语法来增强JavaScript对象的功能。以下是ES6中一些对象方面的重要变化和新特性：
-
-1. **对象属性的简化语法**：
-   ES6允许你在对象字面量中使用变量名作为属性名，如果属性名和变量名相同，可以简化写法。
-
-   ```javascript
-   const name = 'Alice';
-   const age = 30;
-
-   const person = { name, age };
-   // 等同于 const person = { name: name, age: age };
-   ```
-
-2. **计算属性名**：
-   可以在对象字面量中使用方括号，将表达式作为属性名。
-
-   ```javascript
-   const prop = 'name';
-   const person = {
-     [prop]: 'Alice',
-   };
-   ```
-
-3. **对象方法的简化语法**：
-   在ES6中，可以在对象字面量中使用简化的函数声明语法。
-
-   ```javascript
-   const person = {
-     sayHello() {
-       console.log('Hello');
-     },
-   };
-   ```
-
-4. **`Object.assign()` 方法**：
-   `Object.assign()` 方法用于将一个或多个源对象的属性复制到目标对象中。这使得合并对象变得更加容易。
-
-   ```javascript
-   const target = { a: 1 };
-   const source = { b: 2 };
-
-   Object.assign(target, source);
-   console.log(target); // { a: 1, b: 2 }
-   ```
-
-5. **新的方法和静态方法**：
-   ES6引入了一些新的对象方法，如`Object.keys()`、`Object.values()`、`Object.entries()`以及`Object.setPrototypeOf()`等，它们提供了更多对象操作的选项。
-
-   ```javascript
-   const person = { name: 'Alice', age: 30 };
-
-   const keys = Object.keys(person); // ['name', 'age']
-   const values = Object.values(person); // ['Alice', 30]
-   const entries = Object.entries(person); // [['name', 'Alice'], ['age', 30]]
-   ```
-
-6. **Symbol 数据类型**：
-   ES6引入了 Symbol 数据类型，可以用于创建唯一的属性名。它通常用于创建私有属性或防止属性被覆盖。
-
-   ```javascript
-   const uniqueKey = Symbol('unique');
-   const obj = {
-     [uniqueKey]: 'This is a unique value',
-   };
-   ```
-
-这些变化和新特性使得JavaScript对象更加强大、灵活和易于使用，提供了更多处理对象的选项和工具。这些功能对于开发现代JavaScript应用程序非常有用。
-
-### 6、Set和Map用法（了解）
-
-ES6 中引入了 Set 和 Map 数据结构，它们分别用于存储一组唯一的值和键值对。以下是它们的用法示例：
-
-#### Set（集合）
-
-Set 用于存储一组唯一的值，不允许重复。它提供了一些方法来添加、删除、检查成员以及执行集合运算。
-
-**创建 Set：**
-
-```javascript
-const mySet = new Set();
-```
-
-**添加元素：**
-
-```javascript
-mySet.add(1);
-mySet.add(2);
-mySet.add(3);
-mySet.add(1); // 重复添加，无效
-
-console.log(mySet); // Set { 1, 2, 3 }
-```
-
-**删除元素：**
-
-```javascript
-mySet.delete(2);
-console.log(mySet); // Set { 1, 3 }
-```
-
-**检查成员：**
-
-```javascript
-console.log(mySet.has(1)); // true
-console.log(mySet.has(2)); // false
-```
-
-**遍历 Set：**
-
-```javascript
-mySet.forEach((value) => {
-  console.log(value);
-});
-
-// 1
-// 3
-```
-
-#### Map（映射）
-
-Map 用于存储键值对，其中键是唯一的。它提供了一些方法来添加、删除、获取值以及遍历键值对。
-
-**创建 Map：**
-
-```javascript
-const myMap = new Map();
-```
-
-**添加键值对：**
-
-```javascript
-myMap.set('name', 'Alice');
-myMap.set('age', 30);
-
-// 使用链式语法
-myMap.set('country', 'USA').set('city', 'New York');
-```
-
-**获取值：**
-
-```javascript
-console.log(myMap.get('name')); // 'Alice'
-```
-
-**删除键值对：**
-
-```javascript
-myMap.delete('age');
-```
-
-**检查键是否存在：**
-
-```javascript
-console.log(myMap.has('country')); // true
-console.log(myMap.has('gender'));  // false
-```
-
-**遍历 Map：**
-
-```javascript
-myMap.forEach((value, key) => {
-  console.log(`${key}: ${value}`);
-});
-
-// name: Alice
-// country: USA
-// city: New York
-```
-
-Map 还支持使用迭代器进行遍历，如 `for...of` 循环。
-
-这些数据结构为 JavaScript 中的数据管理提供了更多的选项，可以更方便地处理不同类型的数据和用例。
-### 7、变量的解构赋值
-
-ES6 中的变量解构赋值是一种便捷的语法，允许你从数组或对象中提取值，并将它们分配给变量。这使得在不使用冗长代码的情况下，可以轻松访问和分配复杂数据结构中的值。变量解构赋值的基本语法如下：
+解构赋值（Destructuring Assignment）是 JavaScript ES6 中引入的一种语法，可以从数组或对象中快速提取值，并将其赋值给多个变量。通过解构赋值，可以方便地从复杂的数据结构中提取所需的数据，简化代码，提高可读性。
 
 #### 数组解构赋值
 
+通过解构赋值，可以从数组中提取值并将其赋给变量。
+
 ```javascript
-const [variable1, variable2, ...rest] = array;
+// 传统的赋值方式
+let arr = [1, 2, 3];
+let a = arr[0];
+let b = arr[1];
+let c = arr[2];
+
+// 使用解构赋值
+let [x, y, z] = [1, 2, 3];
+console.log(x); // 输出 1
+console.log(y); // 输出 2
+console.log(z); // 输出 3
 ```
 
-- `variable1`、`variable2` 是要提取的数组元素，它们将分别赋值给 `variable1` 和 `variable2`。
-- `...rest` 是一个用于收集余下的元素的数组，可以将数组中的剩余元素赋值给它。
-
-**示例：**
+**解构赋值中的默认值**
+如果解构的值未定义，可以为变量指定默认值。
 
 ```javascript
-const numbers = [1, 2, 3, 4, 5];
+let [m, n = 10] = [5];
+console.log(m); // 输出 5
+console.log(n); // 输出 10（因为数组中没有第二个值，所以使用默认值）
+```
 
-const [first, second, ...rest] = numbers;
+**交换变量值**
+解构赋值也可以用于交换变量的值，而无需借助临时变量。
 
-console.log(first); // 1
-console.log(second); // 2
-console.log(rest); // [3, 4, 5]
+```javascript
+let a = 1;
+let b = 2;
+[a, b] = [b, a];
+console.log(a); // 输出 2
+console.log(b); // 输出 1
 ```
 
 #### 对象解构赋值
 
+对象解构赋值允许你从对象中提取属性值，并将它们赋给变量。
+
 ```javascript
-const { property1, property2, ...rest } = object;
+// 传统的赋值方式
+let person = { name: "Alice", age: 25 };
+let name = person.name;
+let age = person.age;
+
+// 使用解构赋值
+let { name, age } = { name: "Alice", age: 25 };
+console.log(name); // 输出 "Alice"
+console.log(age); // 输出 25
 ```
 
-- `property1`、`property2` 是要提取的对象属性，它们将分别赋值给 `property1` 和 `property2`。
-- `...rest` 是一个用于收集余下属性的对象，可以将对象中的剩余属性赋值给它。
-
-**示例：**
+**对象解构赋值中的默认值**
+如果对象中没有某个属性，可以为变量指定默认值。
 
 ```javascript
-const person = {
-  name: 'Alice',
-  age: 30,
-  country: 'USA',
+let { name, age, gender = "female" } = { name: "Alice", age: 25 };
+console.log(gender); // 输出 "female"
+```
+
+**重命名变量**
+解构赋值时可以为变量重命名。
+
+```javascript
+let { name: firstName, age: years } = { name: "Alice", age: 25 };
+console.log(firstName); // 输出 "Alice"
+console.log(years); // 输出 25
+```
+
+#### 嵌套解构
+
+对于嵌套的数据结构，可以进行嵌套解构。
+
+```javascript
+let person = {
+  name: "Alice",
+  address: {
+    city: "Wonderland",
+    zip: "12345",
+  },
 };
 
-const { name, age, ...info } = person;
+let {
+  name,
+  address: { city, zip },
+} = person;
 
-console.log(name); // 'Alice'
-console.log(age); // 30
-console.log(info); // { country: 'USA' }
+console.log(city); // 输出 "Wonderland"
+console.log(zip); // 输出 "12345"
 ```
 
-**默认值：**
+#### 函数参数中的解构赋值
 
-你还可以为解构赋值的变量提供默认值，以防提取的值不存在或为 `undefined`。这样可以确保你的代码不会因为缺少属性或元素而崩溃。
-
-**数组默认值示例：**
+解构赋值也可以用于函数参数，特别适合处理有多个参数的函数。
 
 ```javascript
-const numbers = [1, 2];
-const [first, second, third = 3] = numbers;
-
-console.log(first); // 1
-console.log(second); // 2
-console.log(third); // 3（默认值生效）
-```
-
-**对象默认值示例：**
-
-```javascript
-const person = {
-  name: 'Alice',
-  age: 30,
-};
-
-const { name, age, country = 'USA' } = person;
-
-console.log(name); // 'Alice'
-console.log(age); // 30
-console.log(country); // 'USA'（默认值生效）
-```
-
-变量解构赋值非常有用，特别是在处理复杂的数据结构时，可以提高代码的可读性和可维护性。这使得你可以轻松地访问和操作对象和数组中的值。
-
-
-## 二、ES6进阶
-
-### 1、扩展运算符
-
-ES6 中的扩展运算符（Spread Operator）是一个三个点（`...`）符号，用于将可迭代对象（如数组、字符串、对象等）的元素展开为单独的元素，或将多个对象合并成一个新对象。它可以用于函数参数、数组、对象等多种情况。
-
-**1. 在函数参数中使用扩展运算符**
-
-在函数参数中使用扩展运算符，可以将数组或类似数组的对象的元素展开为独立的参数。
-
-**示例：**
-
-```javascript
-function sum(a, b, c) {
-  return a + b + c;
+function printPerson({ name, age }) {
+  console.log(`Name: ${name}, Age: ${age}`);
 }
 
-const numbers = [1, 2, 3];
-const result = sum(...numbers);
-
-console.log(result); // 6
+printPerson({ name: "Alice", age: 25 }); // 输出 "Name: Alice, Age: 25"
 ```
 
-**2. 在数组中使用扩展运算符**
+**总结**
 
-在数组中使用扩展运算符，可以将一个数组的元素复制到另一个数组中，或者将多个数组合并成一个新数组。
+解构赋值使得从数组和对象中提取值变得更简单直接。无论是处理函数参数、提取数据，还是交换变量值，解构赋值都极大地提升了代码的简洁性和可读性。
+
+### 3、Symbol
+
+`Symbol` 是 ES6 引入的一种新的原始数据类型，它的主要作用是创建独一无二的标识符。与其他原始数据类型（如 `Number`、`String`、`Boolean`）不同，`Symbol` 值是唯一的，且每次创建的 `Symbol` 都是不同的。
+
+**`Symbol` 的特点**
+
+1. **唯一性**：每个 `Symbol` 都是独一无二的，即使两个 `Symbol` 的描述相同，它们也是不相等的。
+2. **不可变性**：`Symbol` 值是不可变的，一旦创建，`Symbol` 的值不能被改变。
+3. **不能与其他类型混用**：`Symbol` 不能自动转换为字符串或数字类型，但可以显式转换。
+
+**创建 `Symbol`**
+可以使用 `Symbol()` 函数创建一个新的 `Symbol`，并可以为其提供一个可选的描述（描述仅用于调试或日志记录目的）。
+
+```javascript
+let sym1 = Symbol();
+let sym2 = Symbol("description");
+
+console.log(sym1); // 输出 Symbol()
+console.log(sym2); // 输出 Symbol(description)
+```
+
+**唯一性示例**
+即使两个 `Symbol` 的描述相同，它们也不会相等。
+
+```javascript
+let symA = Symbol("foo");
+let symB = Symbol("foo");
+
+console.log(symA === symB); // 输出 false
+```
+
+**使用 `Symbol` 作为对象属性键**
+`Symbol` 最常见的用途之一是作为对象的属性键。使用 `Symbol` 作为键可以避免属性名称冲突，因为每个 `Symbol` 都是唯一的。
+
+```javascript
+let mySymbol = Symbol("mySymbol");
+
+let obj = {
+  [mySymbol]: "value",
+};
+
+console.log(obj[mySymbol]); // 输出 "value"
+```
+
+**`Symbol` 的一些内置用途**
+JavaScript 提供了一些内置的 `Symbol`，这些内置 `Symbol` 用于语言内部行为的调整。常见的内置 `Symbol` 包括：
+
+- `Symbol.iterator`：定义对象的默认迭代器。例如，数组的 `Symbol.iterator` 返回一个迭代器对象，可以用于 `for...of` 循环。
+- `Symbol.toStringTag`：用于修改对象的 `toString` 方法返回的字符串。
+
+```javascript
+// Symbol.iterator 示例
+let arr = [1, 2, 3];
+let iterator = arr[Symbol.iterator]();
+
+console.log(iterator.next().value); // 输出 1
+console.log(iterator.next().value); // 输出 2
+console.log(iterator.next().value); // 输出 3
+
+// Symbol.toStringTag 示例
+let myObject = {
+  [Symbol.toStringTag]: "MyCustomObject",
+};
+
+console.log(Object.prototype.toString.call(myObject)); // 输出 "[object MyCustomObject]"
+```
+
+**总结**
+
+`Symbol` 是一种独特且不可变的原始数据类型，主要用于创建唯一的标识符。它在避免属性名冲突、修改对象的默认行为以及与全局注册表交互时特别有用。`Symbol` 提供了更安全、更灵活的方式来定义对象属性，并能在 JavaScript 中实现许多高级功能。
+
+## 二、内置对象
+
+### 1、Map 和 Set
+
+在 JavaScript 中，`Map` 和 `Set` 是两种用于存储数据的对象类型，它们各自有不同的用途和特性。
+
+#### `Map` 对象
+
+`Map` 是一个键值对的集合，类似于普通对象（`Object`），但它的键可以是任意类型，包括对象、函数、甚至是 `NaN`。
+
+**特点：**
+
+1. **键值对的存储顺序**：`Map` 会按照插入的顺序保存键值对。
+2. **键的类型**：在 `Map` 中，键可以是任何类型，不限于字符串或符号。
+3. **键的唯一性**：`Map` 的键是唯一的，重复插入相同的键会覆盖之前的值。
+4. **性能**：对于频繁增删键值对的操作，`Map` 通常比普通对象更高效。
+
+**常用方法：**
+
+- `set(key, value)`：向 `Map` 添加键值对。
+- `get(key)`：根据键获取对应的值。
+- `has(key)`：判断 `Map` 中是否包含某个键。
+- `delete(key)`：删除指定键的键值对。
+- `clear()`：清空 `Map`。
+- `size`：返回 `Map` 中键值对的数量。
 
 **示例：**
 
 ```javascript
-const arr1 = [1, 2, 3];
-const arr2 = [4, 5, 6];
+const map = new Map();
+map.set("name", "Alice");
+map.set(42, "age");
+map.set({ key: "object" }, "value");
 
-const combined = [...arr1, ...arr2];
+console.log(map.get("name")); // 输出: Alice
+console.log(map.has(42)); // 输出: true
+console.log(map.size); // 输出: 3
 
-console.log(combined); // [1, 2, 3, 4, 5, 6]
-
+map.delete(42);
+console.log(map.size); // 输出: 2
 ```
-**3. 在对象字面量中使用扩展运算符**
 
-在对象字面量中使用扩展运算符，可以创建一个新对象，该对象继承了其他对象的属性，并可以覆盖或添加新属性。
+#### `Set` 对象
+
+`Set` 是一个值的集合，所有值都是唯一的（即没有重复的值）。与数组类似，但不允许有相同的元素。
+
+**特点：**
+
+1. **值的唯一性**：`Set` 中的每个值都是唯一的，插入重复的值会被忽略。
+2. **存储顺序**：`Set` 会按照插入顺序存储元素。
+3. **性能**：`Set` 的查找和删除操作比数组更快。
+
+**常用方法：**
+
+- `add(value)`：向 `Set` 添加一个值。
+- `has(value)`：判断 `Set` 中是否包含某个值。
+- `delete(value)`：从 `Set` 中删除指定的值。
+- `clear()`：清空 `Set`。
+- `size`：返回 `Set` 中元素的数量。
 
 **示例：**
 
 ```javascript
-const person = {
-  name: 'Alice',
-  age: 30,
-};
+const set = new Set();
+set.add(1);
+set.add(2);
+set.add(2); // 尝试添加重复的值
 
-const additionalInfo = {
-  country: 'USA',
-  hobbies: ['reading', 'swimming'],
-};
+console.log(set.has(1)); // 输出: true
+console.log(set.size); // 输出: 2
 
-const extendedPerson = { ...person, ...additionalInfo };
-
-console.log(extendedPerson);
-// { name: 'Alice', age: 30, country: 'USA', hobbies: ['reading', 'swimming'] }
-
-```
-**4. 克隆数组和对象**
-
-扩展运算符还常用于克隆数组和对象，因为它创建了新的数组或对象，而不是对原始数组或对象的引用。
-
-**克隆数组示例：**
-
-```javascript
-const originalArray = [1, 2, 3];
-const cloneArray = [...originalArray];
-
-console.log(cloneArray); // [1, 2, 3]
-console.log(originalArray === cloneArray); // false
+set.delete(2);
+console.log(set.size); // 输出: 1
 ```
 
-**克隆对象示例：**
+**总结**
+
+- `Map` 是用于存储键值对的对象，其中键可以是任意类型。
+- `Set` 是用于存储唯一值的集合，类似于数组但不允许重复的值。
+
+这两种对象在现代 JavaScript 开发中非常实用，特别是在需要处理复杂数据结构时。
+
+### 2、字符串扩展
+
+在 ES6（ECMAScript 2015）中，字符串得到了多项增强，新增了多个方法以及模板字符串（Template Literals）语法，使字符串操作更加便捷和灵活。
+
+#### 新增的字符串方法
+
+1. **`includes()`**：
+
+   - 用于判断一个字符串是否包含另一个子字符串，返回布尔值。
+   - **语法**：`str.includes(searchString, position)`
+   - **参数**：
+     - `searchString`：要搜索的子字符串。
+     - `position`（可选）：从字符串的哪个位置开始搜索，默认值为 `0`。
+
+   **示例**：
+
+   ```javascript
+   const str = "Hello, world!";
+   console.log(str.includes("world")); // 输出: true
+   console.log(str.includes("World")); // 输出: false
+   ```
+
+2. **`startsWith()`**：
+
+   - 用于判断字符串是否以指定的子字符串开头，返回布尔值。
+   - **语法**：`str.startsWith(searchString, position)`
+   - **参数**：
+     - `searchString`：要搜索的子字符串。
+     - `position`（可选）：从字符串的哪个位置开始检查，默认值为 `0`。
+
+   **示例**：
+
+   ```javascript
+   const str = "Hello, world!";
+   console.log(str.startsWith("Hello")); // 输出: true
+   console.log(str.startsWith("world", 7)); // 输出: true
+   ```
+
+3. **`endsWith()`**：
+
+   - 用于判断字符串是否以指定的子字符串结尾，返回布尔值。
+   - **语法**：`str.endsWith(searchString, length)`
+   - **参数**：
+     - `searchString`：要搜索的子字符串。
+     - `length`（可选）：在此长度内检查字符串的结尾部分，默认为整个字符串。
+
+   **示例**：
+
+   ```javascript
+   const str = "Hello, world!";
+   console.log(str.endsWith("world!")); // 输出: true
+   console.log(str.endsWith("Hello", 5)); // 输出: true
+   ```
+
+4. **`repeat()`**：
+
+   - 返回一个新字符串，表示将原字符串重复指定次数。
+   - **语法**：`str.repeat(count)`
+   - **参数**：
+     - `count`：指定要重复的次数。
+
+   **示例**：
+
+   ```javascript
+   const str = "Hello!";
+   console.log(str.repeat(3)); // 输出: "Hello!Hello!Hello!"
+   ```
+
+5. **`padStart()`**：
+
+   - 用于在当前字符串的开头填充指定的字符，直到达到指定的长度。
+   - **语法**：`str.padStart(targetLength, padString)`
+   - **参数**：
+     - `targetLength`：填充后的目标长度。
+     - `padString`（可选）：用于填充的字符串，默认为 `" "`（空格）。
+
+   **示例**：
+
+   ```javascript
+   const str = "5";
+   console.log(str.padStart(3, "0")); // 输出: "005"
+   ```
+
+6. **`padEnd()`**：
+
+   - 用于在当前字符串的末尾填充指定的字符，直到达到指定的长度。
+   - **语法**：`str.padEnd(targetLength, padString)`
+   - **参数**：
+     - `targetLength`：填充后的目标长度。
+     - `padString`（可选）：用于填充的字符串，默认为 `" "`（空格）。
+
+   **示例**：
+
+   ```javascript
+   const str = "5";
+   console.log(str.padEnd(3, "0")); // 输出: "500"
+   ```
+
+7. **`trimStart()` 和 `trimEnd()`**：
+
+   - `trimStart()` 用于去除字符串开头的空白字符（ES2019 新增）。
+   - `trimEnd()` 用于去除字符串末尾的空白字符（ES2019 新增）。
+
+   **示例**：
+
+   ```javascript
+   const str = "  Hello, world!  ";
+   console.log(str.trimStart()); // 输出: "Hello, world!  "
+   console.log(str.trimEnd()); // 输出: "  Hello, world!"
+   ```
+
+#### 模板字符串（Template Literals）
+
+模板字符串是 ES6 中引入的新语法，用于更简洁和灵活地创建字符串。模板字符串使用反引号（`` ` ``）来定义，并支持以下特性：
+
+1. **多行字符串**：
+
+   - 可以直接在字符串中创建多行文本，而不需要使用转义字符 `\n`。
+
+   **示例**：
+
+   ```javascript
+   const str = `Hello,
+   world!`;
+   console.log(str);
+   // 输出:
+   // Hello,
+   // world!
+   ```
+
+2. **插值表达式**：
+
+   - 可以在模板字符串中嵌入变量或表达式，使用 `${}` 语法。
+
+   **示例**：
+
+   ```javascript
+   const name = "Alice";
+   const age = 25;
+   const message = `My name is ${name}, and I am ${age} years old.`;
+   console.log(message);
+   // 输出: My name is Alice, and I am 25 years old.
+   ```
+
+3. **嵌入表达式**：
+
+   - 可以在模板字符串中嵌入任意 JavaScript 表达式，并自动进行求值。
+
+   **示例**：
+
+   ```javascript
+   const a = 10;
+   const b = 20;
+   const result = `The sum of a and b is ${a + b}.`;
+   console.log(result); // 输出: The sum of a and b is 30.
+   ```
+
+4. **标签模板字符串（Tagged Templates）**：
+
+   - 通过标签函数对模板字符串进行处理，可以实现自定义的字符串格式化或其他功能。
+
+   **示例**：
+
+   ```javascript
+   function tag(strings, ...values) {
+     console.log(strings); // 输出: ["Hello, ", ", welcome to ", "!"]
+     console.log(values); // 输出: ["Alice", "JavaScript"]
+     return `Processed String`;
+   }
+
+   const name = "Alice";
+   const language = "JavaScript";
+   const result = tag`Hello, ${name}, welcome to ${language}!`;
+   console.log(result); // 输出: Processed String
+   ```
+
+**总结**
+
+- **新增字符串方法**（如 `includes`, `startsWith`, `endsWith` 等）简化了常见的字符串操作。
+- **模板字符串**（Template Literals）提供了更方便的多行文本、插值表达式，以及通过标签函数实现的高级功能。
+
+这些特性大大提升了 JavaScript 处理字符串的能力和灵活性。
+
+### 3、对象扩展
+
+ES6（ECMAScript 2015）对 JavaScript 对象引入了许多新特性和增强功能，以下是一些主要的新增功能：
+
+#### 字面量语法
+
+- **属性简写**：当对象属性的名称与赋值给它的变量同名时，可以省略属性名。
+  ```javascript
+  const name = "John";
+  const person = { name }; // 相当于 { name: name }
+  ```
+- **方法简写**：可以用简写的形式定义对象的方法。
+  ```javascript
+  const person = {
+    sayHello() {
+      console.log("Hello!");
+    },
+  };
+  ```
+
+#### 计算属性名
+
+- ES6 允许在对象字面量中使用表达式来计算属性名。
+  ```javascript
+  const propName = "age";
+  const person = {
+    [propName]: 25, // 相当于 { age: 25 }
+  };
+  ```
+
+#### 新增方法
+
+.**对象的 `Object.assign()` 方法**
+
+- 用于将一个或多个源对象的可枚举属性复制到目标对象中。
+  ```javascript
+  const target = {};
+  const source = { a: 1, b: 2 };
+  Object.assign(target, source); // target 变成 { a: 1, b: 2 }
+  ```
+
+**对象的 `Object.is()` 方法**
+
+- 用于比较两个值是否严格相等，类似于 `===`，但在处理 `NaN` 和 `+0/-0` 时有所不同。
+  ```javascript
+  Object.is(NaN, NaN); // true
+  Object.is(+0, -0); // false
+  ```
+
+**对象的 `Object.setPrototypeOf()` 和 `Object.getPrototypeOf()` 方法**
+
+- `Object.setPrototypeOf(obj, prototype)`：用于设置对象的原型。
+- `Object.getPrototypeOf(obj)`：用于获取对象的原型。
+
+**`Object.keys()`、`Object.values()` 和 `Object.entries()` 方法**
+
+- `Object.keys(obj)`：返回对象自身可枚举属性名组成的数组。
+- `Object.values(obj)`：返回对象自身可枚举属性值组成的数组。
+- `Object.entries(obj)`：返回对象自身可枚举属性的键值对数组。
+
+#### 扩展运算符
+
+对象的扩展运算符（**spread operator**）是 ES2018（ES9）中引入的一项特性，它通过三个点（`...`）表示，可以用于在对象字面量中展开对象的可枚举属性。扩展运算符主要有以下几个用法：
+
+**合并对象**
+
+- 扩展运算符可以用来将多个对象的属性合并到一个新的对象中。
+  ```javascript
+  const obj1 = { a: 1, b: 2 };
+  const obj2 = { c: 3, d: 4 };
+  const mergedObj = { ...obj1, ...obj2 };
+  console.log(mergedObj); // { a: 1, b: 2, c: 3, d: 4 }
+  ```
+
+**克隆对象**
+
+- 扩展运算符可以用来创建对象的浅拷贝（浅克隆）。
+  ```javascript
+  const original = { a: 1, b: 2 };
+  const copy = { ...original };
+  console.log(copy); // { a: 1, b: 2 }
+  console.log(copy === original); // false，指向不同的对象
+  ```
+
+**添加或覆盖属性**
+
+- 当扩展运算符用于对象字面量中时，后面的属性可以覆盖前面对象中的同名属性。
+  ```javascript
+  const obj = { a: 1, b: 2 };
+  const updatedObj = { ...obj, b: 3, c: 4 };
+  console.log(updatedObj); // { a: 1, b: 3, c: 4 }
+  ```
+
+**与剩余参数（Rest Parameter）的配合使用**
+
+- 扩展运算符还可以与剩余参数一起使用，来获取一个对象中除去某些特定属性后的剩余属性。
+  ```javascript
+  const { a, ...rest } = { a: 1, b: 2, c: 3 };
+  console.log(rest); // { b: 2, c: 3 }
+  ```
+
+**注意事项**
+
+- **浅拷贝**：对象扩展运算符创建的对象是浅拷贝，也就是说，如果对象的属性是引用类型（如数组、对象），那么拷贝的对象和原对象中的引用类型属性仍然指向相同的内存地址。
+- **顺序**：当合并对象时，如果多个对象包含相同的属性名，后面的对象的属性值会覆盖前面的。
+
+这些新增功能大大增强了 JavaScript 对象的灵活性和可用性。
+
+### 4、数组扩展
+
+ES6（ECMAScript 2015）对数组进行了许多增强，新增了一些非常有用的特性和方法，极大地方便了数组的操作。以下是主要的新增特性和方法：
+
+#### 扩展运算符
+
+- 扩展运算符（`...`）可以用来展开数组，常用于复制数组、合并数组以及传递参数。
+  ```javascript
+  const arr1 = [1, 2, 3];
+  const arr2 = [...arr1, 4, 5]; // [1, 2, 3, 4, 5]
+  const arrCopy = [...arr1]; // [1, 2, 3]，浅拷贝
+  ```
+
+#### 新增方法
+
+**`Array.from()`**
+
+- 将类数组对象或可迭代对象转换为数组。常用于将`NodeList`、`arguments`等转为真正的数组。
+  ```javascript
+  const arrayLike = { 0: "a", 1: "b", length: 2 };
+  const arr = Array.from(arrayLike); // ['a', 'b']
+  ```
+
+**`Array.of()`**
+
+- 创建一个由一系列参数组成的新数组，和`Array`构造函数的区别在于处理单个数值参数。
+  ```javascript
+  const arr = Array.of(1, 2, 3); // [1, 2, 3]
+  const arr2 = Array(3); // [empty × 3]，Array()构造函数创建指定长度的空数组
+  ```
+
+**`find()` 和 `findIndex()`**
+
+- `find()`：返回数组中第一个满足提供的测试函数的元素。
+  ```javascript
+  const arr = [5, 12, 8, 130, 44];
+  const found = arr.find((element) => element > 10);
+  console.log(found); // 12
+  ```
+- `findIndex()`：返回数组中第一个满足提供的测试函数的元素的索引，如果没有找到则返回 `-1`。
+  ```javascript
+  const index = arr.findIndex((element) => element > 10);
+  console.log(index); // 1
+  ```
+
+**`includes()`**
+
+- 判断数组是否包含某个指定的元素，返回 `true` 或 `false`。
+  ```javascript
+  const arr = [1, 2, 3];
+  console.log(arr.includes(2)); // true
+  console.log(arr.includes(4)); // false
+  ```
+
+**`fill()`**
+
+- 用一个固定值填充数组中的元素，从起始索引到终止索引（不包括终止索引）。
+  ```javascript
+  const arr = [1, 2, 3, 4];
+  arr.fill(0, 2, 4); // [1, 2, 0, 0]
+  ```
+
+**`entries()`、`keys()` 和 `values()`**
+
+- 这些方法返回一个新的数组迭代器对象，可以用来遍历数组中的键值对、键或值。
+
+  ```javascript
+  const arr = ["a", "b", "c"];
+
+  for (let [index, value] of arr.entries()) {
+    console.log(index, value); // 0 'a', 1 'b', 2 'c'
+  }
+
+  for (let key of arr.keys()) {
+    console.log(key); // 0, 1, 2
+  }
+
+  for (let value of arr.values()) {
+    console.log(value); // 'a', 'b', 'c'
+  }
+  ```
+
+这些新增的特性和方法为数组操作提供了更多的便捷和灵活性，使代码更加简洁和可读。
+
+## 三、函数高级
+
+### 1、回调函数
+
+回调函数（Callback Function）是指将一个函数作为参数传递给另一个函数，并在该函数执行过程中或执行完成后调用的函数。在 JavaScript 中，回调函数非常常见，尤其是在处理异步操作时。回调函数的概念是 JavaScript 编程中的基础之一。
+
+#### 基本概念
+
+- **函数作为参数**：回调函数是一个被作为参数传递给另一个函数的函数。它会在外部函数中某个时刻被调用。
+- **异步操作中的回调**：回调函数通常用于异步操作，如事件处理、定时器、网络请求等。
+
+例如，以下是一个简单的回调函数的例子：
 
 ```javascript
-const originalObject = { name: 'Alice', age: 30 };
-const cloneObject = { ...originalObject };
-
-console.log(cloneObject); // { name: 'Alice', age: 30 }
-console.log(originalObject === cloneObject); // false
-```
-
-扩展运算符提供了一种方便的方式来处理数组和对象，使得在操作和传递数据时更加灵活和清晰。
-
-### 2、箭头函数
-
-ES6 中的箭头函数（Arrow Functions）是一种新的函数定义语法，它提供了一种更简洁的方式来创建函数。箭头函数通常用于定义匿名函数或简短的函数表达式，它具有以下特点：
-
-1. 使用箭头 `=>` 来定义函数。
-2. 可以省略 `function` 关键字。
-3. 当只有一个参数时，可以省略括号 `()`。
-4. 当函数体只有一条语句时，可以省略花括号 `{}` 和 `return` 关键字。
-
-下面是箭头函数的基本语法：
-
-```javascript
-(parameter1, parameter2, ..., parameterN) => {
-  // 函数体
-  return expression; // 可选
+function greet(name, callback) {
+  console.log("Hello " + name);
+  callback();
 }
+
+function sayGoodbye() {
+  console.log("Goodbye!");
+}
+
+greet("Alice", sayGoodbye);
+// 输出：
+// Hello Alice
+// Goodbye!
 ```
 
-**示例：**
+#### 应用场景
 
-**1. 基本的箭头函数：**
+**1. 异步操作**
+
+- JavaScript 中的许多操作是异步的，比如读取文件、发送 HTTP 请求、处理用户事件等。回调函数可以确保在异步操作完成后执行某些任务。
 
 ```javascript
-const add = (a, b) => {
-  return a + b;
-};
-
-console.log(add(2, 3)); // 5
+setTimeout(() => {
+  console.log("This message is delayed by 2 seconds.");
+}, 2000);
 ```
 
-**2. 参数只有一个时，可以省略括号：**
+**2. 事件处理**
+
+- 在浏览器环境中，事件处理器通常以回调函数的形式绑定到 HTML 元素上，当事件触发时，回调函数会被执行。
 
 ```javascript
-const square = x => x * x;
-
-console.log(square(4)); // 16
+document.getElementById("myButton").addEventListener("click", function () {
+  alert("Button clicked!");
+});
 ```
 
-**3. 函数体只有一条语句时，可以省略花括号和 `return`：**
+**3. 数组方法**
 
-```javascript
-const greet = name => `Hello, ${name}!`;
-
-console.log(greet('Alice')); // Hello, Alice!
-```
-
-**4. 在数组的 `map` 方法中使用箭头函数：**
+- JavaScript 中的一些数组方法，如`forEach`、`map`、`filter`、`reduce`等，都需要回调函数来处理数组的每个元素。
 
 ```javascript
 const numbers = [1, 2, 3, 4, 5];
-const squaredNumbers = numbers.map(x => x * x);
-
-console.log(squaredNumbers); // [1, 4, 9, 16, 25]
+const doubled = numbers.map((num) => num * 2);
+console.log(doubled); // [2, 4, 6, 8, 10]
 ```
 
-**5. 箭头函数作为回调函数：**
+**4. 自定义异步流程**
+
+- 回调函数可以用于自定义异步流程控制。例如，逐步执行一系列异步操作，每个操作完成后调用下一个操作。
 
 ```javascript
-const names = ['Alice', 'Bob', 'Charlie'];
-
-const nameLengths = names.map(name => name.length);
-
-console.log(nameLengths); // [5, 3, 7]
-```
-
-请注意，箭头函数有一些限制，例如不能用作构造函数（不能使用 `new` 关键字实例化）、没有 `arguments` 对象等。因此，它适用于许多简单的函数，但对于某些特殊用例，仍然需要使用传统的函数定义语法。箭头函数通常更适合用于函数表达式和回调函数，以提高代码的可读性和简洁性。
-
-### 3、class类
-
-在ES6中，`class` 是一种新的语法糖，用于定义对象的构造函数和原型方法，以一种更面向对象的方式创建对象。`class` 语法提供了一种更清晰、结构化的方式来创建和继承对象，它的作用包括：
-
-1. **定义对象的模板**：`class` 允许你定义对象的属性和方法，作为对象的模板。这使得你可以一次性定义多个对象，而无需重复编写相同的属性和方法。
-
-2. **创建对象**：通过使用 `new` 关键字来实例化类，你可以创建类的对象，这些对象继承了类的属性和方法。
-
-3. **继承和扩展**：`class` 支持继承，可以轻松创建基于其他类的子类。这使得在应用程序中建立对象之间的继承关系变得更加容易。
-
-下面是一个简单的 `class` 示例：
-
-```javascript
-class Person {
-  constructor(name, age) {
-    this.name = name;
-    this.age = age;
-  }
-
-  sayHello() {
-    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`);
-  }
+function firstTask(callback) {
+  setTimeout(() => {
+    console.log("First task completed.");
+    callback(); // callback 在这里实际上是 secondTask
+  }, 1000);
 }
 
-const person1 = new Person('Alice', 30);
-person1.sayHello(); // Hello, my name is Alice and I'm 30 years old.
-```
-
-在上面的示例中：
-
-- `class Person` 定义了一个名为 `Person` 的类。
-- `constructor` 方法用于初始化对象的属性。
-- `sayHello` 方法是类的原型方法，可以在类的实例上调用。
-
-你还可以创建子类并扩展父类的功能，这使得类在应用程序中的组织和维护变得更加方便。以下是一个继承的示例：
-
-```javascript
-class Student extends Person {
-  constructor(name, age, grade) {
-    super(name, age); // 调用父类的构造函数
-    this.grade = grade;
-  }
-
-  study() {
-    console.log(`${this.name} is studying in grade ${this.grade}.`);
-  }
+function secondTask() {
+  console.log("Second task completed.");
 }
 
-const student1 = new Student('Bob', 18, 12);
-student1.sayHello(); // Hello, my name is Bob and I'm 18 years old.
-student1.study(); // Bob is studying in grade 12.
+firstTask(secondTask);
 ```
 
-`class` 语法使得 JavaScript 中的面向对象编程更加清晰和可维护，它提供了一种更现代的方式来定义和组织代码。不仅如此，它也有助于实现更多的设计模式和对象模型。
+**注意事项**
 
-### 4、ES6模块化
+- **回调地狱（Callback Hell）**：如果有多个异步操作依赖前一个操作的结果，就会出现嵌套多层的回调函数，代码会变得难以维护。可以通过使用`Promise`或`async/await`来解决这个问题。
+- **错误处理**：在使用回调函数时，要特别注意处理错误，确保程序能在异常情况下正确运行。
 
-ES6 引入了一种模块系统，用于在 JavaScript 中导入和导出模块，以实现模块化的代码组织和复用。这个模块系统使得开发人员能够将代码分割为多个独立的模块，每个模块可以导出自己的功能，并从其他模块中导入功能。这有助于提高代码的可维护性和可扩展性。
+**替代方案**
 
-下面是关于 ES6 模块导入和导出的详细信息：
+- **Promise**：Promise 是一种处理异步操作的更清晰的方式，可以避免回调地狱。
+- **async/await**：这是基于 Promise 的语法糖，使得异步代码看起来更像同步代码，进一步提高了可读性。
 
-**导出（Export）功能：**
+回调函数在 JavaScript 中扮演着非常重要的角色，尤其是在处理异步操作时。随着现代 JavaScript 的发展，Promise 和`async/await`提供了更加简洁和易读的替代方案，但回调函数依然是理解异步编程的基础。
 
-在一个模块中，你可以使用 `export` 关键字来导出变量、函数、类或对象。例如：
+### 2、箭头函数
 
-```javascript
-// 导出一个变量
-export const myVariable = 42;
+箭头函数（Arrow Function）是 ES6 引入的一种简洁的函数定义方式，它与传统函数表达式相比，有几个显著的不同之处，尤其是在语法和`this`绑定上。以下是箭头函数的主要特点和用法：
 
-// 导出一个函数
-export function myFunction() {
-  // 函数实现
-}
+**语法简洁**
 
-// 导出一个类
-export class MyClass {
-  // 类定义
-}
+- 箭头函数使用`=>`符号定义。语法上更加简洁，特别适用于定义简单的函数。
 
-// 导出一个对象
-export const myObject = {
-  // 对象属性和方法
-};
-```
-
-**导入（Import）功能：**
-
-在另一个模块中，你可以使用 `import` 关键字来导入其他模块中导出的功能。例如：
-
-```javascript
-// 导入一个变量
-import { myVariable } from './mymodule';
-
-// 导入一个函数
-import { myFunction } from './mymodule';
-
-// 导入一个类
-import { MyClass } from './mymodule';
-
-// 导入一个对象
-import { myObject } from './mymodule';
-```
-
-你也可以使用通配符 `*` 导入所有导出的功能：
-
-```javascript
-// 导入所有导出的功能
-import * as myModule from './mymodule';
-
-// 访问导入的变量
-console.log(myModule.myVariable);
-
-// 调用导入的函数
-myModule.myFunction();
-
-// 创建导入的类的实例
-const instance = new myModule.MyClass();
-
-// 访问导入的对象的属性和方法
-console.log(myModule.myObject.property);
-```
-
-**默认导出（Default Export）：**
-
-除了命名导出，ES6 还支持默认导出，使导入导出更简洁。一个模块只能有一个默认导出，通常是一个变量、函数或类。默认导出可以使用 `export default` 语法进行定义和导入：
-
-```javascript
-// 在模块中定义默认导出
-const myDefaultExport = 42;
-export default myDefaultExport;
-
-// 在另一个模块中导入默认导出
-import myDefaultExport from './mydefaultmodule';
-```
-
-使用默认导出时，可以给导入的默认导出赋予任何名称，不必使用花括号 `{}`。
-
-ES6 模块导入和导出是一种强大的工具，有助于组织和管理代码，并促进了代码的复用和分离。这种模块化的方式在现代 JavaScript 开发中非常常见，也是推荐的做法。
-## 三、事件高级
-
-### 1、事件对象
-
-事件对象（Event Object）是在JavaScript中用于处理和操控事件的特殊对象。当事件发生时，浏览器会创建一个事件对象，其中包含了有关事件的信息，如事件类型、目标元素、鼠标位置、键盘按键等。开发者可以通过访问事件对象的属性和方法来获取事件的详细信息并执行相应的操作。
-
-事件对象通常作为参数传递给事件处理函数。在事件处理函数内部，你可以使用事件对象来获取有关事件的各种信息，以便根据需要执行相应的操作。
-
-以下是一些常见的事件对象属性和方法以及事件如何使用的示例：
-
-**常见的事件对象属性和方法**
-
-1. **`type`：** 事件的类型，如 "click"、"keydown"、"mousemove" 等。
-
-2. **`target`：** 触发事件的元素，通常是事件发生的元素。
-
-3. **`currentTarget`：** 事件处理函数当前所绑定的元素，通常是事件监听器所绑定的元素。
-
-4. **`preventDefault()`：** 阻止事件的默认行为，如阻止链接跳转或表单提交。
-
-5. **`stopPropagation()`：** 阻止事件冒泡，停止事件传播到父元素。
-
-**事件如何使用：**
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <title>事件示例</title>
-</head>
-<body>
-
-<button id="myButton">点击我</button>
-
-<script>
-// 获取按钮元素
-const button = document.getElementById('myButton');
-
-// 添加点击事件监听器
-button.addEventListener('click', function(event) {
-  // 阻止默认行为
-  event.preventDefault();
-
-  // 输出事件类型
-  console.log(`事件类型: ${event.type}`);
-
-  // 输出触发事件的元素
-  console.log(`目标元素: ${event.target.tagName}`);
-
-  // 输出事件处理函数当前所绑定的元素
-  console.log(`当前元素: ${event.currentTarget.tagName}`);
-
-  // 停止事件冒泡
-  event.stopPropagation();
-});
-
-// 添加鼠标移动事件监听器
-document.addEventListener('mousemove', function(event) {
-  // 获取鼠标坐标
-  const x = event.clientX;
-  const y = event.clientY;
-
-  // 输出鼠标坐标
-  console.log(`鼠标坐标：X:${x}, Y:${y}`);
-});
-</script>
-
-</body>
-</html>
-```
-
-在上面的示例中，我们创建了一个按钮元素，并添加了点击事件和鼠标移动事件的监听器。在事件处理函数中，我们使用事件对象来访问事件的各种属性和方法，例如事件类型、目标元素、鼠标坐标等。还使用了 `preventDefault()` 阻止了按钮的默认点击行为，以及 `stopPropagation()` 阻止了鼠标移动事件的冒泡。通过使用事件对象，我们可以更精确地控制事件的行为和影响。
-
-### 2、键盘事件及鼠标事件
-
-常用的键盘事件和鼠标滚轮事件如下：
-
-**常用的键盘事件：**
-
-1. **keydown**：按下键盘上的任意键时触发，通常与键盘按键的物理按下一起使用。
-
-2. **keyup**：释放键盘上的按键时触发，通常与键盘按键的物理释放一起使用。
-
-3. **keypress**：按下字符键时触发，通常与字符键（字母、数字、符号键）相关的事件。
-
-**常用的鼠标事件：**
-
-1. **click**：鼠标单击（左键）元素时触发。
-
-2. **dblclick**：鼠标双击（左键）元素时触发。
-
-3. **mousedown**：鼠标按下（左键）元素时触发。
-
-4. **mouseup**：鼠标释放（左键）元素时触发。
-
-5. **mousemove**：鼠标在元素上移动时触发，通常伴随着鼠标指针的移动而触发。
-
-6. **mouseenter**：鼠标进入元素时触发，不会冒泡。
-
-7. **mouseleave**：鼠标离开元素时触发，不会冒泡。
-
-8. **mouseover**：鼠标移入元素或其子元素时触发，会冒泡。
-
-9. **mouseout**：鼠标移出元素或其子元素时触发，会冒泡。
-
-10. **contextmenu**：在元素上右键单击时触发上下文菜单事件。
-
-**鼠标滚轮事件：**
-
-1. **wheel**：鼠标滚轮滚动时触发。这个事件可以提供滚轮的方向和滚动量，通常用于实现滚动功能。
-
-这些事件可以用来监听用户的输入和交互，以便根据用户的操作执行相应的操作或改变页面的行为。在开发 Web 应用程序时，键盘事件和鼠标事件都是非常常见和有用的事件类型。
-
-## 四、函数高级
-
-### 1、函数的分类
-
-函数可以根据其用途和行为分类为不同类型。以下是一些常见的函数分类和示例：
-
-1. **内置函数（Built-in Functions）**：这些函数是 JavaScript 语言提供的默认函数，无需额外定义。例如：
-
-   ```javascript
-   // 字符串函数
-   const str = 'Hello, World!';
-   console.log(str.length); // 内置属性获取字符串长度
-   console.log(str.toUpperCase()); // 内置方法将字符串转为大写
-   
-   // 数组函数
-   const numbers = [1, 2, 3, 4, 5];
-   console.log(numbers.length); // 内置属性获取数组长度
-   console.log(numbers.join(', ')); // 内置方法将数组元素连接成字符串
-   ```
-
-2. **用户自定义函数（User-Defined Functions）**：这些函数是开发者根据需要自己定义的函数。示例：
-
-   ```javascript
-   // 定义一个简单的函数
-   function add(a, b) {
-     return a + b;
-   }
-   
-   // 调用函数
-   const result = add(3, 4);
-   console.log(result); // 7
-   ```
-
-3. **匿名函数（Anonymous Functions）**：这是没有函数名的函数，通常作为参数传递给其他函数或被赋值给变量。示例：
-
-   ```javascript
-   // 匿名函数赋值给变量
-   const greet = function(name) {
-     console.log(`Hello, ${name}!`);
-   };
-   
-   // 调用匿名函数
-   greet('Alice'); // Hello, Alice!
-   ```
-
-4. **箭头函数（Arrow Functions）**：ES6 引入的简化的函数定义语法，通常用于编写短小的函数。示例：
-
-   ```javascript
-   // 箭头函数
-   const square = x => x * x;
-   
-   // 调用箭头函数
-   const result = square(4);
-   console.log(result); // 16
-   ```
-
-5. **回调函数（Callback Functions）**：这些函数通常作为参数传递给其他函数，用于在某些事件发生时执行特定操作。示例：
-
-   ```javascript
-   // 回调函数作为参数
-   function processNumbers(numbers, callback) {
-     const processed = numbers.map(callback);
-     return processed;
-   }
-   
-   // 定义回调函数
-   function double(x) {
-     return x * 2;
-   }
-   
-   const numbers = [1, 2, 3, 4, 5];
-   
-   // 使用回调函数处理数组
-   const doubledNumbers = processNumbers(numbers, double);
-   console.log(doubledNumbers); // [2, 4, 6, 8, 10]
-   ```
-
-6. **构造函数（Constructor Functions）**：用于创建对象实例的函数，通常以大写字母开头。示例：
-
-   ```javascript
-   // 构造函数
-   function Person(name, age) {
-     this.name = name;
-     this.age = age;
-   }
-   
-   // 创建对象实例
-   const person1 = new Person('Alice', 30);
-   const person2 = new Person('Bob', 25);
-   
-   console.log(person1.name); // 'Alice'
-   console.log(person2.age); // 25
-   ```
-
-这些是一些常见的函数分类和示例。JavaScript 中的函数是非常灵活的，可以用于执行各种不同的任务，从简单的数学运算到复杂的对象构建和异步操作。
-
-### 2、闭包函数
-
-闭包函数（Closure）是一个函数，它可以访问其包含函数（外部函数）作用域中的变量，即使外部函数已经执行完毕。在 JavaScript 中，每当你创建一个函数，它都会保留对其父函数（外部函数）作用域的引用，这样就创建了一个闭包。
-
-闭包函数通常用于以下情况：
-
-1. 保留变量的状态：通过闭包，变量的值可以在外部函数执行完毕后继续存在，不会被垃圾回收。
-
-2. 封装私有数据：通过闭包，可以创建私有变量和方法，这些私有变量和方法对外部代码不可见。
-
-3. 创建工厂函数：通过闭包，可以创建类似于工厂函数的机制，用于生成对象实例。
-
-下面是一些示例，演示了如何创建和使用闭包函数：
-
-**1. 保留变量的状态：**
-
-```javascript
-function counter() {
-  let count = 0;
-
-  return function() {
-    return ++count;
+  ```javascript
+  // 传统函数表达式
+  const add = function (a, b) {
+    return a + b;
   };
-}
 
-const increment = counter();
+  // 箭头函数
+  const add = (a, b) => a + b;
+  ```
 
-console.log(increment()); // 1
-console.log(increment()); // 2
-console.log(increment()); // 3
-```
+- 当函数体只有一个表达式时，可以省略大括号 `{}` 和 `return` 关键字，表达式的值会被自动返回。
 
-在上面的示例中，`counter` 函数返回一个内部函数，该内部函数使用了 `count` 变量，即使 `counter` 函数已经执行完毕，但内部函数依然可以访问并修改 `count` 变量的状态。
+  ```javascript
+  const square = (x) => x * x;
+  ```
 
-**2. 封装私有数据：**
+- 如果没有参数或有多个参数，需要使用圆括号 `()`：
+  ```javascript
+  const sayHello = () => console.log("Hello");
+  const multiply = (a, b, c) => a * b * c;
+  ```
 
-```javascript
-function createPerson(name) {
-  const privateData = { name };
+**`this` 绑定**
 
-  return {
-    getName: function() {
-      return privateData.name;
-    },
-    setName: function(newName) {
-      privateData.name = newName;
-    },
+- 箭头函数不会创建自己的`this`，它会捕获函数定义时的上下文中的`this`值，也就是**词法作用域**中的`this`。这与传统函数不同，传统函数的`this`取决于它的调用方式。
+
+  ```javascript
+  function Person() {
+    this.age = 0;
+
+    setInterval(() => {
+      this.age++; // `this` 在此处引用的是Person实例
+    }, 1000);
+  }
+
+  const p = new Person();
+  ```
+
+- 在上面的例子中，`this.age`能够正确引用`Person`对象的`age`属性，因为箭头函数的`this`绑定到创建时的上下文（`Person`实例）。
+
+**没有 `arguments` 对象**
+
+- 箭头函数没有自己的`arguments`对象。如果你需要访问`arguments`，可以通过箭头函数外部的函数来访问，或者使用 Rest 参数。
+
+  ```javascript
+  const func = () => {
+    console.log(arguments); // 报错，`arguments`未定义
   };
-}
 
-const person = createPerson('Alice');
+  function normalFunc() {
+    const arrowFunc = () => console.log(arguments);
+    arrowFunc(); // 可以访问 `normalFunc` 的 `arguments`
+  }
+  ```
 
-console.log(person.getName()); // 'Alice'
-person.setName('Bob');
-console.log(person.getName()); // 'Bob'
-```
+**不能用作构造函数**
 
-在这个示例中，`createPerson` 函数返回一个包含私有数据的对象，并且提供了访问和修改私有数据的方法，从外部无法直接访问 `privateData` 对象。
+- 箭头函数不能被用作构造函数，如果尝试使用`new`关键字调用箭头函数会抛出错误。
+  ```javascript
+  const Foo = () => {};
+  const foo = new Foo(); // TypeError: Foo is not a constructor
+  ```
 
-**3. 创建工厂函数：**
+**没有 `prototype` 属性**
 
-```javascript
-function createCounter() {
-  let count = 0;
+- 由于箭头函数不能作为构造函数，因此它也没有`prototype`属性。
+  ```javascript
+  const func = () => {};
+  console.log(func.prototype); // undefined
+  ```
 
-  return {
-    increment: function() {
-      return ++count;
-    },
-    reset: function() {
-      count = 0;
-    },
-  };
-}
+**适用场景**
 
-const counter1 = createCounter();
-const counter2 = createCounter();
+- **短小的匿名函数**：箭头函数非常适合编写短小的匿名函数，特别是在回调中。
+- **保持上下文的`this`**：在需要保持当前上下文的`this`引用的情况下（如定时器、事件处理器等），箭头函数是一个很好的选择。
 
-console.log(counter1.increment()); // 1
-console.log(counter1.increment()); // 2
-console.log(counter2.increment()); // 1
-counter1.reset();
-console.log(counter1.increment()); // 1
-```
+**注意事项**
 
-在这个示例中，`createCounter` 函数返回一个对象，该对象包含一个计数器和操作计数器的方法。每次调用 `createCounter` 都会创建一个新的计数器实例，它们之间互不干扰。
+- 由于箭头函数的`this`绑定是静态的，因此在某些场景下（如对象方法定义中）需要谨慎使用。
 
-闭包是 JavaScript 中强大且常用的特性，可以用于许多情况下，例如创建私有变量、封装代码、保存状态等。但要小心不要滥用闭包，因为它们可以导致内存泄漏问题。在正确使用时，闭包可以增强代码的可维护性和封装性。
+总体来说，箭头函数让代码更加简洁易读，同时避免了`this`绑定问题带来的困扰。不过，它也有一些限制，使用时需根据具体场景选择合适的函数定义方式。
+
+### 3、闭包函数
+
+**闭包**（Closure）是JavaScript中的一个核心概念，它指的是一个函数可以记住并访问它的词法作用域，即使这个函数在其词法作用域之外执行。换句话说，闭包使得一个函数能够“捕获”并“记住”它被创建时的上下文。
+
+**闭包的定义**
+   - **词法作用域**：在JavaScript中，函数的作用域是在函数定义时确定的，而不是在函数调用时确定的。这种作用域规则被称为词法作用域。
+   - **闭包的概念**：当一个函数能够访问它外部函数的变量时，这个函数就形成了一个闭包。闭包允许函数在外部函数作用域内保存状态。
+
+**闭包的示例**
+
+  下面是一个简单的闭包例子：
+   ```javascript
+   function outerFunction() {
+     const outerVariable = 'I am outside!';
+
+     function innerFunction() {
+       console.log(outerVariable);
+     }
+
+     return innerFunction;
+   }
+
+   const myFunction = outerFunction();
+   myFunction(); // 输出: 'I am outside!'
+   ```
+   在这个例子中，`innerFunction` 是一个闭包。即使 `outerFunction` 已经执行完毕并从调用栈中移除，但 `innerFunction` 仍然能够访问 `outerVariable` 变量。这是因为 `innerFunction` 保持了对 `outerFunction` 作用域的引用。
+
+**闭包的实际应用**
+
+   **1. 数据隐藏与封装**
+   - 闭包常用于创建私有变量或方法，从而实现数据隐藏和封装。
+     ```javascript
+     function createCounter() {
+       let count = 0;
+
+       return {
+         increment: function() {
+           count++;
+           return count;
+         },
+         decrement: function() {
+           count--;
+           return count;
+         },
+         getCount: function() {
+           return count;
+         }
+       };
+     }
+
+     const counter = createCounter();
+     console.log(counter.increment()); // 1
+     console.log(counter.increment()); // 2
+     console.log(counter.decrement()); // 1
+     console.log(counter.getCount()); // 1
+     ```
+     在这个例子中，`count` 变量是私有的，外部无法直接访问它，只能通过暴露的方法来操作它。
+
+   **2. 模拟私有方法**
+   - JavaScript没有私有方法的概念，但可以使用闭包来模拟私有方法。
+     ```javascript
+     function Person(name) {
+       const secret = 'I am a secret!';
+
+       this.sayName = function() {
+         console.log('My name is ' + name);
+       };
+
+       this.revealSecret = function() {
+         console.log(secret);
+       };
+     }
+
+     const person = new Person('Alice');
+     person.sayName(); // 输出: 'My name is Alice'
+     person.revealSecret(); // 输出: 'I am a secret!'
+     ```
+
+   **3. 回调函数与异步操作**
+   - 闭包也常用于回调函数中，特别是在异步操作中，确保回调函数能够访问执行时的上下文变量。
+     ```javascript
+     function delayedGreeting(name) {
+       setTimeout(function() {
+         console.log('Hello, ' + name);
+       }, 1000);
+     }
+
+     delayedGreeting('Alice'); // 1秒后输出: 'Hello, Alice'
+     ```
+     在这个例子中，`setTimeout` 回调函数形成了闭包，能够访问外部函数 `delayedGreeting` 的 `name` 变量。
+
+**闭包的常见问题**
+
+   **1. 闭包与循环**
+   - 在循环中使用闭包时，如果不注意，会导致所有闭包共享同一个外部变量。
+     ```javascript
+     for (var i = 1; i <= 5; i++) {
+       setTimeout(function() {
+         console.log(i); // 输出5次 6
+       }, i * 1000);
+     }
+     ```
+     这是因为`var`声明的`i`是全局的，在闭包中所有`i`共享同一个值。在ES6中，可以使用`let`来解决这个问题，因为`let`是块级作用域。
+     ```javascript
+     for (let i = 1; i <= 5; i++) {
+       setTimeout(function() {
+         console.log(i); // 分别输出1到5
+       }, i * 1000);
+     }
+     ```
+
+   **2. 内存泄漏**
+   - 如果闭包持有对外部变量的引用，可能会导致内存泄漏，因为这些变量不会被垃圾回收。
+
+**总结**
+   - **闭包**是JavaScript中一个强大而常见的工具，它允许函数捕获和使用外部作用域的变量。这使得函数可以保持状态、隐藏数据，并在异步操作中保持对变量的访问。
+
+   - 尽管闭包非常有用，但在使用时要注意不要滥用，以避免可能的性能问题和内存泄漏。
 
 ### 3、递归函数
 
-递归函数是一种在函数内部调用自身的函数。它通常用于解决可以分解成相似子问题的问题，每次调用时问题规模都会减小，直到达到基本情况（停止条件）。递归函数在解决树形结构、分治算法等问题时非常有用，但要谨慎使用，因为如果不正确地编写递归函数，可能会导致栈溢出等问题。
+递归函数是指在函数的定义中调用其自身的一种编程技术。递归函数通常用于解决可以分解为相似子问题的问题。递归函数通常包含两个部分：
 
-递归函数通常具有以下结构：
+1. **基准情形（Base Case）**：这是递归终止的条件。当满足这个条件时，函数不再递归调用自身，而是返回一个明确的结果。
+  
+2. **递归情形（Recursive Case）**：这是函数调用自身的部分。通过不断地调用自身，递归函数逐渐将问题规模缩小，最终达到基准情形。
 
-1. **基本情况（Base Case）**：递归函数必须定义一个或多个基本情况，这些情况在满足某个条件时会终止递归，通常返回一个确定的值。
+**举个例子**
 
-2. **递归调用（Recursive Call）**：递归函数在解决问题时会调用自身，但传入的参数通常与原始问题相比规模更小。
+计算一个数的阶乘是递归函数的经典例子。
 
-下面是一个简单的示例，演示如何编写和使用递归函数来计算阶乘：
+阶乘的数学定义如下：
+- `0! = 1`（基准情形）
+- `n! = n * (n - 1)!`，其中 `n > 0`（递归情形）
+
+根据这个定义，阶乘的递归实现可以写成如下的JavaScript代码：
 
 ```javascript
 function factorial(n) {
-  // 基本情况：当 n 为 0 或 1 时，阶乘为 1
-  if (n === 0 || n === 1) {
-    return 1;
-  } else {
-    // 递归调用：计算 n 的阶乘
+    // 基准情形
+    if (n === 0) {
+        return 1;
+    }
+    // 递归情形
     return n * factorial(n - 1);
-  }
 }
-
-// 计算 5 的阶乘
-const result = factorial(5);
-console.log(result); // 输出 120
 ```
 
-在上面的示例中，`factorial` 函数通过递归调用自身来计算给定数字 `n` 的阶乘。当 `n` 达到基本情况时（即 `n` 等于 0 或 1），递归终止并返回 1，否则继续递归调用来计算阶乘。
+**递归的工作原理**
 
-递归函数在解决问题时可以使代码更简洁和易于理解，但要小心避免无限递归或递归深度太深而导致的性能问题。确保在递归函数中定义正确的基本情况，以确保递归能够终止。此外，对于某些问题，迭代（循环）可能是更有效的解决方法，因此在选择使用递归时要谨慎。
+假设我们调用 `factorial(5)`，递归调用的顺序如下：
+
+```
+factorial(5)
+-> 5 * factorial(4)
+-> 5 * (4 * factorial(3))
+-> 5 * (4 * (3 * factorial(2)))
+-> 5 * (4 * (3 * (2 * factorial(1))))
+-> 5 * (4 * (3 * (2 * (1 * factorial(0)))))
+-> 5 * (4 * (3 * (2 * (1 * 1))))
+-> 5 * (4 * (3 * (2 * 1)))
+-> 5 * (4 * (3 * 2))
+-> 5 * (4 * 6)
+-> 5 * 24
+-> 120
+```
+
+最终，`factorial(5)` 返回 `120`。
+
+递归函数在处理具有分治性质的问题时非常有用，比如树结构的遍历、数学归纳法的问题、以及很多算法问题。重要的是确保每次递归调用都会朝着基准情形前进，否则递归会进入无限循环，导致栈溢出错误。
 
 ### 4、防抖节流函数
 
-防抖（Debouncing）和节流（Throttling）是两种用于控制 JavaScript 中事件触发频率的技术，常用于提高性能和避免不必要的函数调用。它们可以防止短时间内多次触发事件，例如，滚动事件、窗口大小调整事件、输入框输入事件等。
+防抖（Debounce）和节流（Throttle）是两种用于优化高频率事件触发的技术。在前端开发中，这些技术常用于处理诸如滚动、调整窗口大小、输入框键入等事件，以减少函数调用的频率，从而提高性能。
 
-#### 防抖（Debouncing）：
+#### 防抖（Debounce）
 
-防抖是一种技术，用于确保在一连串触发事件后只执行一次函数。它将事件的多次触发合并为一次，通常在事件停止触发一段时间后执行相关操作。
+**防抖**是指在事件被触发后，**等待一段时间再执行函数**，如果在这段时间内事件又被触发了，则重新开始计时。防抖的目的是让某个高频率的操作只在一段时间内最后一次执行。
 
-**如何使用防抖：**
+**例子**
+
+假设你正在监听一个输入框的输入事件，你想在用户停止输入后的500毫秒执行搜索请求，而不是每次输入时都发出请求。你可以使用防抖技术来实现这一点。
+
+**JavaScript实现防抖：**
 
 ```javascript
 function debounce(func, delay) {
-  let timer;
-  return function() {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      // 将函数 func 应用（或调用）到特定的上下文（this 关键字指向的对象）
-      // 和参数数组（arguments 对象中的参数）上。
-      func.apply(this, arguments);
-    }, delay);
-  };
+    // 定义一个变量 timeoutId 用来存储 setTimeout 的返回值
+    let timeoutId;
+
+    // 返回一个新的函数，这个函数将被防抖
+    return function (...args) {
+        // 如果 timeoutId 存在，说明上一次的延迟还未完成
+        // 清除上一次的延迟，防止 func 被调用
+        clearTimeout(timeoutId);
+
+        // 设置一个新的延迟，当 delay 时间过去后，执行 func 函数
+        timeoutId = setTimeout(() => {
+            // 使用 apply 方法将 func 函数的 this 绑定到当前上下文，并传入参数 args
+            func.apply(this, args);
+        }, delay);
+    };
 }
-
-// 使用防抖函数
-const debouncedFunction = debounce(() => {
-  console.log('Debounced function executed');
-}, 1000);
-
-// 在事件处理函数中使用防抖函数
-window.addEventListener('scroll', debouncedFunction);
 ```
 
-在上述示例中，`debounce` 函数接受一个要执行的函数和一个延迟时间（以毫秒为单位），并返回一个新的函数，该函数会在最后一次触发事件后等待指定的延迟时间后执行。这有助于减少函数的频繁调用。
-
-#### 节流（Throttling）：
-
-节流是一种技术，用于确保函数在一段时间内只执行一次，而不管事件触发频率如何。它在规定的时间间隔内执行函数，无论事件触发了多少次。
-
-**如何使用节流：**
+**使用方法：**
 
 ```javascript
-function throttle(func, delay) {
-  let throttling = false;
-  return function() {
-    if (!throttling) {
-      throttling = true;
-      func.apply(this, arguments);
-      setTimeout(() => {
-        throttling = false;
-      }, delay);
-    }
-  };
-}
+const handleInput = debounce(() => {
+    console.log('Search query sent!');
+}, 500);
 
-// 使用节流函数
-const throttledFunction = throttle(() => {
-  console.log('Throttled function executed');
-}, 1000);
-
-// 在事件处理函数中使用节流函数
-window.addEventListener('scroll', throttledFunction);
+// 当用户在输入框中输入时，handleInput 函数将被触发
+// 由于防抖，只有在用户停止输入 500 毫秒后，handleInput 才会实际执行
+document.getElementById('search').addEventListener('input', handleInput);
 ```
 
-在上述示例中，`throttle` 函数接受一个要执行的函数和一个延迟时间（以毫秒为单位），并返回一个新的函数，该函数会在规定的延迟时间内执行一次。无论事件触发多次，函数都会在规定时间间隔后执行。
+在这个例子中，`handleInput` 只会在用户停止输入500毫秒后才会被执行。
 
-防抖和节流函数都有各自的用途，具体取决于你的需求。防抖适用于需要等待一段时间后执行的操作，而节流适用于需要以固定速率执行的操作。根据实际情况选择合适的技术可以提高性能并改善用户体验。
+#### 节流（Throttle）
 
-## 五、正则表达式
+**节流**是指在事件被连续触发时，**每隔一定时间执行一次函数**，而不是每次触发事件时都执行。节流的目的是限制函数的执行频率，以减少性能开销。
 
-### 1、正则表达式
-JavaScript中的正则表达式是一种强大的文本匹配和处理工具，它由字符和特殊字符组成，用于定义字符串匹配规则。正则表达式常用于字符串的搜索、替换、验证等操作。
+**例子**
 
-以下是一些JavaScript中常用的正则表达式匹配规则示例：
+假设你正在监听页面的滚动事件，你希望每100毫秒检查一次用户是否滚动到了页面底部，而不是每次滚动时都执行检查。
 
-1. **匹配单个字符：**
-
-   - `.`：匹配任何字符，除了换行符。
-   - `[abc]`：匹配单个字符，可以是字符 `a`、`b` 或 `c` 中的任何一个。
-   - `[^abc]`：匹配单个字符，不能是字符 `a`、`b` 或 `c` 中的任何一个。
-
-2. **匹配字符集合：**
-
-   - `\d`：匹配一个数字字符，等同于 `[0-9]`。
-   - `\D`：匹配一个非数字字符，等同于 `[^0-9]`。
-   - `\w`：匹配一个单词字符，包括字母、数字和下划线，等同于 `[a-zA-Z0-9_]`。
-   - `\W`：匹配一个非单词字符，等同于 `[^a-zA-Z0-9_]`。
-   - `\s`：匹配一个空白字符，包括空格、制表符和换行符。
-   - `\S`：匹配一个非空白字符。
-
-3. **匹配重复次数：**
-
-   - `*`：匹配前一个字符的零次或多次出现。
-   - `+`：匹配前一个字符的一次或多次出现。
-   - `?`：匹配前一个字符的零次或一次出现。
-   - `{n}`：匹配前一个字符恰好出现 n 次。
-   - `{n,}`：匹配前一个字符至少出现 n 次。
-   - `{n,m}`：匹配前一个字符出现 n 到 m 次。
-
-4. **锚点和边界：**
-
-   - `^`：匹配字符串的开头。
-   - `$`：匹配字符串的结尾。
-   - `\b`：匹配单词边界。
-   - `\B`：匹配非单词边界。
-
-5. **分组和捕获：**
-
-   - `(pattern)`：捕获匹配的内容，可以使用捕获组后续引用。
-   - `(?:pattern)`：分组但不捕获，不会创建捕获组。
-   - `(?=pattern)`：正向预查，匹配之前的位置，但不消耗字符。
-   - `(?!pattern)`：负向预查，匹配之前的位置，但不消耗字符。
-
-6. **转义字符：**
-
-   - `\`：用于转义特殊字符，例如 `\.` 匹配点字符。
-
-这些是一些基本的正则表达式匹配规则。正则表达式还可以包含更复杂的模式和规则，以满足各种不同的匹配需求。在JavaScript中，您可以使用正则表达式字面量或`RegExp`构造函数来创建正则表达式对象，并使用正则表达式的方法来执行匹配、替换和其他操作。例如：
+**JavaScript实现节流：**
 
 ```javascript
-// 使用正则表达式字面量创建
-let pattern = /\d+/;
+function throttle(func, interval) {
+    // 记录上一次执行函数的时间
+    let lastTime = 0;
 
-// 使用RegExp构造函数创建
-let pattern = new RegExp("\\d+");
+    // 返回一个新的函数，这个函数将被节流
+    return function (...args) {
+        // 获取当前的时间戳
+        const now = Date.now();
 
-// 使用test()方法进行匹配测试
-console.log(pattern.test("123")); // true
-console.log(pattern.test("abc")); // false
+        // 如果当前时间距离上一次执行 func 的时间超过了指定的间隔
+        if (now - lastTime >= interval) {
+            // 更新上一次执行函数的时间
+            lastTime = now;
+
+            // 使用 apply 方法将 func 函数的 this 绑定到当前上下文，并传入参数 args
+            func.apply(this, args);
+        }
+    };
+}
 ```
 
-要深入学习正则表达式，请查阅JavaScript的正则表达式文档和教程，以了解更多的高级用法和技巧。
+**使用方法：**
 
-### 2、常用的正则表达式
+```javascript
+const handleScroll = throttle(() => {
+    console.log('Scroll event detected!');
+}, 100);
 
-以下是一些常用的正则表达式示例，它们用于匹配常见的文本模式和数据格式：
+// 当用户滚动页面时，handleScroll 函数将被触发
+// 由于节流，handleScroll 最多每隔 100 毫秒执行一次
+window.addEventListener('scroll', handleScroll);
+```
 
-1. **匹配电子邮件地址：**
+在这个例子中，`handleScroll` 只会每隔100毫秒最多执行一次，即使滚动事件在这段时间内被频繁触发。
 
-   ```regex
-   ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
-   ```
+**总结**
 
-   这个正则表达式匹配标准的电子邮件地址格式，如`example@email.com`。
-
-2. **匹配URL：**
-
-   ```regex
-   ^(https?|ftp)://[^\s/$.?#].[^\s]*$
-   ```
-
-   这个正则表达式用于匹配常见的URL格式，包括HTTP、HTTPS和FTP协议。
-
-3. **匹配日期（YYYY-MM-DD）：**
-
-   ```regex
-   ^\d{4}-\d{2}-\d{2}$
-   ```
-
-   这个正则表达式匹配标准的日期格式，例如`2023-09-19`。
-
-4. **匹配手机号码：**
-
-   ```regex
-   ^1\d{10}$
-   ```
-
-   这个正则表达式用于匹配中国大陆地区的手机号码。
-
-5. **匹配IP地址：**
-
-   ```regex
-   ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$
-   ```
-
-   这个正则表达式匹配IPv4地址，例如`192.168.1.1`。
-
-6. **匹配身份证号码（中国大陆）：**
-
-   ```regex
-   ^(^[1-9]\d{5}(19|20)\d{2}(0[1-9]|1[0-2])([0-2][1-9]|10|20|30|31)\d{3}(\d|X|x)$)$
-   ```
-
-   这个正则表达式用于匹配中国大陆地区的身份证号码。
-
-7. **匹配用户名：**
-
-   ```regex
-   ^[a-zA-Z0-9_-]{3,16}$
-   ```
-
-   这个正则表达式用于匹配用户名，通常允许字母、数字、下划线和短横线，长度为3到16个字符。
-
-8. **匹配强密码：**
-
-   ```regex
-   ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$
-   ```
-
-   这个正则表达式用于匹配强密码，要求包含大小写字母、数字和特殊字符，至少8个字符。
-
-
-这些是一些常见的正则表达式示例，用于匹配不同的文本模式和数据格式。根据您的需求，您可以根据这些示例来创建和定制自己的正则表达式，以满足特定的匹配和验证要求。记住，在使用正则表达式时，要仔细测试和验证匹配规则，确保其符合预期。
+- **防抖（Debounce）**：事件触发后等待一段时间，如果在等待期间事件再次触发，则重新计时。适用于需要在高频事件停止后执行的场景。
+- **节流（Throttle）**：限制事件处理函数的执行频率，即每隔固定时间执行一次函数。适用于需要限制高频事件的处理次数的场景。
