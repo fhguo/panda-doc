@@ -332,7 +332,7 @@ console.log(greet('World')); // 输出 'Hello, World!'
 
 **npm** 是 Node.js 的包管理器，全称是 **Node Package Manager**。它是一个命令行工具，也是一个托管 JavaScript 包的在线仓库。npm 是 Node.js 生态系统的重要组成部分，允许开发者轻松管理项目中的依赖项，并共享自己的代码。
 
-##### npm 的核心功能
+**npm 的核心功能**
 1. **安装包**：开发者可以使用 `npm install` 命令来安装和管理项目中的依赖项。依赖项会被下载到 `node_modules` 目录中。
 2. **管理依赖项**：`package.json` 文件列出了项目的所有依赖项和其他元数据。通过 npm，可以轻松地添加、删除或更新依赖项。
 3. **发布包**：开发者可以将自己的代码打包成 npm 包，并发布到 npm 注册表，使其他开发者可以安装和使用它。
@@ -342,7 +342,7 @@ console.log(greet('World')); // 输出 'Hello, World!'
 
 **包**（Package）是一个包含了 JavaScript 代码、资源文件以及相关元数据的压缩文件。包通常用于分发特定功能的代码库，开发者可以通过 npm 安装和使用这些包。
 
-##### 包的组成：
+**包的组成**
 1. **JavaScript 代码**：包中通常包含一个或多个 JavaScript 文件，提供特定的功能或库。
 2. **package.json**：每个包的根目录下都有一个 `package.json` 文件，它描述了包的基本信息，如包名、版本号、描述、作者、依赖项等。`package.json` 是 npm 管理包的重要文件。
 3. **其他资源文件**：包可能还包含文档（如 README.md）、配置文件、样式文件等。
@@ -366,7 +366,7 @@ console.log(greet('World')); // 输出 'Hello, World!'
 }
 ```
 
-##### npm 常用命令
+**npm 常用命令**
 
 1. **`npm init`**：初始化一个新的 Node.js 项目，生成 `package.json` 文件。
    ```bash
@@ -734,8 +734,6 @@ git merge feature-branch  # 合并分支的更改
 git push origin main  # 推送到远程主分支
 git pull origin main  # 从远程主分支拉取更改
 ```
-
-这是Git的基本用法。Git还提供了其他高级功能，如标签、重置、stash等，用于更灵活地管理项目的版本和更改。学习使用Git需要一些时间和实践，但它是一个非常有价值的工具，可以提高开发和协作的效率，以及确保代码的版本控制。
 
 ### 2、.gitignore文件
 
