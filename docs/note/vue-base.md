@@ -717,6 +717,7 @@ Vue 指令通过简洁的语法提供了强大的功能，使得 Vue.js 在处�
 #### 2. **生命周期钩子函数一览**
 
 **创建阶段**
+
 1. **`beforeCreate`**：
    - 组件实例刚刚被创建，数据观察和事件配置都未完成。
    - 此时，`data` 和 `methods` 等都无法使用。
@@ -738,6 +739,7 @@ Vue 指令通过简洁的语法提供了强大的功能，使得 Vue.js 在处�
    ```
 
 **挂载阶段**
+
 3. **`beforeMount`**：
    - 在挂载开始之前调用，相关的 `render` 函数首次被调用。
    - 组件的 DOM 结构还未生成，但虚拟 DOM 已经创建。
@@ -759,6 +761,7 @@ Vue 指令通过简洁的语法提供了强大的功能，使得 Vue.js 在处�
    ```
 
 **更新阶段**
+
 5. **`beforeUpdate`**：
    - 在数据更新导致的重新渲染开始之前调用。
    - 组件仍然可以访问旧的 DOM 元素。
@@ -780,6 +783,7 @@ Vue 指令通过简洁的语法提供了强大的功能，使得 Vue.js 在处�
    ```
 
 **销毁阶段**
+
 7. **`beforeDestroy`**：
    - 实例销毁之前调用，此时实例仍然完全可用。
    - 常用于清理计时器、解除事件绑定等操作。
@@ -804,55 +808,6 @@ Vue 指令通过简洁的语法提供了强大的功能，使得 Vue.js 在处�
 - **`beforeMount`** 和 **`mounted`**：适合操作 DOM，或在组件插入页面后执行一些依赖 DOM 的操作。
 - **`beforeUpdate`** 和 **`updated`**：用于在数据更新前后执行特定操作，如手动调整 DOM 或依赖更新后的数据。
 - **`beforeDestroy`** 和 **`destroyed`**：适合清理资源、移除事件监听器、清除计时器等操作。
-
-#### 4. **生命周期钩子函数的顺序**
-
-1. `beforeCreate`
-2. `created`
-3. `beforeMount`
-4. `mounted`
-5. **组件更新时**:
-   - `beforeUpdate`
-   - `updated`
-6. **组件销毁时**:
-   - `beforeDestroy`
-   - `destroyed`
-
-#### 5. **示例应用**
-```javascript
-new Vue({
-  el: '#app',
-  data: {
-    message: 'Hello Vue!'
-  },
-  beforeCreate() {
-    console.log('beforeCreate');
-  },
-  created() {
-    console.log('created');
-  },
-  beforeMount() {
-    console.log('beforeMount');
-  },
-  mounted() {
-    console.log('mounted');
-  },
-  beforeUpdate() {
-    console.log('beforeUpdate');
-  },
-  updated() {
-    console.log('updated');
-  },
-  beforeDestroy() {
-    console.log('beforeDestroy');
-  },
-  destroyed() {
-    console.log('destroyed');
-  }
-});
-```
-
-在此示例中，随着组件的创建、挂载、更新和销毁，控制台会依次输出相应的生命周期钩子名称，这有助于你理解每个阶段发生的事件。
 
 ### 10、vue脚手架
 
