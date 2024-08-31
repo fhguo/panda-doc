@@ -1,524 +1,984 @@
 ---
-outline: deep
+outline: [1, 3]
 ---
 # vue进阶
 
 ## 一、Vue Router
 
-### 1、路由入门
+### 1、路由概念
 
-Vue Router（或简称Vue路由器）是Vue.js官方提供的用于处理路由的库，它允许你在Vue.js应用中实现客户端路由。Vue Router的主要功能是管理应用程序的URL和视图之间的映射关系，从而允许你构建单页面应用（SPA）以及多页面应用（MPA）。
+Vue Router 是 Vue.js 的官方路由管理器，用于在 Vue.js 单页面应用程序（SPA）中管理页面导航和 URL。它允许你定义 URL 和组件之间的映射关系，当用户访问特定的 URL 时，Vue Router 会渲染与该 URL 对应的 Vue 组件。
 
-以下是使用Vue Router的一般步骤：
+#### 主要功能：
+1. **路由映射**：可以将不同的 URL 映射到不同的 Vue 组件，当用户访问某个 URL 时，渲染相应的组件。
+  
+2. **嵌套路由**：支持嵌套视图的多级路由结构，可以在一个组件中嵌套多个子路由组件。
 
-**1. 安装Vue Router**
+3. **动态路由**：支持动态路径参数，可以在路由路径中使用变量（如 `/user/:id`），并根据这些变量渲染不同的内容。
 
-首先，确保你的Vue.js项目已经创建。然后，你可以使用npm或yarn来安装Vue Router。
+4. **编程式导航**：除了通过 `<router-link>` 组件进行导航外，还可以通过编程方式使用 `this.$router.push` 或 `this.$router.replace` 进行导航。
 
-```bash
-npm install vue-router
-# 或者
-yarn add vue-router
-```
+5. **路由守卫**：提供了全局守卫、路由独享守卫和组件内守卫等功能，可以在路由切换前后执行一些逻辑，如权限验证、数据预加载等。
 
-**2. 创建Vue Router实例**
+6. **过渡动画**：与 Vue 的过渡系统集成，允许在路由切换时应用过渡动画。
 
-在Vue项目的根目录下，通常会创建一个名为`router.js`的文件来配置和创建Vue Router实例。在该文件中，你需要引入Vue和Vue Router，然后创建一个新的Vue Router实例，并配置路由规则。
+#### 使用步骤：
+1. **安装 Vue Router**：如果使用 Vue CLI 创建的项目，可以选择直接安装 Vue Router，或者在项目中手动安装：
+   ```bash
+   npm install vue-router
+   ```
+
+2. **创建路由**：在项目中定义路由配置，并将它传递给 `VueRouter` 实例：
+   ```javascript
+   import Vue from 'vue'
+   import VueRouter from 'vue-router'
+   import Home from './components/Home.vue'
+   import About from './components/About.vue'
+
+   Vue.use(VueRouter)
+
+   const routes = [
+     { path: '/', component: Home },
+     { path: '/about', component: About }
+   ]
+
+   const router = new VueRouter({
+     routes
+   })
+
+   new Vue({
+     router,
+     render: h => h(App)
+   }).$mount('#app')
+   ```
+
+3. **在模板中使用 `<router-view>`**：用于渲染匹配到的组件，通常放置在主布局组件中：
+   ```html
+   <template>
+     <div id="app">
+       <router-view></router-view>
+     </div>
+   </template>
+   ```
+
+通过这些步骤，你可以在 Vue.js 应用中使用 Vue Router 实现不同组件的切换和导航。
+
+### 2、动态路由
+
+动态路由是指在路由配置中使用路径参数，以实现根据不同参数值动态渲染不同组件或内容的路由。通过使用动态路由，可以在一个路径下处理多个不同的页面或数据视图。
+
+#### 动态路由的定义与使用
+
+**路径参数**
+
+动态路由的路径中可以包含参数，这些参数通常以 `:` 作为前缀。例如，假设你有一个用户详情页，可以为用户 ID 创建一个动态路由：
 
 ```javascript
-// router.js
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-
-// 引入路由对应的组件
-import Home from './components/Home.vue';
-import About from './components/About.vue';
-
-// 使用Vue Router插件
-Vue.use(VueRouter);
-
-// 创建Vue Router实例并配置路由规则
-const router = new VueRouter({
-  routes: [
-    { path: '/', component: Home },
-    { path: '/about', component: About }
-  ]
-});
-
-export default router;
+const routes = [
+  { path: '/user/:id', component: UserDetail }
+]
 ```
 
-**3. 集成Vue Router**
+在这个例子中，`:id` 是一个路径参数。无论用户访问 `/user/1`、`/user/2` 或 `/user/123`，该路由都会匹配并渲染 `UserDetail` 组件。
 
-在Vue项目的入口文件（通常是`main.js`）中，导入Vue Router实例并将其集成到Vue根实例中。
+**访问路径参数**
+
+在匹配到动态路由时，路径参数会作为对象存储在 `this.$route.params` 中，你可以在组件中访问它们：
 
 ```javascript
-// main.js
-import Vue from 'vue';
-import App from './App.vue';
-import router from './router'; // 引入Vue Router实例
-
-new Vue({
-  render: h => h(App),
-  router, // 集成Vue Router
-}).$mount('#app');
+export default {
+  created() {
+    console.log(this.$route.params.id);  // 输出当前路径的 id 参数
+  }
+}
 ```
 
-**4. 使用路由**
+**多个路径参数**
 
-现在，你可以在Vue组件中使用路由了。在模板中，你可以使用`<router-link>`来创建链接，使用`<router-view>`来渲染匹配的组件。
+你可以在路径中定义多个参数，例如：
+```javascript
+const routes = [
+  { path: '/user/:id/post/:postId', component: UserPostDetail }
+]
+```
+在这个例子中，路径 `/user/1/post/42` 会匹配 `UserPostDetail` 组件，其中 `id` 为 `1`，`postId` 为 `42`。
 
-```vue
-<!-- App.vue -->
+**捕获所有路由的通配符**
+
+有时你可能希望捕获所有不匹配的路径。这时可以使用通配符 `*`，例如：
+```javascript
+const routes = [
+  { path: '*', component: NotFound }
+]
+```
+在 Vue Router 3.1+ 中，可以用 `:pathMatch(.*)*` 代替 `*`，更精确地捕获路径：
+```javascript
+const routes = [
+  { path: '/user/:id/:pathMatch(.*)*', component: UserDetail }
+]
+```
+
+#### 实际应用场景
+- **用户详情页**：比如 `/user/:id`，根据用户 ID 渲染不同的用户信息页面。
+- **文章详情页**：比如 `/blog/:slug`，根据文章的 `slug` 字段来显示不同的博客文章。
+- **分类筛选**：比如 `/shop/:category`，根据不同的商品分类展示不同的商品列表。
+
+动态路由使得在一个应用中管理大量类似结构的页面变得非常方便和灵活，是 Vue Router 中非常重要的一个特性。
+
+### 3、嵌套路由
+
+嵌套路由指的是在 Vue Router 中定义多级路由结构，使得一个组件可以包含多个子路由和视图。通过嵌套路由，用户可以在一个主页面内展示和切换子页面，这样能够更好地组织复杂的页面结构。
+
+#### 3.1 嵌套路由的特点
+
+- **父路由和子路由**：父路由渲染父组件，子路由渲染子组件，子组件通常嵌套在父组件内的某个位置。
+- **嵌套的 `<router-view>`**：父组件内可以有多个 `<router-view>`，用于渲染子路由的内容。
+
+#### 3.2 使用嵌套路由
+
+**1. 基本配置**
+   
+假设我们有一个用户信息页面，里面包含 "用户概览" 和 "用户设置" 两个子页面。可以通过嵌套路由来实现这一需求。
+
+首先，定义路由配置时，可以使用 `children` 属性来指定子路由：
+
+```javascript
+const routes = [
+  {
+    path: '/user/:id',
+    component: User,
+    children: [
+      {
+        path: 'profile',  // 子路由路径，无需加 /
+        component: UserProfile
+      },
+      {
+        path: 'settings',
+        component: UserSettings
+      }
+    ]
+  }
+]
+```
+
+- `/user/:id` 是父路由。
+- `/user/:id/profile` 和 `/user/:id/settings` 是子路由。
+
+**2. 父组件中的 `<router-view>`**
+
+在父组件 `User.vue` 中，需要使用 `<router-view>` 来指定子路由渲染的位置：
+
+```html
 <template>
-  <div id="app">
-    <router-link to="/">Home</router-link>
-    <router-link to="/about">About</router-link>
-    
+  <div>
+    <h2>User {{ $route.params.id }}</h2>
+    <router-link to="profile">Profile</router-link>
+    <router-link to="settings">Settings</router-link>
+
+    <!-- 子路由内容会在这里渲染 -->
     <router-view></router-view>
   </div>
 </template>
 ```
 
-在上述代码中，`<router-link>` 用于导航到不同的路由，`<router-view>` 用于渲染匹配当前路由的组件。
+当用户访问 `/user/1/profile` 或 `/user/1/settings` 时，`<router-view>` 将根据 URL 动态加载 `UserProfile` 或 `UserSettings` 组件。
 
-这只是Vue Router的基本用法示例。你可以根据具体需求配置更复杂的路由规则，包括嵌套路由、路由参数、导航守卫等。
+**3. 默认子路由**
 
-总之，Vue Router是Vue.js应用中用于处理路由的核心库，它提供了强大的工具和API来管理应用程序的路由。通过上述步骤，你可以轻松地集成和使用Vue Router来构建具有多页面导航的Vue应用。
-
-### 2、路由重定向
-
-路由的重定向是指将一个路由重定向到另一个路由，这意味着当用户访问某个特定的路由时，应用程序会自动将用户重定向到另一个路由，而不是展示原始路由对应的组件。路由重定向通常用于导航控制和路由管理中，以确保用户访问正确的页面或视图。
-
-在Vue Router中，你可以使用路由重定向来实现这一功能。以下是一个示例，说明如何在Vue Router中进行路由重定向的配置：
+可以为嵌套路由配置一个默认子路由。当访问父路由但不指定子路由时，渲染默认子路由组件。例如：
 
 ```javascript
-const router = new VueRouter({
-  routes: [
-    // 将根路径重定向到 /home
-    { path: '/', redirect: '/home' },
-    { path: '/home', component: Home },
-    { path: '/about', component: About },
-    // 当用户访问 /profile 时，重定向到 /about
-    { path: '/profile', redirect: '/about' },
-  ]
-});
+const routes = [
+  {
+    path: '/user/:id',
+    component: User,
+    children: [
+      {
+        path: '',  // 默认子路由
+        component: UserProfile
+      },
+      {
+        path: 'settings',
+        component: UserSettings
+      }
+    ]
+  }
+]
 ```
 
-在上述示例中：
+当用户访问 `/user/1` 时，会自动加载 `UserProfile` 组件，因为它是默认子路由。
 
-1. 第一个路由规则 `{ path: '/', redirect: '/home' }` 将根路径 `/` 重定向到 `/home`。这意味着当用户访问应用的根路径时，会自动跳转到 `/home` 路由。
+**4. 多层嵌套路由**
 
-2. 第二个路由规则 `{ path: '/profile', redirect: '/about' }` 将 `/profile` 路由重定向到 `/about`。这意味着当用户访问 `/profile` 时，会自动跳转到 `/about` 路由，展示 `/about` 对应的组件。
+嵌套路由不仅可以是一级子路由，还可以继续嵌套子路由。通过这种方式，可以轻松构建多层次页面结构。每一级子路由的组件都可以包含自己的 `<router-view>`，递归渲染子路由内容。
 
-路由重定向非常有用，它可以用于多种场景，如：
+#### 实际应用场景
+- **后台管理系统**：通常会有侧边栏的菜单，如用户管理、订单管理等，每个管理项又有子页面。
+- **电子商务网站**：用户详情页面中的“个人信息”、“订单记录”、“收藏商品”等功能页面可以通过嵌套路由实现。
+- **博客系统**：文章的详情页面内，可能还会包含评论、相关文章等多个子部分，通过嵌套路由可以很好地组织这些子页面。
 
-- 保证旧的路由路径仍然可以被访问，但会重定向到新的路径。
-- 为了统一用户体验，将某个路径的访问重定向到默认页面。
-- 处理用户访问权限，如果用户没有权限访问某个路由，可以将其重定向到登录页面或其他适当的页面。
+嵌套路由能帮助你简化复杂页面的组织结构，提升代码的可维护性和可读性。
 
-通过配置路由重定向，你可以更灵活地控制和管理应用程序的导航和路由跳转。
-### 3、路由传参
+### 4、编程式导航
 
-通过路由传递和接收参数在Vue Router中有多种方式，取决于你的需求和应用的设计。以下是一些常见的方法：
+编程式导航（Programmatic Navigation）是指通过编写 JavaScript 代码来控制 Vue Router 导航，而不是依赖 `<router-link>` 组件或手动改变 URL。这种方法可以在特定的事件或条件下动态地导航到不同的路由，是在开发复杂交互或条件跳转时常用的技术。
 
-**1. 路由参数（Route Parameters）**
+#### 4.1 主要方法
 
-路由参数是将参数直接包含在路由路径中的一种方式。你可以在路由规则中定义参数，然后在URL中通过占位符来传递这些参数。在接收参数时，你可以在组件中通过 `$route.params` 来访问它们。
+**1. `this.$router.push()`**
+   - 用于导航到一个新的路由，并将该路由添加到浏览器的历史记录中，用户可以使用浏览器的返回按钮回到之前的页面。
 
-首先，在路由配置中定义参数：
+   **语法：**
+   ```javascript
+   this.$router.push(location).then(successCallback).catch(errorCallback)
+   ```
+
+   **参数：**
+   - **`location`**：可以是一个字符串或一个对象，指定目标路由。
+   - **`successCallback`** 和 **`errorCallback`**：可选的回调函数，用于处理导航成功或失败的情况。
+
+   **示例：**
+   ```javascript
+   // 使用字符串路径
+   this.$router.push('/home');
+
+   // 使用对象，带有命名路由和参数
+   this.$router.push({ name: 'user', params: { id: 123 } });
+
+   // 带查询参数
+   this.$router.push({ path: '/search', query: { q: 'vue' } });
+   ```
+
+**2. `this.$router.replace()`**
+
+   - 类似于 `push`，但不会在浏览器历史记录中添加新记录，替换当前的 URL。用户无法通过浏览器的返回按钮回到替换前的页面。
+
+   **语法：**
+   ```javascript
+   this.$router.replace(location).then(successCallback).catch(errorCallback)
+   ```
+
+   **示例：**
+   ```javascript
+   // 替换当前路由
+   this.$router.replace('/profile');
+
+   // 使用对象，带有命名路由和参数
+   this.$router.replace({ name: 'user', params: { id: 456 } });
+   ```
+
+**3. `this.$router.go(n)`**
+
+   - 类似于浏览器的前进和后退功能，`n` 为整数。正数前进，负数后退。
+
+   **语法：**
+   ```javascript
+   this.$router.go(n)
+   ```
+
+   **示例：**
+   ```javascript
+   // 后退一步
+   this.$router.go(-1);
+
+   // 前进一步
+   this.$router.go(1);
+   ```
+
+#### 4.2 实际应用场景
+
+1. **条件跳转**：当用户完成某个操作或满足特定条件后，可以通过编程式导航跳转到特定页面。例如，用户登录成功后跳转到用户主页。
+
+   ```javascript
+   methods: {
+     login() {
+       // 假设 login 是一个异步操作
+       this.performLogin().then(() => {
+         this.$router.push({ name: 'dashboard' });
+       });
+     }
+   }
+   ```
+
+2. **表单提交后重定向**：在提交表单后，可以使用编程式导航将用户重定向到确认页面或详情页面。
+
+   ```javascript
+   methods: {
+     submitForm() {
+       // 假设 formSubmit 是一个提交表单的操作
+       this.formSubmit().then(response => {
+         this.$router.replace({ name: 'confirmation', params: { id: response.data.id } });
+       });
+     }
+   }
+   ```
+
+3. **基于用户角色的导航**：根据用户角色或权限控制用户访问的页面。例如，管理员登录后跳转到管理面板，而普通用户则跳转到首页。
+
+   ```javascript
+   methods: {
+     checkUserRole() {
+       if (this.user.isAdmin) {
+         this.$router.push({ name: 'adminPanel' });
+       } else {
+         this.$router.push({ name: 'home' });
+       }
+     }
+   }
+   ```
+
+#### 编程式导航 vs `<router-link>`
+
+- **编程式导航**：适用于复杂的逻辑控制，比如在事件回调、表单提交、异步操作完成后进行导航。
+- **`<router-link>`**：适用于简单的静态导航，例如在导航菜单、侧边栏等场景下。
+
+#### 注意事项
+
+- **导航失败处理**：当路由导航失败时（例如目标路径与当前路径相同，或因为导航守卫的逻辑被阻止），需要处理可能抛出的错误。例如，在 `push` 或 `replace` 的链式调用中，处理 `catch`。
+
+   ```javascript
+   this.$router.push('/dashboard')
+     .catch(err => {
+       if (err.name !== 'NavigationDuplicated') {
+         console.error(err);
+       }
+     });
+   ```
+
+- **参数传递**：通过对象方式导航时，确保路径参数与命名路由匹配，否则会导致导航失败。
+
+- **避免重复导航**：尝试导航到当前页面时，Vue Router 会抛出 `NavigationDuplicated` 错误，可以通过捕获并忽略该错误来避免控制台报错。
+
+掌握编程式导航有助于在 Vue.js 应用中实现更加灵活和动态的导航体验。
+
+### 5、命名路由和命名视图
+
+命名路由和命名视图是 Vue Router 中的两个重要概念，主要用于管理复杂的路由和视图布局。它们有助于更灵活地定义和控制路由的行为和组件的渲染位置。
+
+---
+
+#### 5.1 **命名路由（Named Routes）**
+
+##### **概念**
+命名路由是为路由定义一个唯一的名称，允许在代码中通过名称而不是路径来导航。这在处理复杂的路由结构或需要多次引用同一路由时非常有用。
+
+##### **使用方法**
+
+##### 1. **定义命名路由**
+在定义路由时，通过 `name` 属性为路由指定一个名称：
 
 ```javascript
-const router = new VueRouter({
-  routes: [
-    { path: '/user/:id', component: UserProfile },
-  ]
-});
+const routes = [
+  {
+    path: '/user/:id',
+    name: 'user', // 路由名称
+    component: UserDetail
+  }
+];
 ```
 
-然后，在接收参数的组件中通过 `$route.params` 来访问路由参数：
+##### 2. **使用命名路由进行导航**
 
-```vue
-<template>
-  <div>
-    <p>User ID: {{ $route.params.id }}</p>
-  </div>
-</template>
-```
-
-当用户访问 `/user/123` 时，`$route.params.id` 将包含值 `123`。
-
-**2. 查询参数（Query Parameters）**
-
-查询参数是将参数作为键值对添加到URL的一种方式。通常用于传递可选参数。在接收参数时，你可以在组件中通过 `$route.query` 来访问它们。
-
-在接收参数的组件中通过 `$route.query` 来访问查询参数：
-
-```vue
-<template>
-  <div>
-    <p>User ID: {{ $route.query.id }}</p>
-    <p>User Name: {{ $route.query.name }}</p>
-  </div>
-</template>
-```
-
-URL示例：`/user?id=123&name=John`
-
-**3. 使用路由对象（Route Objects）**
-
-你可以在编程式导航时，通过路由对象来传递参数。这种方式适用于需要在组件之间传递数据而不仅仅是在URL中传递的情况。
-
-在组件内部，你可以使用 `$router.push` 或 `$router.replace` 来导航，并在路由对象的 `params` 或 `query` 属性中传递参数：
+可以在编程式导航或 `<router-link>` 中通过 `name` 属性导航到指定路由：
 
 ```javascript
-// 在组件内部
+// 编程式导航
 this.$router.push({ name: 'user', params: { id: 123 } });
-// 或者
-this.$router.push({ path: '/user', query: { id: 123 } });
+
+// <router-link> 中使用命名路由
+<router-link :to="{ name: 'user', params: { id: 123 } }">Go to User</router-link>
 ```
 
-在接收参数的组件中，你可以通过 `$route.params` 访问路由参数，通过 `$route.query` 访问查询参数。
+##### **优点：**
+- **可读性强**：通过名称而非路径来导航，使代码更易读，特别是路径发生变化时，无需更新所有引用。
+- **路径参数管理**：通过 `params` 管理动态参数，无需手动拼接路径。
 
-**4. 使用props传递参数**
+**场景**
+- **重构路径**：当需要重构或更改路径时，命名路由使得导航逻辑不受影响。
+- **多次引用同一路由**：在多个地方需要引用同一个路由时，命名路由简化了导航操作。
 
-在路由配置中，你可以使用 `props` 选项将路由参数作为组件的props传递给目标组件。这种方式适用于希望在组件内部访问参数而不是在路由路径中显示参数的情况。
+---
 
-在路由配置中启用props传递：
+#### 5.2 **命名视图（Named Views）**
+
+##### **概念**
+命名视图允许在同一页面中渲染多个视图（组件），每个视图可以独立命名，并且可以在路由配置中指定不同的组件渲染到不同的视图位置。这使得在同一页面上显示多个内容区域变得更加灵活。
+
+##### **使用方法**
+
+**1. 定义命名视图**
+
+在路由配置中，使用 `components` 属性定义多个命名视图。`default` 是默认视图，其它视图可以通过名称来指定：
 
 ```javascript
-const router = new VueRouter({
-  routes: [
-    {
-      path: '/user/:id',
-      component: UserProfile,
-      props: true, // 启用props传递
-    },
-  ],
-});
-```
-
-在接收参数的组件中，你可以直接接收参数作为props：
-
-```vue
-<template>
-  <div>
-    <p>User ID: {{ id }}</p>
-  </div>
-</template>
-
-<script>
-export default {
-  props: ['id'],
-};
-</script>
-```
-
-这些方法提供了不同的选项，以满足不同的需求和场景。你可以根据具体的应用程序需求选择最适合的方法来传递和接收路由参数。
-### 4、命名路由
-
-命名路由是Vue Router中的一项功能，它允许你为路由规则分配一个名称（名称路由），以便在代码中引用该名称，而不仅仅是依赖于路由路径。这对于构建具有复杂路由结构的应用非常有用，因为它使路由配置更加清晰和可维护。
-
-要使用命名路由，首先在路由配置中为每个路由规则指定一个`name`属性。以下是一个示例：
-
-```javascript
-const router = new VueRouter({
-  routes: [
-    {
-      path: '/',
-      component: Home,
-      name: 'home', // 命名路由为 'home'
-    },
-    {
-      path: '/about',
-      component: About,
-      name: 'about', // 命名路由为 'about'
-    },
-    {
-      path: '/contact',
-      component: Contact,
-      name: 'contact', // 命名路由为 'contact'
-    },
-  ]
-});
-```
-
-在上述示例中，每个路由规则都分配了一个名称，分别是 `'home'`、`'about'` 和 `'contact'`。
-
-接下来，你可以在Vue组件内部或通过编程式导航使用这些命名路由。
-
-**在Vue组件内部使用命名路由**：
-
-```vue
-<template>
-  <div>
-    <router-link :to="{ name: 'home' }">Home</router-link>
-    <router-link :to="{ name: 'about' }">About</router-link>
-    <router-link :to="{ name: 'contact' }">Contact</router-link>
-  </div>
-</template>
-```
-
-上述示例中，`<router-link>` 中使用了 `:to` 属性来引用命名路由，从而生成相应的链接。
-
-**通过编程式导航使用命名路由**：
-
-```javascript
-// 在组件内部
-this.$router.push({ name: 'about' });
-```
-
-上述示例中，`this.$router.push` 使用命名路由来导航到 `'about'` 路由。
-
-使用命名路由有助于提高代码的可读性和可维护性，特别是在具有复杂路由结构的应用中。它使得在多个地方引用相同的路由规则变得更加容易，同时也有助于减少硬编码路由路径的情况，使得代码更具灵活性和可维护性。
-### 5、路由懒加载
-
-在Vue Router中，你可以使用路由懒加载来延迟加载路由组件。通常，你会使用Webpack的代码分割（Code Splitting）功能来实现路由懒加载，Webpack会将每个路由组件打包为单独的文件，只有在访问相关路由时才会加载相应的文件。
-
-以下是如何在Vue Router中实现路由懒加载的示例：
-
-```javascript
-const router = new VueRouter({
-  routes: [
-    {
-      path: '/home',
-      component: () => import('./views/Home.vue') // 使用import函数进行懒加载
-    },
-    {
-      path: '/about',
-      component: () => import('./views/About.vue')
-    },
-    {
-      path: '/contact',
-      component: () => import('./views/Contact.vue')
+const routes = [
+  {
+    path: '/dashboard',
+    components: {
+      default: DashboardMain,   // 默认视图
+      sidebar: DashboardSidebar // 命名视图
     }
-  ]
-});
+  }
+];
 ```
 
-在上述示例中，每个路由规则都使用了 `component` 属性的函数形式，并在函数中使用 `import` 函数来动态导入路由组件。这样，当用户首次访问某个路由时，相关的组件才会被下载和渲染，而不是一开始就加载所有路由组件。
+**2. 在模板中使用命名视图**
 
-使用路由懒加载可以显著减小初始加载时的文件大小，因此加速了应用程序的启动速度。这对于大型应用或包含许多路由的应用来说尤其重要，因为它避免了一次性下载和解析大量JavaScript代码，而只加载用户实际需要的部分。
+在组件中，通过 `<router-view>` 的 `name` 属性渲染不同的命名视图：
 
-需要注意的是，路由懒加载依赖于Webpack或其他打包工具的代码分割功能，因此在使用时，你需要确保项目中已经配置了适当的构建工具和插件。
-### 6、路由元信息
+```vue
+<template>
+  <div>
+    <router-view></router-view> <!-- 渲染 default 视图 -->
+    <router-view name="sidebar"></router-view> <!-- 渲染 sidebar 视图 -->
+  </div>
+</template>
+```
 
-路由元信息（Route Meta Information）是Vue Router中的一个概念，它允许你向路由规则添加自定义的数据信息，这些信息不会影响路由的匹配和导航，但可以在导航守卫、路由钩子函数以及组件内部访问，以便在路由导航过程中执行一些逻辑或控制。
+**优点：**
+- **多视图布局**：允许在同一页面上显示多个视图，如主内容区和侧边栏。
+- **灵活的布局控制**：可以根据路由配置灵活地控制各个视图的内容。
 
-路由元信息通常包含一些额外的数据，例如页面的标题、页面权限、布局信息等。你可以根据需要在每个路由规则中添加元信息，并在组件内部或导航守卫中使用这些信息。
+ **场景**
+- **复杂页面布局**：在后台管理系统或仪表盘中，通常需要同时显示多个模块或组件，如侧边栏、导航栏、主内容区等。
+- **动态内容展示**：在一个页面上，根据路由动态加载不同的内容区域。
 
-以下是一个示例，演示如何在Vue Router中使用路由元信息：
+---
+
+#### **命名路由 vs 命名视图**
+- **命名路由**：主要用于通过名称来标识和导航路由，提升代码的可读性和维护性。
+- **命名视图**：用于在同一页面中渲染多个视图，增强页面布局的灵活性和可扩展性。
+
+这两者在不同场景下发挥着各自的作用，通过灵活使用命名路由和命名视图，可以更加高效地管理 Vue.js 应用的路由和布局。
+
+### 6、路由元信息（Meta 信息）
+
+路由元信息（Meta 信息）是 Vue Router 中的一种机制，用于为路由添加自定义的属性或信息。通过在路由配置中添加 `meta` 字段，开发者可以将与路由相关的额外信息附加到该路由上，这些信息可以在导航守卫、组件内或其他逻辑中使用。
+
+#### 1. **定义路由元信息**
+
+在定义路由时，`meta` 字段是一个对象，可以包含任何你需要的键值对。
+
+#### **示例：**
 
 ```javascript
-const router = new VueRouter({
-  routes: [
-    {
-      path: '/',
-      component: Home,
-      meta: {
-        title: '首页', // 页面标题
-        requiresAuth: true, // 是否需要身份验证
-      },
-    },
-    {
-      path: '/about',
-      component: About,
-      meta: {
-        title: '关于我们',
-        requiresAuth: false,
-      },
-    },
-  ]
-});
+const routes = [
+  {
+    path: '/dashboard',
+    component: Dashboard,
+    meta: { requiresAuth: true, title: 'Dashboard' }
+  },
+  {
+    path: '/login',
+    component: Login,
+    meta: { requiresAuth: false, title: 'Login' }
+  }
+];
 ```
 
-在上述示例中，每个路由规则都有一个`meta`属性，其中包含了路由元信息。`meta`属性可以存储任意自定义的数据。
+在上面的例子中，`meta` 对象为每个路由添加了两个属性：`requiresAuth` 和 `title`。
 
-然后，你可以在导航守卫、路由钩子函数或组件内部访问路由元信息。以下是一些示例：
+- **`requiresAuth`**：一个布尔值，指示该路由是否需要身份验证。
+- **`title`**：一个字符串，用来设置页面标题。
 
-**在导航守卫中使用元信息**：
+#### 2. **使用路由元信息**
+
+##### **2.1 在导航守卫中使用**
+
+路由元信息经常用于导航守卫（如 `beforeEach`）中，用来控制访问权限、动态设置页面标题等。
+
+**示例：**
 
 ```javascript
 router.beforeEach((to, from, next) => {
-  // 获取元信息中的requiresAuth值，判断是否需要身份验证
-  const requiresAuth = to.meta.requiresAuth;
-
-  if (requiresAuth && !isAuthenticated) {
-    // 如果需要身份验证但未登录，导航到登录页面
-    next('/login');
+  // 检查路由是否需要身份验证
+  if (to.meta.requiresAuth) {
+    // 假设有一个方法来检查用户是否已登录
+    if (isLoggedIn()) {
+      next(); // 已登录，继续导航
+    } else {
+      next('/login'); // 未登录，重定向到登录页面
+    }
   } else {
-    // 否则继续导航
-    next();
+    next(); // 不需要身份验证，继续导航
   }
 });
 ```
 
-**在组件内部使用元信息**：
+##### **2.2 在组件中使用**
+
+在组件内，可以通过 `this.$route.meta` 访问当前路由的 `meta` 信息。
+
+**示例：**
 
 ```vue
 <template>
   <div>
-    <h1>{{ $route.meta.title }}</h1>
-    <!-- 显示页面标题 -->
+    <h1>{{ pageTitle }}</h1>
     <!-- 其他组件内容 -->
   </div>
 </template>
+
+<script>
+export default {
+  computed: {
+    pageTitle() {
+      return this.$route.meta.title;
+    }
+  },
+  watch: {
+    '$route.meta.title'(newTitle) {
+      document.title = newTitle; // 动态设置页面标题
+    }
+  },
+  created() {
+    document.title = this.pageTitle; // 设置初始页面标题
+  }
+};
+</script>
 ```
 
-上述示例中，`$route.meta.title` 用于在组件中显示页面的标题。
+##### **2.3 动态设置页面标题**
 
-路由元信息是一种强大的工具，它可以帮助你在应用程序中添加和管理额外的路由数据，从而更好地控制和定制应用的行为。你可以根据需要为每个路由规则定义不同的元信息，以满足应用程序的需求。
-### 7、路由模式
+通常会结合路由元信息动态设置页面标题，以便用户在浏览器标签中看到正确的页面名称。
 
-路由模式（Route Mode）是指在使用Vue Router（Vue.js的路由管理器）时，用于控制URL的显示和处理的一种配置方式。Vue Router支持两种主要的路由模式：哈希模式（Hash Mode）和历史模式（History Mode）。
-
-1. **哈希模式（Hash Mode）**：
-
-   - 默认情况下，Vue Router使用哈希模式，URL中的路由路径前会有一个 `#` 符号，例如：`http://example.com/#/about`。
-   - 哈希模式的优点是它在大多数情况下无需特殊的服务器配置，并且可以在不同的浏览器中正常运行。
-   - 哈希模式的缺点是URL中有 `#` 符号，不太美观，且不太利于搜索引擎优化（SEO）。
-
-   在Vue中配置哈希模式路由：
-
-   ```javascript
-   const router = new VueRouter({
-     mode: 'hash',
-     routes: [
-       // 路由规则
-     ],
-   });
-   ```
-
-2. **历史模式（History Mode）**：
-
-   - 历史模式使用常规的URL路径，不带 `#` 符号，例如：`http://example.com/about`。
-   - 历史模式的优点是URL更加友好和美观，更符合传统的Web应用程序URL风格，有利于SEO。
-   - 历史模式的缺点是需要服务器配置以确保在不同的路由访问时返回正确的页面，否则会导致404错误。
-
-   在Vue中配置历史模式路由：
-
-   ```javascript
-   const router = new VueRouter({
-     mode: 'history',
-     routes: [
-       // 路由规则
-     ],
-   });
-   ```
-
-你可以根据应用的需求和服务器配置的能力来选择使用哪种路由模式。哈希模式是默认的模式，适用于简单的单页应用。历史模式更适合需要更友好URL以及SEO的应用，但需要服务器配置支持。注意，在使用历史模式时，需要确保服务器配置了类似的重定向规则，以避免刷新页面时出现404错误。
-
-### 8、导航守卫
-
-路由导航守卫是Vue Router中的一种功能，允许你在路由导航过程中拦截、控制和执行一些操作。导航守卫提供了一些钩子函数，可以在导航到不同路由时执行特定的逻辑，例如验证用户权限、跳转前确认等。以下是一些常见的导航守卫钩子函数以及示例：
-
-**1. `beforeEach` 钩子**
-
-`beforeEach` 钩子会在每个路由切换前执行，用于全局的路由守卫逻辑。你可以在这里进行路由权限验证或其他操作。
+**示例：**
 
 ```javascript
-const router = new VueRouter({
-  routes: [
-    // 路由规则
-  ],
+router.afterEach((to) => {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
 });
+```
 
+#### 3. **常见的路由元信息用途**
+
+- **身份验证和权限控制**：通过 `requiresAuth` 或 `roles` 等元信息，控制哪些路由需要用户登录或特定权限。
+- **页面标题**：使用 `title` 属性设置和动态更新页面标题。
+- **过渡动画**：使用 `transitionName` 等元信息，控制页面切换时的动画效果。
+- **面包屑导航**：通过 `breadcrumb` 元信息，为面包屑导航提供信息。
+- **访问统计**：通过 `analytics` 元信息，标记哪些页面需要进行访问统计或事件追踪。
+
+#### 4. **示例扩展**
+
+假设我们在一个后台管理系统中使用了 Vue Router，我们可以通过 `meta` 信息管理不同用户的访问权限和页面设置：
+
+```javascript
+const routes = [
+  {
+    path: '/admin',
+    component: AdminDashboard,
+    meta: { requiresAuth: true, roles: ['admin'], title: 'Admin Dashboard' }
+  },
+  {
+    path: '/profile',
+    component: UserProfile,
+    meta: { requiresAuth: true, title: 'User Profile' }
+  },
+  {
+    path: '/login',
+    component: Login,
+    meta: { requiresAuth: false, title: 'Login' }
+  }
+];
+```
+
+在这个例子中，`roles` 属性可以用于检查用户角色，并决定是否允许访问 `/admin` 路由。
+
+---
+
+#### **总结**
+
+路由元信息为 Vue Router 提供了灵活的方式来附加和处理与路由相关的额外信息。这使得开发者可以轻松地在全局或局部范围内实现更高级的功能，比如身份验证、权限控制、动态页面标题设置等。在实际开发中，合理利用 `meta` 信息可以极大地提升应用的可维护性和功能性。
+
+### 7、路由懒加载
+
+路由懒加载（Lazy Loading）是 Vue.js 中的一种优化技术，用于按需加载路由对应的组件，而不是在应用初始化时一次性加载所有的组件。这种技术可以显著减少应用的初始加载时间，提升页面性能，尤其是在构建大型单页应用（SPA）时非常有用。
+
+#### **1. 为什么需要路由懒加载？**
+
+在默认情况下，Vue.js 项目中所有的组件在应用初始化时都会被加载到浏览器中。如果应用规模较大，组件数量多，这可能导致：
+
+- **初始加载时间长**：用户首次打开应用时，可能需要等待较长时间才能加载完所有资源。
+- **不必要的资源加载**：用户可能只访问应用的一部分页面，但浏览器会加载整个应用的所有组件，浪费带宽和资源。
+
+通过路由懒加载，可以只在用户访问某个路由时才加载对应的组件，从而优化加载性能。
+
+#### **2. 路由懒加载的实现**
+
+在 Vue Router 中，路由懒加载通常通过动态导入（`import()`）语法实现。动态导入会返回一个 Promise，当用户访问该路由时才会加载对应的组件。
+
+##### **2.1 基本实现**
+
+**示例：**
+
+```javascript
+const routes = [
+  {
+    path: '/home',
+    component: () => import('./components/Home.vue') // 懒加载 Home 组件
+  },
+  {
+    path: '/about',
+    component: () => import('./components/About.vue') // 懒加载 About 组件
+  }
+];
+```
+
+在这个例子中，`Home.vue` 和 `About.vue` 组件只有在用户访问对应的 `/home` 和 `/about` 路由时才会被加载。
+
+##### **2.2 配合 Webpack 的代码分割**
+
+Webpack 会将动态导入的组件分割成单独的代码块（chunk），并在需要时按需加载。这种方式可以有效地减少主包（main bundle）的大小。
+
+**示例：**
+
+```javascript
+const routes = [
+  {
+    path: '/user/:id',
+    component: () => import(/* webpackChunkName: "user" */ './components/UserDetail.vue') // 懒加载并指定 chunk 名称
+  }
+];
+```
+
+`webpackChunkName` 注释用于指定生成的 chunk 文件的名称，这样在生成的文件中可以更容易地识别和管理。
+
+##### **2.3 与命名视图结合使用**
+
+懒加载也可以与命名视图结合使用，实现更复杂的视图布局。
+
+**示例：**
+
+```javascript
+const routes = [
+  {
+    path: '/dashboard',
+    components: {
+      default: () => import('./components/DashboardMain.vue'),
+      sidebar: () => import('./components/DashboardSidebar.vue')
+    }
+  }
+];
+```
+
+在这个例子中，`DashboardMain.vue` 和 `DashboardSidebar.vue` 组件会在访问 `/dashboard` 路由时分别加载。
+
+#### **3. 路由懒加载的优势**
+
+- **优化性能**：减少初始加载时间，特别是在移动设备或网络较慢的环境中效果显著。
+- **提升用户体验**：按需加载组件，减少不必要的资源浪费，用户只加载他们需要的内容。
+- **更好的代码管理**：通过代码分割，可以更轻松地管理和维护项目，尤其是在多人协作开发时。
+
+#### **4. 路由懒加载的注意事项**
+
+- **加载时的体验**：因为懒加载会引入额外的网络请求，可能会导致组件加载时的短暂延迟。为此，可以在加载时显示一个加载状态（如 loading spinner）来改善用户体验。
+  
+  **示例：**
+  ```vue
+  <template>
+    <div>
+      <router-view v-slot="{ Component, route }">
+        <component :is="Component || LoadingComponent" />
+      </router-view>
+    </div>
+  </template>
+
+  <script>
+  import LoadingComponent from './components/LoadingComponent.vue';
+
+  export default {
+    components: {
+      LoadingComponent
+    }
+  };
+  </script>
+  ```
+
+- **SEO**：对于需要进行搜索引擎优化的页面，懒加载可能不利于搜索引擎爬虫的抓取，因为组件在客户端渲染时才加载。如果应用需要进行 SEO 优化，可以考虑使用服务器端渲染（SSR）或预渲染技术。
+
+#### **5. 实际应用场景**
+
+- **大型 SPA**：在大型单页应用中，通过懒加载减少初始加载包的体积，提升加载速度和用户体验。
+- **条件性内容**：如果某些内容或功能模块是用户不常访问的，可以使用懒加载避免不必要的资源浪费。
+
+---
+
+**总结**：路由懒加载是 Vue.js 中一种非常有效的性能优化技术，能够按需加载组件，减少初始加载时间，提升用户体验。特别是在构建大型应用时，通过懒加载和代码分割，可以大幅提升应用的性能和可维护性。
+
+### 8、路由模式
+
+在 Vue Router 中，路由模式（Routing Mode）指的是 URL 路径的不同工作方式或显示形式，它决定了如何管理浏览器的 URL 以及如何处理页面导航。Vue Router 支持两种主要的路由模式：**`hash` 模式** 和 **`history` 模式**。此外，还有一种较少使用的 **`abstract` 模式**。
+
+#### 1. **`hash` 模式**
+
+##### **概念**
+`hash` 模式基于 URL 的哈希（`#`）部分实现路由。在这种模式下，URL 会带有 `#` 符号，哈希后的内容（例如 `#home`）不会被发送到服务器，它仅用于前端应用的路由识别。
+
+**示例：**
+```javascript
+const router = new VueRouter({
+  mode: 'hash',
+  routes: [
+    { path: '/home', component: Home },
+    { path: '/about', component: About }
+  ]
+});
+```
+
+访问路由时，URL 可能会是这样的：
+
+- `http://example.com/#/home`
+- `http://example.com/#/about`
+
+##### **优点：**
+- **简单**：适合所有环境，尤其是静态站点，因为它不依赖服务器配置。
+- **兼容性好**：由于 `hash` 是前端实现，不需要服务器支持，所以在不支持 HTML5 History API 的老旧浏览器中也能正常工作。
+
+##### **缺点：**
+- **不美观**：URL 中的 `#` 符号会显得不那么美观，且对用户体验不够友好。
+- **SEO**：`hash` 模式对搜索引擎的抓取不友好，因为哈希部分不会被发送到服务器，搜索引擎无法直接抓取。
+
+#### 2. **`history` 模式**
+
+##### **概念**
+`history` 模式使用了 HTML5 History API（`pushState` 和 `replaceState`）来实现路由。它的 URL 是正常的路径结构，不带 `#` 符号。
+
+**示例：**
+```javascript
+const router = new VueRouter({
+  mode: 'history',
+  routes: [
+    { path: '/home', component: Home },
+    { path: '/about', component: About }
+  ]
+});
+```
+
+访问路由时，URL 可能会是这样的：
+
+- `http://example.com/home`
+- `http://example.com/about`
+
+##### **优点：**
+- **美观**：URL 结构干净，没有 `#` 符号，更符合标准的 URL 规范。
+- **SEO 友好**：搜索引擎能够抓取这些 URL，有利于搜索引擎优化。
+
+##### **缺点：**
+- **需要服务器支持**：因为没有 `#`，浏览器会向服务器请求这些路径，所以服务器需要配置来处理所有的路由请求，确保都返回 `index.html`，否则会出现 404 错误。
+
+**服务器配置示例：**
+如果使用的是 Nginx 作为服务器，可以这样配置：
+
+```nginx
+location / {
+  try_files $uri $uri/ /index.html;
+}
+```
+
+对于 Apache，可以使用 `.htaccess` 文件：
+
+```apache
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+```
+
+#### 3. **`abstract` 模式**
+
+##### **概念**
+`abstract` 模式并不依赖浏览器的 API，它主要用于 Node.js 环境或测试环境中。在这种模式下，应用不会操作 URL 地址栏。
+
+**示例：**
+```javascript
+const router = new VueRouter({
+  mode: 'abstract',
+  routes: [
+    { path: '/home', component: Home },
+    { path: '/about', component: About }
+  ]
+});
+```
+
+##### **场景：**
+- **服务端渲染（SSR）**：当在服务端渲染时，可以使用 `abstract` 模式来模拟路由。
+- **测试**：在单元测试中，如果不需要实际的 URL，可以使用 `abstract` 模式。
+
+#### 4. **选择路由模式**
+
+- **`hash` 模式**：适合部署在不支持服务器端配置的环境下，比如 GitHub Pages，或者对 SEO 要求不高的项目。
+- **`history` 模式**：适合希望有干净 URL 结构并且可以配置服务器端环境的项目，尤其是需要 SEO 的项目。
+- **`abstract` 模式**：适合服务端渲染或测试环境，不会实际影响浏览器的 URL。
+
+---
+
+**总结**：Vue Router 提供了三种路由模式，以满足不同场景的需求。`hash` 模式适合简单的客户端应用，`history` 模式则适合更复杂的应用，尤其是需要 SEO 的应用，而 `abstract` 模式则主要用于特殊场景如 SSR 和测试。根据项目的实际需求选择合适的模式，可以优化应用的用户体验和性能。
+
+### 9、路由守卫
+
+路由守卫（Navigation Guards）是 Vue Router 提供的一种用于控制导航行为的机制，它允许你在路由导航的不同阶段拦截、检查或改变导航。这对于权限控制、数据预加载、阻止未保存的更改等场景非常有用。
+
+Vue Router 提供了多种类型的路由守卫，可以在全局、路由配置中或组件内使用。
+
+#### **1. 全局守卫**
+
+##### **1.1 `beforeEach`**
+
+`beforeEach` 是一个全局前置守卫，在每次路由跳转之前触发。它接收三个参数：`to`（目标路由对象）、`from`（来源路由对象）和 `next`（控制导航的函数）。
+
+ **示例：**
+
+```javascript
 router.beforeEach((to, from, next) => {
-  // 在切换路由前执行的逻辑
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    // 如果需要身份验证但未认证，取消导航并跳转到登录页面
+  // 检查路由是否需要身份验证
+  if (to.meta.requiresAuth && !isUserLoggedIn()) {
+    // 如果用户未登录，重定向到登录页面
     next('/login');
   } else {
-    // 放行路由
+    // 否则允许导航
     next();
   }
 });
 ```
 
-**2. `beforeResolve` 钩子**
+##### **1.2 `beforeResolve`**
 
-`beforeResolve` 钩子在导航被确认之前调用，但在渲染路由组件之前执行，用于在路由组件渲染前获取数据或进行数据处理。
+`beforeResolve` 是在所有组件内守卫和异步路由组件被解析之后，但在导航被确认之前执行的守卫。它的用法类似于 `beforeEach`，但它更接近导航的最后阶段。
+
+**示例：**
 
 ```javascript
 router.beforeResolve((to, from, next) => {
-  // 在导航被确认之前执行的逻辑
-  // 通常用于异步获取数据或数据处理
-  fetchData().then(() => {
-    next();
-  });
+  // 可以在这里进行最后的检查或准备工作
+  next();
 });
 ```
 
-**3. `afterEach` 钩子**
+##### **1.3 `afterEach`**
 
-`afterEach` 钩子在每个路由切换完成后被调用，通常用于执行一些全局的操作，如页面滚动或记录访问日志。
+`afterEach` 是一个全局后置守卫，它在路由导航完成后执行，但它不像前置守卫那样能影响导航本身，因为它没有 `next` 函数。
+
+**示例：**
 
 ```javascript
 router.afterEach((to, from) => {
-  // 在路由切换完成后执行的逻辑
-  // 可以用于页面滚动或访问日志记录等操作
-  window.scrollTo(0, 0);
-  logPageVisit(to);
+  // 可以在这里进行一些收尾工作，如设置页面标题
+  document.title = to.meta.title || 'Default Title';
 });
 ```
 
-**4. 路由独享的守卫**
+#### **2. 路由独享守卫**
 
-除了全局守卫，你还可以在路由规则中使用 `beforeEnter` 字段定义独立的守卫函数，这些守卫函数只会在特定路由规则下触发。
+路由独享守卫是在路由配置中定义的守卫，它只会在该路由及其子路由导航时触发。
+
+**示例：**
 
 ```javascript
-const router = new VueRouter({
-  routes: [
-    {
-      path: '/admin',
-      component: Admin,
-      beforeEnter: (to, from, next) => {
-        // 在/admin路由独享的守卫中执行的逻辑
-        if (isAdmin) {
-          next(); // 放行路由
-        } else {
-          next('/login'); // 未认证时跳转到登录页面
-        }
-      },
-    },
-  ],
-});
+const routes = [
+  {
+    path: '/dashboard',
+    component: Dashboard,
+    beforeEnter: (to, from, next) => {
+      // 仅在进入 /dashboard 路由时执行
+      if (isUserLoggedIn()) {
+        next();
+      } else {
+        next('/login');
+      }
+    }
+  }
+];
 ```
 
-**5. 组件内的守卫**
+#### **3. 组件内守卫**
 
-在Vue组件内部，你可以定义以下钩子函数来处理路由导航守卫逻辑：
+组件内守卫是在单个组件内定义的路由守卫。它们只在该组件与路由匹配时才会触发。
 
-- `beforeRouteEnter`: 在路由进入组件前被调用。
-- `beforeRouteUpdate`: 在当前路由改变，但组件被复用时被调用。
-- `beforeRouteLeave`: 在离开当前组件的路由时被调用。
+##### **3.1 `beforeRouteEnter`**
 
-```vue
-<template>
-  <!-- 组件内容 -->
-</template>
+`beforeRouteEnter` 在导航进入该组件的路由之前调用。在这个守卫中，不能直接访问 `this`，因为组件实例还未被创建。
 
-<script>
+**示例：**
+
+```javascript
 export default {
   beforeRouteEnter(to, from, next) {
-    // 在路由进入组件前执行的逻辑
-    if (/* 条件满足 */) {
-      next(); // 放行路由
-    } else {
-      next('/error'); // 不满足条件时跳转到错误页面
+    // 在导航进入之前，可以执行一些操作，如数据预加载
+    next(vm => {
+      // 导航完成后可以访问组件实例 `vm`
+      vm.loadData();
+    });
+  },
+  methods: {
+    loadData() {
+      // 加载数据的逻辑
     }
-  },
-  beforeRouteUpdate(to, from, next) {
-    // 在当前路由改变但组件被复用时执行的逻辑
-  },
-  beforeRouteLeave(to, from, next) {
-    // 在离开当前组件的路由时执行的逻辑
-  },
+  }
 };
-</script>
 ```
 
-这些导航守卫钩子函数可以帮助你在路由导航过程中执行各种操作，从而实现更高级的路由控制和应用程序逻辑。根据需要，你可以选择使用全局守卫、路由独享守卫或组件内的守卫来满足特定的需求。
+##### **3.2 `beforeRouteUpdate`**
+
+`beforeRouteUpdate` 在当前路由改变，但依然是同一个组件时调用，例如从 `/user/1` 到 `/user/2`。在这个守卫中可以访问组件实例 `this`。
+
+**示例：**
+
+```javascript
+export default {
+  beforeRouteUpdate(to, from, next) {
+    // 响应路由参数的变化
+    this.userId = to.params.id;
+    this.fetchUserData();
+    next();
+  }
+};
+```
+
+##### **3.3 `beforeRouteLeave`**
+
+`beforeRouteLeave` 在导航离开该组件的路由时调用，可以用于阻止用户离开，比如在表单未保存时提示用户。
+
+**示例：**
+
+```javascript
+export default {
+  beforeRouteLeave(to, from, next) {
+    if (this.hasUnsavedChanges) {
+      const answer = window.confirm('你确定要离开吗？未保存的更改将会丢失。');
+      if (!answer) next(false);
+      else next();
+    } else {
+      next();
+    }
+  }
+};
+```
+
+#### **4. 路由守卫的执行顺序**
+
+1. **全局前置守卫 (`beforeEach`)**。
+2. **路由独享守卫 (`beforeEnter`)**。
+3. **组件内守卫 (`beforeRouteEnter`)**。
+4. **全局解析守卫 (`beforeResolve`)**。
+5. **导航被确认**，开始加载异步组件。
+6. **全局后置守卫 (`afterEach`)**。
+
+#### **5. 实际应用场景**
+
+- **权限控制**：通过 `beforeEach` 全局守卫检查用户权限或身份，控制访问特定路由的权限。
+- **数据预加载**：在 `beforeRouteEnter` 或 `beforeEach` 守卫中预加载数据，确保在组件渲染之前数据已准备好。
+- **导航保护**：在 `beforeRouteLeave` 中阻止用户在未保存更改的情况下离开当前页面。
+
+---
+
+**总结**：路由守卫是 Vue Router 强大的功能之一，它为开发者提供了丰富的钩子，可以在路由导航的不同阶段进行拦截、验证和控制。合理使用路由守卫，可以有效提升应用的安全性和用户体验。
+
 
 ## 二、vuex
 
