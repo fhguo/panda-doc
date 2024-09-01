@@ -980,273 +980,244 @@ export default {
 **总结**：路由守卫是 Vue Router 强大的功能之一，它为开发者提供了丰富的钩子，可以在路由导航的不同阶段进行拦截、验证和控制。合理使用路由守卫，可以有效提升应用的安全性和用户体验。
 
 
-## 二、vuex
+## 二、状态管理
 
-### 1、vuex概述
+### 1、Vuex概述
 
-Vuex 是一个用于管理 Vue.js 应用程序中的状态的状态管理库。它是 Vue.js 官方推荐的解决方案之一，用于解决 Vue.js 应用中组件之间共享状态的问题。
+Vuex 是一个专为 Vue.js 应用设计的状态管理模式和库。它通过集中式的存储和管理全局状态，使得不同组件之间能够方便地共享数据，同时保持数据的一致性和可预测性。
+
+#### Vuex 的核心概念：
 
 ![vuex](/img/vuex.png)
 
-Vuex 的核心概念包括：
+1. **集中式存储（Centralized Store）**
+   - Vuex 将应用的所有状态保存在一个全局的 store 中，这样你可以在任何组件中访问和修改这些状态。与在各个组件中分别管理状态相比，集中式存储使得状态的管理更加统一和简洁。
 
-1. **State（状态）**：存储应用程序的状态数据，通常是一个对象。
+2. **单向数据流（One-Way Data Flow）**
+   - Vuex 使用单向数据流的模式，即状态的变化是可追溯的。Vuex 将状态管理分为四个核心部分：State、Getters、Mutations 和 Actions。状态的变更过程如下：
+     1. **State**：存储应用的状态数据。
+     2. **Getters**：类似于 Vue 的计算属性，用于从 State 中派生出新的状态。
+     3. **Mutations**：用于同步地更改 State，是唯一可以直接修改 State 的方法。
+     4. **Actions**：用于处理异步操作，并通过提交 Mutations 来间接改变 State。
 
-2. **Mutations（变更）**：定义用于修改状态的方法，这些方法必须是同步的。Mutations 是 Vuex 中改变状态的唯一方式，确保状态变更的可追踪性。
+3. **可调试性（Debugging）**
+   - 由于状态的变化是通过 Mutations 以可预测的方式发生的，Vuex 可以轻松地与 Vue Devtools 集成，让开发者方便地调试和追踪状态的变化。通过时间旅行调试（Time Travel Debugging）功能，开发者可以回到任何一个状态，查看具体的变更过程。
 
-3. **Actions（动作）**：定义用于触发 Mutations 的方法，可以包含异步操作。Actions 通常用于处理业务逻辑和异步操作，然后再调用 Mutations 来修改状态。
+#### Vuex 的适用场景：
 
-4. **Getters（获取器）**：用于派生状态的方法，允许你根据状态计算出新的数据。
+Vuex 主要适用于中大型应用，特别是当应用中有大量的组件需要共享状态时。它解决了以下几个问题：
 
-5. **Modules（模块）**：将 Vuex 的状态和逻辑拆分成模块，以便更好地组织和维护大型应用程序。
+- **组件间共享状态**：当多个组件需要访问和修改同一个状态时，使用 Vuex 可以避免通过嵌套传递 props 和 events 来共享数据的繁琐操作。
+- **集中式状态管理**：将所有状态集中管理，便于维护、调试和开发新功能。
+- **数据一致性**：在复杂应用中，保持数据的一致性是个挑战。Vuex 通过单一数据源和单向数据流，保证了数据在各个组件间的一致性。
 
-Vuex 帮助开发者在 Vue.js 应用中实现集中式状态管理，从而使状态的变化可预测和可控。通过将状态存储在单一的数据源中，Vuex 简化了组件之间状态共享的过程，使得应用程序更容易维护和调试。
+#### 总结：
 
-要使用 Vuex，你需要在你的 Vue.js 应用中安装它，并创建一个 Vuex 的实例，然后将它连接到你的 Vue 组件中，使组件可以访问和修改共享状态。
+Vuex 是 Vue.js 的官方状态管理库，它通过集中化和结构化的方式管理应用状态，使得大型 Vue.js 应用的开发更加简洁和高效。虽然它引入了一些额外的复杂性，但对于需要共享状态的复杂应用，它提供了非常强大的工具和方法。
 
-总之，Vuex 是一个在 Vue.js 中管理应用状态的强大工具，适用于中大型的前端应用，以提高代码的可维护性和可扩展性。
+### 2、Vuex使用
 
-### 2、vuex入门
+在Vue项目中使用Vuex需要几个步骤，从安装Vuex到在组件中使用它。以下是一个详细的指南，教你如何在Vue项目中集成和使用Vuex：
 
-Vuex 是 Vue.js 官方的状态管理库，用于管理 Vue.js 应用程序中的状态。它通过集中存储和管理应用程序的状态，使得状态在不同组件之间共享和维护更加方便。以下是使用 Vuex 的基本步骤：
+#### 1. **安装Vuex**
+   如果你还没有安装Vuex，可以通过npm或yarn安装：
 
-1. **安装 Vuex**：首先，确保你的 Vue.js 项目中已经安装了 Vuex。你可以使用 npm 或 yarn 进行安装：
-
-   使用 npm 安装：
    ```bash
-   npm install vuex --save
+   npm install vuex@next --save
+   ```
+   或者
+   ```bash
+   yarn add vuex@next
    ```
 
-   使用 yarn 安装：
-   ```bash
-   yarn add vuex
-   ```
-
-2. **创建 Vuex Store**：在你的项目中创建一个 Vuex store 文件，通常命名为 `store.js`，并定义你的应用程序状态、mutations、actions 和 getters。以下是一个简单的示例：
+#### 2. **创建Vuex Store**
+   创建一个用于存储全局状态的Vuex Store。一般来说，你可以在`src/store`目录下创建一个`store.js`文件来定义这个Store。
 
    ```javascript
-   // store.js
+   // src/store/index.js
+   import { createStore } from 'vuex';
 
-   import Vue from 'vue';
-   import Vuex from 'vuex';
-
-   Vue.use(Vuex);
-
-   export default new Vuex.Store({
+   export default createStore({
      state: {
-       count: 0,
+       count: 0
      },
      mutations: {
        increment(state) {
          state.count++;
-       },
-       decrement(state) {
-         state.count--;
-       },
+       }
      },
      actions: {
-       incrementAsync({ commit }) {
-         setTimeout(() => {
-           commit('increment');
-         }, 1000);
-       },
+       increment({ commit }) {
+         commit('increment');
+       }
      },
      getters: {
-       getCount: state => state.count,
+       doubleCount(state) {
+         return state.count * 2;
+       }
      },
+     modules: {
+       // 可以在这里添加模块
+     }
    });
    ```
 
-3. **连接 Vuex 到 Vue 应用**：在你的主应用程序文件（通常是 `main.js`）中导入 Vuex store 并将其连接到 Vue 实例中：
+#### 3. **将Store添加到Vue实例**
+   在Vue应用的入口文件（通常是`src/main.js`）中，将创建的Store添加到Vue实例中。
 
    ```javascript
-   // main.js
-
-   import Vue from 'vue';
+   // src/main.js
+   import { createApp } from 'vue';
    import App from './App.vue';
-   import store from './store'; // 导入你的 Vuex store
+   import store from './store';
 
-   new Vue({
-     render: h => h(App),
-     store, // 连接 Vuex store 到 Vue 实例
-   }).$mount('#app');
+   const app = createApp(App);
+
+   app.use(store); // 使用Vuex Store
+   app.mount('#app');
    ```
 
-4. **在组件中使用 Vuex**：现在，你可以在你的 Vue 组件中使用 Vuex。你可以通过计算属性访问状态，通过触发 mutations 修改状态，通过分发 actions 处理异步操作，以及通过 getters 获取派生状态。以下是一个示例组件：
+#### 4. **在组件中访问和使用Vuex**
 
-   ```vue
+#### 4.1 访问State
+   你可以通过`this.$store.state`来访问Vuex中的State。
+
+   ```javascript
    <template>
      <div>
-       <p>Count: {{ getCount }}</p>
+       <p>{{ count }}</p>
+     </div>
+   </template>
+
+   <script>
+   import { mapState } from 'vuex';
+
+   export default {
+     computed: {
+       ...mapState(['count']) // 将State映射为组件的计算属性
+     }
+   };
+   </script>
+   ```
+
+#### 4.2 提交Mutations
+   使用`this.$store.commit`提交一个Mutation以改变State。
+
+   ```javascript
+   <template>
+     <div>
        <button @click="increment">Increment</button>
-       <button @click="decrement">Decrement</button>
+     </div>
+   </template>
+
+   <script>
+   import { mapMutations } from 'vuex';
+
+   export default {
+     methods: {
+       ...mapMutations(['increment']) // 将Mutation映射为组件的方法
+     }
+   };
+   </script>
+   ```
+
+#### 4.3 派发Actions
+   使用`this.$store.dispatch`来派发一个Action（适合异步操作）。
+
+   ```javascript
+   <template>
+     <div>
        <button @click="incrementAsync">Increment Async</button>
      </div>
    </template>
 
    <script>
+   import { mapActions } from 'vuex';
+
    export default {
-     computed: {
-       getCount() {
-         return this.$store.getters.getCount;
-       },
-     },
      methods: {
-       increment() {
-         this.$store.commit('increment');
-       },
-       decrement() {
-         this.$store.commit('decrement');
-       },
-       incrementAsync() {
-         this.$store.dispatch('incrementAsync');
-       },
-     },
+       ...mapActions(['increment']) // 将Action映射为组件的方法
+     }
    };
    </script>
    ```
 
-这就是基本的 Vuex 使用方法。你可以根据你的应用程序需求来定义状态、mutations、actions 和 getters，以及在组件中使用它们来管理应用程序的状态和逻辑。Vuex 提供了一种有效的方式来组织和管理状态，特别适用于大型应用程序，以提高代码的可维护性和可扩展性。
-### 3、vuex进阶
+#### 4.4 使用Getters
+   你可以通过`this.$store.getters`来访问Getters。
 
-在 Vuex 中，你可以使用一些辅助函数来简化状态管理以及使用模块化的方式来组织你的 Vuex store。以下是关于如何使用 `mapState`、`mapMutations`、`mapActions` 和模块化的示例：
+   ```javascript
+   <template>
+     <div>
+       <p>{{ doubleCount }}</p>
+     </div>
+   </template>
 
-#### 使用辅助函数
+   <script>
+   import { mapGetters } from 'vuex';
 
-`mapState`、`mapMutations` 和 `mapActions` 这些辅助函数可以帮助你在组件中更便捷地访问状态、触发 mutations 和分发 actions。
+   export default {
+     computed: {
+       ...mapGetters(['doubleCount']) // 将Getters映射为组件的计算属性
+     }
+   };
+   </script>
+   ```
 
-首先，确保你在组件中导入这些辅助函数：
+#### 5. **使用模块化的Store**
+   对于大型项目，可以将Store分割为多个模块，每个模块有自己独立的State、Mutations、Actions和Getters。
 
-```javascript
-import { mapState, mapMutations, mapActions } from 'vuex';
-```
+   ```javascript
+   // src/store/modules/counter.js
+   const counter = {
+     state: () => ({
+       count: 0
+     }),
+     mutations: {
+       increment(state) {
+         state.count++;
+       }
+     },
+     actions: {
+       increment({ commit }) {
+         commit('increment');
+       }
+     },
+     getters: {
+       doubleCount(state) {
+         return state.count * 2;
+       }
+     }
+   };
 
-然后，你可以在组件的 `computed` 和 `methods` 选项中使用这些辅助函数：
+   export default counter;
+   ```
 
-```vue
-<template>
-  <div>
-    <p>Count: {{ getCount }}</p>
-    <button @click="increment">Increment</button>
-    <button @click="decrement">Decrement</button>
-    <button @click="incrementAsync">Increment Async</button>
-  </div>
-</template>
+   然后在主Store中注册模块：
 
-<script>
-export default {
-  computed: {
-    ...mapState(['count']), // 使用 mapState 辅助函数访问状态
-  },
-  methods: {
-    ...mapMutations(['increment', 'decrement']), // 使用 mapMutations 辅助函数触发 mutations
-    ...mapActions(['incrementAsync']), // 使用 mapActions 辅助函数分发 actions
-  },
-};
-</script>
-```
+   ```javascript
+   // src/store/index.js
+   import { createStore } from 'vuex';
+   import counter from './modules/counter';
 
-#### 使用模块化
+   export default createStore({
+     modules: {
+       counter
+     }
+   });
+   ```
 
-在大型应用中，将 Vuex store 模块化是很有帮助的，因为它可以让你更好地组织和管理状态和逻辑。你可以通过使用 `modules` 选项来创建模块。
+#### 6. **调试和开发工具**
+   使用Vue Devtools可以方便地调试Vuex Store，查看State的变化和Mutations的历史记录。确保在开发时启用严格模式：
 
-首先，在 Vuex store 文件中创建一个模块：
+   ```javascript
+   const store = createStore({
+     strict: process.env.NODE_ENV !== 'production',
+     state: { ... },
+     mutations: { ... },
+     actions: { ... },
+     modules: { ... }
+   });
+   ```
 
-```javascript
-// store.js
-
-import Vue from 'vue';
-import Vuex from 'vuex';
-import cartModule from './modules/cart'; // 导入购物车模块
-import userModule from './modules/user'; // 导入用户信息模块
-
-Vue.use(Vuex);
-
-export default new Vuex.Store({
-  modules: {
-    cart: cartModule, // 注册购物车模块
-    user: userModule, // 注册用户信息模块
-  },
-});
-```
-
-然后，创建购物车模块和用户信息模块，每个模块都有自己的状态、mutations、actions 和 getters：
-
-```javascript
-// modules/cart.js - 购物车模块
-
-const state = {
-  items: [], // 购物车中的商品列表
-};
-
-const mutations = {
-  addItem(state, item) {
-    state.items.push(item);
-  },
-};
-
-const actions = {
-  addToCart({ commit }, item) {
-    commit('addItem', item);
-  },
-};
-
-const getters = {
-  cartItems: state => state.items,
-};
-
-export default {
-  namespaced: true, // 开启命名空间，确保模块的状态、mutations、actions 和 getters 不会与其他模块冲突
-  state,
-  mutations,
-  actions,
-  getters,
-};
-```
-
-```javascript
-// modules/user.js - 用户信息模块
-
-const state = {
-  user: null, // 当前登录的用户信息
-};
-
-const mutations = {
-  setUser(state, user) {
-    state.user = user;
-  },
-};
-
-const actions = {
-  login({ commit }, user) {
-    // 模拟用户登录
-    commit('setUser', user);
-  },
-};
-
-const getters = {
-  currentUser: state => state.user,
-};
-
-export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions,
-  getters,
-};
-```
-
-通过模块化，你可以更好地组织代码并避免命名冲突。在组件中访问模块化的状态、触发模块化的 mutations 和分发模块化的 actions 时，可以使用命名空间来区分不同模块，如下所示：
-
-```javascript
-// 在组件中使用模块化的状态和方法
-computed: {
-  ...mapState('cart', ['cartItems']), // 使用 cart 模块的状态
-},
-methods: {
-  ...mapActions('cart', ['addToCart']), // 使用 cart 模块的 actions
-},
-```
-
-以上是使用 Vuex 辅助函数和模块化的一些示例，它们可以使你更轻松地管理和组织你的 Vuex store 和组件代码。
+#### 总结
+通过这些步骤，你就能在Vue项目中成功集成和使用Vuex进行状态管理。掌握了这些基本操作后，你可以根据项目的需求进行更复杂的状态管理配置。

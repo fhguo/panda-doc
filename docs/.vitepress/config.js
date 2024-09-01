@@ -53,7 +53,7 @@ export default defineConfig({
     sidebar: {
       '/note/': [
         {
-          text: '前端笔记',
+          text: '前端基础',
           collapsed: true,
           items: [
             { text: 'HTML&CSS', link: '/note/html&css' },
@@ -65,14 +65,19 @@ export default defineConfig({
             { text: '前后端交互', link: '/note/link' },
             { text: 'Vue2基础', link: '/note/vue-base' },
             { text: 'Vue2进阶', link: '/note/vue-high' },
-            { text: 'Vue3入门', link: '/note/vue3' },
+          ]
+        },
+        {
+          text: '前端进阶',
+          collapsed: true,
+          items: [
+            { text: 'Vue3基础', link: '/note/vue3' },
             { text: 'Typescript', link: '/note/ts' },
             { text: '小程序及数据可视化', link: '/note/miniApp' },
-            { text: 'Angularjs', link: '/note/Angularjs' },
             { text: 'Electron', link: '/note/electron' },
             { text: 'test', link: '/note/test' },
           ]
-        }
+        },
       ],
       '/dev/': [
         {
