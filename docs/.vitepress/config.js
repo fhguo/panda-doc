@@ -73,7 +73,8 @@ export default defineConfig({
           items: [
             { text: 'Vue3基础', link: '/note/vue3' },
             { text: 'Typescript', link: '/note/ts' },
-            { text: '小程序及数据可视化', link: '/note/miniApp' },
+            { text: '小程序开发', link: '/note/miniApp' },
+            { text: '数据可视化', link: '/note/visualization' },
             { text: 'Electron', link: '/note/electron' },
             { text: 'test', link: '/note/test' },
           ]
