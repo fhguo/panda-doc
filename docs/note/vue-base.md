@@ -71,7 +71,7 @@ Vue.js 因其灵活性、可扩展性和易用性而受到了开发者的广泛�
 
 ### 3、插值表达式
 
-插值表达式（Interpolation）是 Vue.js 中的一种语法，用于在模板中动态地显示数据。它使用双大括号 `{ {{}} }` 包裹一个 JavaScript 表达式，表达式的结果会自动插入到 HTML 中。
+插值表达式（Interpolation）是 Vue.js 中的一种语法，用于在模板中动态地显示数据。它使用双大括号 <span v-pre style="color: #4a9c5f;">{{ }}</span> 包裹一个 JavaScript 表达式，表达式的结果会自动插入到 HTML 中。
 
 #### 插值表达式的使用方式：
 

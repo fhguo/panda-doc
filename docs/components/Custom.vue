@@ -13,9 +13,9 @@ const open = () => {
   ElMessage('this is a message.')
 }
 
-const url = ref('https://www.apple.com.cn/iphone-15-pro/images/overview/closer-look/all_colors__eppfcocn9mky_large.jpg')
+const url = ref('https://www.apple.com.cn/iphone-16-pro/images/overview/product-viewer/iphone-pro/all_colors__fdpduog7urm2_xlarge.jpg')
 
-const srcList = ['https://www.apple.com.cn/iphone-15-pro/images/overview/closer-look/all_colors__eppfcocn9mky_large.jpg']
+const srcList = ['https://www.apple.com.cn/iphone-16-pro/images/overview/product-viewer/iphone-pro/all_colors__fdpduog7urm2_xlarge.jpg']
 </script>
 
 <template>

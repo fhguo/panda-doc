@@ -2,27 +2,21 @@
 outline: deep
 ---
 
-## Electron 学习笔记
+# Electron
 
-### 一、开始上手
+## 一、开始上手
 
 > 通过这一小节可以对 Eelectron 有个大概的了解
 
-#### 1.1 介绍
+### 1.1 介绍
 
 **Electron**（原名为**Atom Shell**）是 **GitHub** 开发的一个开源框架。它通过使用 **Node.js** 和 **Chromium** 的渲染引擎完成**跨平台的桌面** GUI 应用程序的开发。Electron 现已被多个开源 Web 应用程序用于前端与后端的开发，著名项目包括 GitHub 的 Atom 、微软的 Visual Studio Code 和腾讯的 QQNT。
 
-**Electron** 并不是一门新的技术，自 2013 年开始至今已有 10 年历史了，最初是由 GitHub 团队开发，现由 OpenJS 基金会负责维护。
-
 ![application-build-with-electron](/img/application-build-with-electron.jpg)
 
-[腾讯基于 Electron 技术的 Windows 版 QQ 内测版本预计 2023 年推出，该版本有哪些新功能？](https://www.zhihu.com/question/570447541/answer/2791939780?utm_id=0)
+**Electron** 并不是一门新的技术，自 2013 年开始至今已有 10 年历史了，最初是由 GitHub 团队开发，现由 OpenJS 基金会负责维护。
 
-![qq-nt-framework](/img/qq-nt-framework.jpg)
-
-**以上内容仅需有个印象即可，主旨意思就是 Elelectron 很牛！！！**
-
-#### 1.2 快速体验
+### 1.2 快速体验
 
 **Electron Fiddle** 是 [Electron 官方](https://www.electronjs.org/zh/)提供的快速演示或体验 Electron 功能的工具，在 Electron Fiddle 内部集成了 Electron 的开发环境。通过该工具可以让开发者快速体验 Electron 的某些新特性，对于初学者来说可以快速建立对 Electron 的认识。
 
@@ -54,7 +48,7 @@ Electron Fiddle [下载地址](https://www.electronjs.org/zh/fiddle)，下载符
 
 **上面的内容的主旨内容是要知道 Electron 项目的代码使用的是 HTML、CSS、JavasScript 和 Node.js 相关的技术。**
 
-#### 1.3 从零开始
+### 1.3 从零开始
 
 从零开始带大家创建一个 Electron 的项目，让大家对 Electron 的技术架构有个基本的认识。
 
@@ -146,7 +140,7 @@ app.on("ready", () => {
 
 至此最基本的 Electron 项目就创建好了。
 
-### 二、基本概念
+## 二、基本概念
 
 > 在这一小节对 Eelectron 的技术架构有个基本的认识
 
@@ -163,7 +157,7 @@ Electron 是内部集成了两个运行环境：
 
 **渲染器进程**对应的代码文件是 `index.html` 以及将来通过 `link`、`script` 、`img`引入到页面中的代码或资源
 
-#### 2.1 主进程
+### 2.1 主进程
 
 主进程是运行在 Nodejs 环境中的，因此可以调用 Nodejs 的各个 API，如 `http`、`path`、`url`、`file` 等系统模块，也可以在导入 Electron 后使用 Electron 模块提供的 API。
 
@@ -207,7 +201,7 @@ app.on("activate", () => {
 
 注：修改了主进程的代码后需要重新启动应用。
 
-#### 2.2 渲染器进程
+### 2.2 渲染器进程
 
 在对上述的概念有了基本印象后，我们来相对大家比较熟悉的渲染器进程：
 
@@ -269,7 +263,7 @@ button.addEventListener("click", () => {
 
 注：修改了渲染器进程的代码后使用快捷键 Commond + R 或者 Ctrl + R 刷新页面。
 
-#### 2.3 预加载脚本
+### 2.3 预加载脚本
 
 主进程与渲染进程之间是彼此隔离的，相互之间无法直接进行通信，通过**预加载脚本**能够实现主进程与渲染进程间的通信，预加载脚本本质上就是一个 `.js` 文件，在创建应用窗口时指定：
 
@@ -363,7 +357,7 @@ button.addEventListener("click", async () => {
 });
 ```
 
-#### 2.4 打包应用
+### 2.4 打包应用
 
 当所有功能开完成毕后，将 Electron 打包成不同平台的应用，Electron 提供了打包的工具 [Electron Forge](https://www.electronforge.io/)，但实际应用中大家用的比较多的是 [electron-builder](https://www.electron.build/)，接下来我们介绍的是 electron-builder 的使用：
 
@@ -404,13 +398,13 @@ button.addEventListener("click", async () => {
 
    **注：Windows 系统开发时不能打包 Mac 的应用。**
 
-### 三、项目开发
+## 三、项目开发
 
 > 在这一小节掌握 Electron 整合前端框架来进行开发
 
 通过学习我们了解了 Electron 中是可以运行前端项目的，因此完全可以使用 Vue、React、jQuery 等开发 Electron 项目，接下来我们选择使用 Vue 来实现发送消息的功能。
 
-#### 3.1 创建项目
+### 3.1 创建项目
 
 [社区](https://www.electronjs.org/zh/docs/latest/tutorial/boilerplates-and-clis)有许多整合了 Vue、React 和 Electron 的工具或模板，在这里我们来使用 [electron-vite](https://cn-evite.netlify.app/) 来创建项目：
 
@@ -454,7 +448,7 @@ npm run dev
 }
 ```
 
-#### 3.2 项目结构
+### 3.2 项目结构
 
 使用 electron-vite 创建的 Vue 项目，已经规划好了目录的结构，重点来看 `src` 目录：
 
@@ -525,10 +519,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
 </html>
 ```
 
-#### 3.3 功能逻辑
+### 3.3 功能逻辑
 
-详见课堂代码
+略
 
-#### 3.3 打包应用
+### 3.3 打包应用
 
 将准备好的图片放到 `build` 目录中，然后 `npm run build:mac` 或 `npm run build:win`
